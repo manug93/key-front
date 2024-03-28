@@ -18,6 +18,7 @@ axios.interceptors.request.use((config) => {
   config.headers = headers;
 
   // Return the modified configuration
+  console.log(config);
   return config;
 }, (error) => {
   // Handle any errors encountered during interception
@@ -147,10 +148,24 @@ const store = new Vuex.Store({
         try{
           const response = await axios.patch(`${baseUrl}/api/users/${form.id}`,form,{
           header:{
-            ContentType:"application/json"
+            ContentType:"application/ld+json"
           }
         })
         commit('SET_USER', response.data);
+      }catch(error){
+        return error
+      }
+
+      },
+      async createPicture({commit},form){
+        try{
+          const response = await axios.post(`${baseUrl}/api/pictures`,form,{
+          header:{
+            ContentType:"multipart/form-data"
+          }
+        })
+        return response
+        
       }catch(error){
         return error
       }

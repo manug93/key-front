@@ -73,7 +73,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
+                  <tr v-for="plan in plans" :key="plan.id">
                     <td>
                       <input class="form-check-input" type="checkbox">
                     </td>
@@ -83,15 +83,15 @@
                           <img src="/assets/images/orders/01.png" width="70" class="rounded-3" alt="">
                         </div>
                         <div class="product-info">
-                          <a href="javascript:;" class="product-title">Women Pink Floral Printed</a>
+                          <a href="javascript:;" class="product-title">{{Plan.title}}</a>
                           
                         </div>
                       </div>
                     </td>
-                    <td>$49</td>
+                    <td>{{ plan.price }}</td>
                     
                     <td>
-                        <p class="mb-0 product-category">Women Pink Floral Printed Women Pink Floral Printed Women Pink Floral Printed</p>
+                        <p class="mb-0 product-category">{{ plan.description }}</p>
                     </td>
                     <td>
                       Nov 12, 10:45 PM
@@ -158,6 +158,15 @@
                                   <input class="form-control mb-3" id="duration" :class="classes" type="number" v-model="plan.duration" placeholder="Duration" aria-label="plan duration">
                                   <small id="duration-help" class="p-invalid red-color">{{ errors[0] }}</small>
                                 </div>
+                             </ValidationProvider>
+                             
+                             <ValidationProvider rules="required" slim name="picture"  v-slot="{classes,errors}">  
+                                <div class="field">
+                                  <label for="picture" class="form-label">Picture</label>
+                                  <input class="form-control mb-3" id="pictureFile" :class="classes" type="file" v-on:change="selectPicture" placeholder="Picture" aria-label="plan picture">
+                                  <input class="form-control mb-3" id="picture" v-model="file"  type="hidden" >
+                                  <small id="picture-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                                </div>
                              </ValidationProvider>	
                         </div>
                         <div class="modal-footer">
@@ -184,19 +193,31 @@
         components:{ValidationProvider,ValidationObserver},
         data(){
             return {
-                plan:new Plan()
+                plan:new Plan(),
+                file:null
             }
         },
         computed:{
             ...mapState(['plans'])
         },
         methods:{
-            ...mapActions(['createPlan','fetchPlans']),
-            submit(){
+            ...mapActions(['createPlan','fetchPlans','createPicture']),
+            async submit(){
                 this.plan.duration=parseInt(this.plan.duration)
                 this.plan.price=parseInt(this.plan.price)
+                let form =new FormData();
+                form.append('file',this.file);
+              
+                let response = await this.createPicture(form);
+                this.plan.pictures=["/api/pictures/"+response.data.id]
                 this.createPlan(this.plan)
+            },
+            selectPicture(event){
+              this.file=event.target.files[0];
             }
+        },
+        beforeMount(){
+          this.fetchPlans()
         }
     }
 </script>
