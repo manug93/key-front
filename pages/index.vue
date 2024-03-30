@@ -5,7 +5,8 @@
       <div class="col-2"><Sidebar/></div>
       <div class="col-10"></div>
     </div>
-    <CartManager></CartManager>
+    <CartManager></CartManager>      
+      <Loading></Loading>
   </div>
 </template>
 

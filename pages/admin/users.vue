@@ -5,7 +5,8 @@
         <div><Sidebar/></div>
         <div><UserManager></UserManager></div>
       </div>
-      <CartManager></CartManager>
+      <CartManager></CartManager>      
+      <Loading></Loading>
     </div>
   </template>
   <script>
@@ -43,6 +44,13 @@
       ...styles.map(url => this.$loadFiles.loadCSS(url))
     ]);
       
+    },
+    async nuxtClientInit() {
+      if (document.readyState === 'loading') {
+        console.log('DOM is still loading');
+      } else {
+        console.log('DOM has finished loading');
+      }
     }
   }
   </script>

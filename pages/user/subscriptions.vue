@@ -3,7 +3,7 @@
       <Navbar/>
       <div class="grid">
         <div><Sidebar/></div>
-        <div><KeyManager></KeyManager></div>
+        <div><Subscriptions v-if="!isLoading"></Subscriptions></div>
       </div>
       <CartManager></CartManager>      
       <Loading></Loading>
@@ -11,6 +11,8 @@
   </template>
   
   <script>
+  
+import {mapState,mapActions} from "vuex";
   const scripts = [
       '/assets/js/jquery.min.js',
       '/assets/plugins/metismenu/metisMenu.min.js',
@@ -34,20 +36,16 @@
       '/sass/responsive.css'
     ];
   export default {
-    name: 'KeycafePage',
+    name: 'StripeSubscriptionsPage',
+    computed:{
+        ...mapState(['isLoading'])
+    },
     async mounted(){
       await Promise.all([
       ...scripts.map(url => this.$loadFiles.loadScript(url)),
       ...styles.map(url => this.$loadFiles.loadCSS(url))
     ]);
       
-    },
-    async nuxtClientInit() {
-      if (document.readyState === 'loading') {
-        console.log('DOM is still loading');
-      } else {
-        console.log('DOM has finished loading');
-      }
     }
   }
   </script>

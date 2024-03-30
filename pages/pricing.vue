@@ -1,8 +1,9 @@
 <template>
     <div>
         <stripe-pricing-table pricing-table-id="prctbl_1OzbugE3BwvFeWIRMHQu23av"
-            publishable-key="pk_test_51L5tGLE3BwvFeWIRBsH4zJL5L3ouuy2Nc3kAvgARg2hxjfiElOct56cPrep8UTejGsLR3H5EZQGq7gXgA61km6hs00ivz07PR9">
-        </stripe-pricing-table>
+        publishable-key="pk_test_51L5tGLE3BwvFeWIRBsH4zJL5L3ouuy2Nc3kAvgARg2hxjfiElOct56cPrep8UTejGsLR3H5EZQGq7gXgA61km6hs00ivz07PR9">
+        </stripe-pricing-table>              
+      <Loading></Loading>
     </div>
 </template>
 <script>

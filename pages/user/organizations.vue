@@ -3,7 +3,7 @@
       <Navbar/>
       <div class="grid">
         <div><Sidebar/></div>
-        <div><KeyManager></KeyManager></div>
+        <div><Organizations></Organizations></div>
       </div>
       <CartManager></CartManager>      
       <Loading></Loading>
@@ -43,12 +43,12 @@
       
     },
     async nuxtClientInit() {
-      if (document.readyState === 'loading') {
-        console.log('DOM is still loading');
-      } else {
-        console.log('DOM has finished loading');
-      }
+    if (document.readyState === 'loading') {
+      console.log('DOM is still loading');
+    } else {
+      console.log('DOM has finished loading');
     }
+  }
   }
   </script>
   

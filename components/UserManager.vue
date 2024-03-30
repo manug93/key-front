@@ -240,7 +240,7 @@
                   </div>
                 </div>
                 
-      <Loading></Loading>
+      <ErrorModal></ErrorModal>
   <!--end main wrapper-->
     </div>
 
@@ -250,12 +250,12 @@
   import { baseUrl } from "~/store/tools";
 	import store from "~/store/store";    
 	import { mapState, mapActions } from "vuex";
-    import Loading from './Loading.vue';
+  import ErrorModal from './ErrorModal.vue';
 	import { ValidationProvider, ValidationObserver } from 'vee-validate';
     export default {
         name:"UserManager.vue",
         store:store,
-        components:{ValidationProvider,ValidationObserver,Loading},
+        components:{ValidationProvider,ValidationObserver,ErrorModal},
         data(){
             return {
                 user:{

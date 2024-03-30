@@ -18,7 +18,7 @@
       
         <!--navigation-->
         <ul class="metismenu" id="sidenav">
-          <li>
+          <li v-if="is_admin">
             <a href="javascript:;" class="has-arrow">
               <div class="parent-icon"><i class="material-icons-outlined">home</i>
               </div>
@@ -39,7 +39,7 @@
             </a>
             <ul>
               <li><a href="/user/keycafe"><i class="material-icons-outlined">arrow_right</i>Keys</a></li>
-              <li><a href="#"><i class="material-icons-outlined">arrow_right</i>Organization</a></li>
+              <li><a href="/user/organizations"><i class="material-icons-outlined">arrow_right</i>Organization</a></li>
               <li><a href="#"><i class="material-icons-outlined">arrow_right</i>Fob</a>
               </li>
             </ul>
@@ -51,12 +51,12 @@
               <div class="menu-title">Stripe</div>
             </a>
             <ul>
+              <li><a href="/user/subscriptions"><i class="material-icons-outlined">arrow_right</i>Subscriptions</a>
+              </li>
               <li><a href="component-cards-basic.html"><i class="material-icons-outlined">arrow_right</i>Products</a>
               </li>       
               <li><a href="component-cards-advance.html"><i class="material-icons-outlined">arrow_right</i>Pricing</a>
-              </li>
-              <li><a href="component-cards-contact.html"><i class="material-icons-outlined">arrow_right</i>Subscriptions</a>
-              </li>
+              </li>              
             </ul>
           </li>
           
@@ -127,7 +127,19 @@
     </div>
 </template>
 <script>
+import store from "~/store/store";    
+import {mapState,mapActions} from "vuex";
 export default {
-    name:"Sidebar.vue"
+    name:"Sidebar.vue",
+    store,
+    computed:{
+      ...mapState(['user']),
+      is_admin(){
+        return this.user?.roles?.includes('ROLE_ADMIN')
+      },
+      is_colab(){
+        return this.user?.roles?.includes('ROLE_COLAB')
+      }
+    }
 }
 </script>

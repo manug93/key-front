@@ -47,7 +47,8 @@ import {mapState,mapActions} from "vuex";
     background-color: #fefefe;
     padding: 20px;
     border-radius: 10px;
-    max-width: 400px;
+    max-width: 800px;
+    max-height: 90%;
     text-align: center;
   }
   

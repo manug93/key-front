@@ -94,14 +94,14 @@
 			...mapActions(['register']),
 			async submit(){
 				let response = await this.register(this.form); 
-                if(response.status===200)     {
-                    //this.$router.push("/login");
+                if(response?.status===201 && !this.error)     {
+                    this.$router.push("/pricing");
                 }          
-                console.log(response.data);
+                console.log(response);
 			}
 		},
 		computed:{
-            ...mapState(['isLoading'])
+            ...mapState(['isLoading','error'])
         },
 		components:{ValidationProvider,ValidationObserver,Loading,ErrorModal},
 		mounted(){

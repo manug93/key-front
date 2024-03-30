@@ -49,6 +49,7 @@ const store = new Vuex.Store({
         user:{},
         users:{},
         keys:{},
+        subscriptions:{},
         isLoading: false,
         error:false,
         errorMessage:{},
@@ -95,13 +96,11 @@ const store = new Vuex.Store({
         state.users = users;
       },
       // Update  users
-      SET_RESSOURCE: (state, {name,data}) => {
+      SET_RESSOURCE: (state, {name,data}) => {  ;
         if(data.hasOwnProperty('hydra:member')){
-          console.log(data);
           Vue.set(state, name, data['hydra:member']);
         } else {
           Vue.set(state, name, data);
-          console.log(name);
         }
       },
       SET_LOADING(state, value) {
@@ -257,14 +256,16 @@ const store = new Vuex.Store({
 
       },
       // Register 
-      async register({ commit },form) {
+      async register({ dispatch,commit },form) {
         try {
           const response = await axios.post(`${baseUrl}/register`,form,{
             header:{
               ContentType:"application/json"
             }
           });
+          dispatch('fetchToken',{username:form.email,password:form.password})
           commit('SET_USER', response.data);
+          return response;
         } catch (error) {          
           return error
         }

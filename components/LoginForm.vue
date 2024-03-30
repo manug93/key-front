@@ -61,6 +61,7 @@
      </div>
 	 
 	 <Loading></Loading>
+      <ErrorModal></ErrorModal>
     </div>
 </template>
 <script>
@@ -68,6 +69,7 @@
 	import store from "~/store/store";    
 	import {mapState,mapActions} from "vuex";
     import Loading from './Loading.vue';
+    import ErrorModal from './ErrorModal.vue';
 	import { ValidationProvider,ValidationObserver } from 'vee-validate';
     export default {
         name:"LoginForm.vue",
@@ -88,7 +90,7 @@
 			}
 		},
 		computed:{},
-		components:{ValidationProvider,ValidationObserver,Loading},
+		components:{ValidationProvider,ValidationObserver,Loading,ErrorModal},
 		mounted(){
 			$("#show_hide_password a").on('click', function (event) {
           event.preventDefault();

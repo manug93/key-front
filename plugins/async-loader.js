@@ -1,8 +1,7 @@
 export default function ({ app }, inject) {
     const queue = []; // Queue to store URLs to load
     let isProcessingQueue = false; // Flag to track if the queue is being processed
-
-    const processQueue = async () => {
+    const processQueue = async () => {       
         if (isProcessingQueue || queue.length === 0) return;
 
         isProcessingQueue = true;
