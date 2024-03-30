@@ -118,10 +118,24 @@ class UserCreate extends UserBase {
       return this.roles.contains("ROLE_ADMIN")
     }
     get is_colab(){
-      return this.roles.contains("ROLE_ADMIN")
+      return this.roles.contains("ROLE_COLAB")
     }
   }
-
+export class Key {
+  constructor(id, code, defaultAccessStartTime, organization, owner, currentLocation, name, defaultAccessEndTime, homeLocation, virtual, serialNumber) {
+      this.id = id ?? null;
+      this.code = code ?? null;
+      this.defaultAccessStartTime = defaultAccessStartTime ?? 0;
+      this.organization = organization ?? {};
+      this.owner = owner ?? {};
+      this.currentLocation = currentLocation ?? {};
+      this.name = name ?? '';
+      this.defaultAccessEndTime = defaultAccessEndTime ?? 0;
+      this.homeLocation = homeLocation ?? {};
+      this.virtual = virtual ?? false;
+      this.serialNumber = serialNumber ?? '';
+  }
+}
 class FileItemBase {
     constructor(data) {
       this.name = data?.name;

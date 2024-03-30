@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from "axios";
-import  {baseUrl}  from '~/store/tools';
+import  {apiUrl,baseUrl,stripebaseUrl,keybaseUrl}  from '~/store/tools';
 import {Cart, User, Coupon} from './models';
 Vue.use(Vuex);
 axios.interceptors.request.use((config) => {
@@ -18,18 +18,40 @@ axios.interceptors.request.use((config) => {
   config.headers = headers;
 
   // Return the modified configuration
-  console.log(config);
+  //console.log(config);
+  store.dispatch('setLoading', true);
   return config;
 }, (error) => {
   // Handle any errors encountered during interception
   //console.error(error);
+  store.dispatch('setLoading', false);
+  store.dispatch('setError', true);
+  store.dispatch('setErrorMessage', error);
   return Promise.reject(error);
 });
 
+axios.interceptors.response.use(
+  response => {
+    // Set loading back to false after each successful response
+    store.dispatch('setLoading', false);
+    return response;
+  },
+  error => {
+    store.dispatch('setLoading', false);     // In case of an error, set loading back to false
+    store.dispatch('setError', true);
+    console.log(error);
+    store.dispatch('setErrorMessage', error.response.data);
+    return Promise.reject(error);
+  });
+
 const store = new Vuex.Store({
-    state(){
-      return {
+    state: {
         user:{},
+        users:{},
+        keys:{},
+        isLoading: false,
+        error:false,
+        errorMessage:{},
         plan:{},
         plans:[],
         token:{},
@@ -37,8 +59,7 @@ const store = new Vuex.Store({
         auth:false,
         uploadProgress: 0,
         executionProgress:0
-    }
-  },
+    },
     mutations: {
       //Update cart
       SET_CART: (state,cart) =>{
@@ -69,13 +90,45 @@ const store = new Vuex.Store({
       SET_PLANS: (state, plans) => {
         state.plans = plans;
       },
+      // Update  users
+      SET_USERS: (state, users) => {
+        state.users = users;
+      },
+      // Update  users
+      SET_RESSOURCE: (state, {name,data}) => {
+        if(data.hasOwnProperty('hydra:member')){
+          console.log(data);
+          Vue.set(state, name, data['hydra:member']);
+        } else {
+          Vue.set(state, name, data);
+          console.log(name);
+        }
+      },
+      SET_LOADING(state, value) {
+        state.isLoading = value;
+      },
+      SET_ERROR(state, error) {
+        state.error = error;
+      },
+      SET_ERROR_MESSAGE(state, message) {
+        state.errorMessage = message;
+      }
     },
   
     actions: {      
+      setLoading({ commit }, value) {
+        commit('SET_LOADING', value);
+      },
+      setError({ commit }, value) {
+        commit('SET_ERROR', value);
+      },
+      setErrorMessage({ commit }, value) {
+        commit('SET_ERROR_MESSAGE', value);
+      },
       // Fetch token
       async fetchToken({ dispatch,commit },formData) {
         try {
-          const response = await axios.post(`${baseUrl}/api/login_check`,formData,{
+          const response = await axios.post(`${apiUrl}/login_check`,formData,{
             header:{
               ContentType:"application/json"
             }
@@ -92,8 +145,9 @@ const store = new Vuex.Store({
       // Fetch user
       async fetchUser({ commit }) {
         try {
-          const response = await axios.get(`${baseUrl}/api/me`);
+          const response = await axios.get(`${apiUrl}/me`);
           commit('SET_USER', response.data);
+          commit('SET_AUTHENTICATED', true);
           return response
         } catch (error) { 
           console.log(error);
@@ -108,7 +162,7 @@ const store = new Vuex.Store({
        // Fetch my plan
       async fetchMyPlan({ commit }) {
         try {
-          const response = await axios.get(`${baseUrl}/api/getMyProducts/`);
+          const response = await axios.get(`${apiUrl}/getMyProducts/`);
           commit('SET_MY_PLAN', response.data.data);
           return response
         } catch (error) {          
@@ -118,8 +172,37 @@ const store = new Vuex.Store({
        // Fetch  plans
       async fetchPlans({ commit }) {
         try {
-          const response = await axios.get(`${baseUrl}/api/plans`);
-          commit('SET_PLANS', response.data);
+          const response = await axios.get(`${apiUrl}/plans`);
+          commit('SET_PLANS', response.data['hydra:member']);
+          return response
+        } catch (error) {          
+          return error.response
+        }
+      },
+       // Fetch  users
+      async fetchUsers({ commit }) {
+        try {
+          const response = await axios.get(`${apiUrl}/users`);
+          commit('SET_USERS', response.data['hydra:member']);
+          return response
+        } catch (error) {          
+          return error.response
+        }
+      },
+      // Create  user
+      async createUser({ commit }, user) {
+        try {
+          const response = await axios.post(`${apiUrl}/users`,user);
+          commit('SET_USER', response.data['hydra:member']);
+          return response
+        } catch (error) {          
+          return error.response
+        }
+      },
+      // Delete  user
+      async deleteUser({ commit }, id) {
+        try {
+          const response = await axios.delete(`${apiUrl}/users/${id}`);
           return response
         } catch (error) {          
           return error.response
@@ -128,8 +211,8 @@ const store = new Vuex.Store({
       // Create  plan
       async createPlan({ commit }, plan) {
         try {
-          const response = await axios.post(`${baseUrl}/api/plans`,plan);
-          commit('SET_PLANS', response.data);
+          const response = await axios.post(`${apiUrl}/plans`,plan);
+          commit('SET_PLANS', response.data['hydra:member']);
           return response
         } catch (error) {          
           return error.response
@@ -144,9 +227,10 @@ const store = new Vuex.Store({
           return error
         }
       },
+      // save user
       async saveUser({commit},form){
         try{
-          const response = await axios.patch(`${baseUrl}/api/users/${form.id}`,form,{
+          const response = await axios.patch(`${apiUrl}/users/${form.id}`,form,{
           header:{
             ContentType:"application/ld+json"
           }
@@ -157,9 +241,10 @@ const store = new Vuex.Store({
       }
 
       },
+      // create picture
       async createPicture({commit},form){
         try{
-          const response = await axios.post(`${baseUrl}/api/pictures`,form,{
+          const response = await axios.post(`${apiUrl}/pictures`,form,{
           header:{
             ContentType:"multipart/form-data"
           }
@@ -184,8 +269,62 @@ const store = new Vuex.Store({
           return error
         }
       },
-      
+      async  getAll({commit},payload) {
+        try {
+          const response = await axios.get(`${baseUrl}/${payload.module}/${payload.resource}`);
+          let data=response.data    
+          commit('SET_RESSOURCE',{name:payload.resource,data} )
+          return response.data;
+        } catch (error) {
+          return error;
+        }
+      },
+      async  getById({commit},payload) {
+        try {
+          const response = await axios.get(`${baseUrl}/${payload.module}/${payload.resource}s/${payload.id}`);
+          let data=response.data
+          payload={resource:payload.resource,data:data}          
+          commit('SET_RESSOURCE',payload)
+          return response.data;
+        } catch (error) {
+          return error;
+        }
+      },
+      async  create({dispatch},payload) {
+        try {
+          const response = await axios.post(`${baseUrl}/${payload.module}/${payload.resource}`, payload.data);                 
+          dispatch('getAll',payload.resource)
+          return response.data;
+        } catch (error) {
+          return error;
+        }
+      },
+      async  del({dispatch},payload) {
+        try {
+          const response = await axios.delete(`${baseUrl}/${payload.module}/${payload.resource}/${payload.id}`);                 
+          dispatch('getAll',payload.resource)
+          return response.data;
+        } catch (error) {
+          return error;
+        }
+      },
+      async update({dispatch},payload) {
+        try {          
+          const response = await axios.put(`${baseUrl}/${payload.module}/${payload.resource}/${payload.id}`,payload.data,{
+            header:{
+              ContentType:"application/ld+json"
+            }
+          });       
+          dispatch('getAll',{module:'api',resource:'users'})
+          console.log(response.data);
+          return response.data;
+        } catch (error) {
+          console.log(error);
+          return error;
+        }
+      }
     },
+    
  
   });
  

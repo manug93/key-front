@@ -23,7 +23,7 @@
 												<ValidationProvider rules="required" slim name="password"  v-slot="{classes,errors}">   
 													<label for="inputChoosePassword" class="form-label">Password</label>
 													<div class="input-group" id="show_hide_password">
-														<input type="password" v-model="form.password" class="form-control border-end-0" id="inputChoosePassword" value="12345678" placeholder="Enter Password"> 
+														<input type="password" v-model="form.password" :class="classes" class="form-control border-end-0" id="inputChoosePassword" value="12345678" placeholder="Enter Password"> 
 															<a href="javascript:;" class="input-group-text bg-transparent"><i class="bi bi-eye-slash-fill"></i></a>
 													</div>
 													<small id="password-help" class="p-invalid red-color">{{ errors[0] }} </small>
@@ -44,7 +44,7 @@
 											</div>
 											<div class="col-12">
 												<div class="text-start">
-													<p class="mb-0">Don't have an account yet? <a href="auth-basic-register.html">Sign up here</a>
+													<p class="mb-0">Don't have an account yet? <a href="/register">Sign up here</a>
 													</p>
 												</div>
 											</div>
@@ -59,12 +59,15 @@
            </div>
         </div><!--end row-->
      </div>
+	 
+	 <Loading></Loading>
     </div>
 </template>
 <script>
 	import $ from '~/static/assets/js/jquery.min.js'
 	import store from "~/store/store";    
 	import {mapState,mapActions} from "vuex";
+    import Loading from './Loading.vue';
 	import { ValidationProvider,ValidationObserver } from 'vee-validate';
     export default {
         name:"LoginForm.vue",
@@ -85,7 +88,7 @@
 			}
 		},
 		computed:{},
-		components:{ValidationProvider,ValidationObserver},
+		components:{ValidationProvider,ValidationObserver,Loading},
 		mounted(){
 			$("#show_hide_password a").on('click', function (event) {
           event.preventDefault();

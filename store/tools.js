@@ -1,4 +1,7 @@
 //export const baseUrl="https://avatar-erp.com/backend/";
+export const apiUrl="https://127.0.0.1:8000/api";
+export const keybaseUrl="https://127.0.0.1:8000/keycafe";
+export const stripebaseUrl="https://127.0.0.1:8000/stripe";
 export const baseUrl="https://127.0.0.1:8000";
 
 
