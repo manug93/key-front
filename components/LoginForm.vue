@@ -83,10 +83,9 @@
 			...mapActions(['fetchToken']),
 			async submit(){
 				let response = await this.fetchToken(this.form); 
-                if(response.status===200)     {
+                if(response?.status===200)     {
                     this.$router.push("/");
                 }          
-                this.result=response.data.message;
 			}
 		},
 		computed:{},

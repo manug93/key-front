@@ -3,12 +3,12 @@
 </template>
 <script>
   const scripts = [
-    './assets/js/jquery.min.js',
-    './assets/js/bootstrap.bundle.min.js'
+    '/assets/js/jquery.min.js',
+    '/assets/js/bootstrap.bundle.min.js'
   ];
 
  const styles = [
-    './assets/plugins/metismenu/mm-vertical.css'
+    '/assets/plugins/metismenu/mm-vertical.css'
   ];
     export default{
         name:"LoginPage",

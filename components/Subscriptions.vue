@@ -235,7 +235,6 @@
 
 </template>
 <script>
-  import moment from 'moment'
   import { baseUrl } from "~/store/tools";
 	import store from "~/store/store";    
 	import {mapState,mapActions} from "vuex";
@@ -283,10 +282,10 @@
 
             },
             to_date(date){
-              return moment.unix(date).toNow();
+              return this.$moment.unix(date).toNow();
             },
             from_date(date){
-              return moment.unix(date).fromNow();
+              return this.$moment.unix(date).fromNow();
             }
 
         },

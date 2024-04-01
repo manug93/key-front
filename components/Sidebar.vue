@@ -39,9 +39,10 @@
             </a>
             <ul>
               <li><a href="/user/keycafe"><i class="material-icons-outlined">arrow_right</i>Keys</a></li>
+              <li><a href="/user/access"><i class="material-icons-outlined">arrow_right</i>Access</a></li>
+              <li><a href="/user/fob"><i class="material-icons-outlined">arrow_right</i>Fob</a></li>
               <li><a href="/user/organizations"><i class="material-icons-outlined">arrow_right</i>Organization</a></li>
-              <li><a href="#"><i class="material-icons-outlined">arrow_right</i>Fob</a>
-              </li>
+              
             </ul>
           </li>
           <li>
@@ -132,6 +133,10 @@ import {mapState,mapActions} from "vuex";
 export default {
     name:"Sidebar.vue",
     store,
+    data(){
+      return {
+      }
+    },
     computed:{
       ...mapState(['user']),
       is_admin(){
@@ -139,7 +144,8 @@ export default {
       },
       is_colab(){
         return this.user?.roles?.includes('ROLE_COLAB')
-      }
+      },
+
     }
 }
 </script>

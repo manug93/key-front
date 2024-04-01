@@ -8,11 +8,19 @@ axios.interceptors.request.use((config) => {
   // Access the existing headers
   const headers = config.headers || {};
 
-  // Add the Bearer token header
-  headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
+  const token = localStorage.getItem('token');
   
-  // Set Content-Type header
-  headers['Content-Type'] = 'application/ld+json';
+  if (token) {
+    console.log("token");
+    // Add the Bearer token header
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  // Check if the request method is PUT
+  if (config.method === 'PUT') {
+    // Set Content-Type header for PUT requests
+    headers['Content-Type'] = 'application/ld+json';
+  }
 
   // Update the configuration with the new headers
   config.headers = headers;
@@ -150,7 +158,7 @@ const store = new Vuex.Store({
           return response
         } catch (error) { 
           console.log(error);
-          if(error.response.status===401){
+          if(error?.response?.status===401){
             commit('SET_AUTHENTICATED',true);
             localStorage.removeItem('token');
             localStorage.removeItem('user');
@@ -280,6 +288,28 @@ const store = new Vuex.Store({
           return error;
         }
       },
+      async fetchData({ commit }, { endpoint, method = 'GET', data = null }) {
+        try {
+          const response = await axios({
+            url: `${apiUrl}/${endpoint}`,
+            method,
+            data,
+          });
+          commit('SET_DATA', response.data);
+          return response;
+        } catch (error) {
+          throw error.response; // Re-throw to allow handling in components
+        }
+      },
+      // Search for keys
+      async searchKeys({ commit }, query) {
+        await fetchData({ commit }, {
+          endpoint: 'keys/search',
+          method: 'GET',
+          params: { query },
+        });
+      }     
+      ,
       async  getById({commit},payload) {
         try {
           const response = await axios.get(`${baseUrl}/${payload.module}/${payload.resource}s/${payload.id}`);

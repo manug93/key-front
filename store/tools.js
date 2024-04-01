@@ -1,14 +1,17 @@
 //export const baseUrl="https://avatar-erp.com/backend/";
-export const apiUrl="https://www.keyapi.cnone-tech.com/api";
-export const keybaseUrl="https://www.keyapi.cnone-tech.com/keycafe";
-export const stripebaseUrl="https://www.keyapi.cnone-tech.com//stripe";
-export const baseUrl="https://www.keyapi.cnone-tech.com/";
-
 /*
+export const apiUrl="https://keyapp.cnone-tech.com/backend/public/api";
+export const keybaseUrl="https://keyapp.cnone-tech.com/backend/public/keycafe";
+export const stripebaseUrl="https://keyapp.cnone-tech.com/backend/public/stripe";
+export const baseUrl="https://keyapp.cnone-tech.com/backend/public";
+*/
+
+/**/ 
 export const apiUrl="https://127.0.0.1:8000/api";
 export const keybaseUrl="https://127.0.0.1:8000/keycafe";
 export const stripebaseUrl="https://127.0.0.1:8000/stripe";
-export const baseUrl="https://127.0.0.1:8000";*/
+export const baseUrl="https://127.0.0.1:8000";
+/**/
 
 
 export function formatMoney(amount){    

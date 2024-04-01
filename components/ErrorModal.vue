@@ -29,7 +29,7 @@ import {mapState,mapActions} from "vuex";
   };
   </script>
   
-  <style>
+  <style scoped>
   .modal {
     display: flex;
     justify-content: center;

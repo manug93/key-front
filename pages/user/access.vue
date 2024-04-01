@@ -3,7 +3,7 @@
       <Navbar/>
       <div class="grid">
         <div><Sidebar/></div>
-        <div><KeyManager></KeyManager></div>
+        <div><AccessManager></AccessManager></div>
       </div>
       <CartManager></CartManager>      
       <Loading></Loading>
@@ -34,7 +34,7 @@
       '/sass/responsive.css'
     ];
   export default {
-    name: 'KeycafePage',
+    name: 'KeycafeAccessPage',
     async mounted(){
       await Promise.all([
       ...scripts.map(url => this.$loadFiles.loadScript(url)),

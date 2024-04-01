@@ -38,6 +38,8 @@ export default {
   plugins: [
     { src: '~/plugins/async-loader.js', mode: 'client' },
     { src: '~/plugins/vee-validate.js', mode: 'client' },
+    { src: '~/plugins/moment.js' },
+    { src: '~/plugins/fuse.js' },
   ],
   router: {
     middleware: ['auth']

@@ -592,7 +592,7 @@ export default {
   },
   async beforeMount(){
     let response = await this.fetchUser();
-    if (response.status===401){      
+    if (response?.status===401){      
       this.$router.push("/login")
     }
   },

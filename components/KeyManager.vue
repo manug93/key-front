@@ -41,7 +41,7 @@
       <div class="row g-3">
         <div class="col-auto">
           <div class="position-relative">
-            <input class="form-control px-5" type="search" placeholder="Search Key">
+            <input class="form-control px-5" type="search" v-model="query" placeholder="Search Key">
             <span
               class="material-icons-outlined position-absolute ms-3 translate-middle-y start-0 top-50 fs-5">search</span>
           </div>
@@ -72,7 +72,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="key in keys" :key="key.id">
+                  <tr v-for="key in list" :key="key.id">
                     <td>
                       <input class="form-check-input" type="checkbox">
                     </td>
@@ -82,7 +82,7 @@
                          
                         </div>
                         <div class="product-info">
-                          <a href="javascript:;" class="product-title">{{key.id}}</a>
+                          <a href="#" @click="details(key)" data-bs-toggle="modal" data-bs-target="#exampleLargeModalDetails" class="product-title">{{key.id}}</a>
                           
                         </div>
                       </div>
@@ -102,7 +102,7 @@
                           <i class="bi bi-three-dots"></i>
                         </button>
                         <ul class="dropdown-menu">
-                          <li><a class="dropdown-item " @click="publish(key)"  href="#">Publish</a></li>
+                          <li><a class="dropdown-item " @click="details(key)" data-bs-toggle="modal" data-bs-target="#exampleLargeModalDetails" href="#">Details</a></li>
                           <li><a class="dropdown-item " @click="edit(key)" data-bs-toggle="modal" data-bs-target="#exampleLargeModalEdit" href="#">Edit</a></li>
                           <li><a class="dropdown-item " @click="del(key)" href="#" >Delete</a></li>
                         </ul>
@@ -130,35 +130,115 @@
                       
                       <ValidationObserver slim v-slot="{ handleSubmit, reset }">
                         <div class="modal-body">
-                            <ValidationProvider rules="required" slim name="title"  v-slot="{classes,errors}">  
-                                <div class="field">
-                                  <label for="title" class="form-label">Title</label>
-                                  <input class="form-control mb-3" id="title" :class="classes" type="text" v-model="key.title" placeholder="Title" aria-label="key title">
-                                  <small id="title-help" class="p-invalid red-color">{{ errors[0] }}</small>
-                                </div>
-                             </ValidationProvider>
-                             <ValidationProvider rules="required" slim name="description"  v-slot="{classes,errors}"> 
-                                <div class="field">
-                                  <label for="description" class="form-label">Description</label> 
-                                  <input class="form-control mb-3" id="description" :class="classes" type="text" v-model="key.description" placeholder="Description" aria-label="key description">
-                                  <small id="description-help" class="p-invalid red-color">{{ errors[0] }}</small>
-                                </div>
-                             </ValidationProvider>
-                             <ValidationProvider rules="required" slim name="price"  v-slot="{classes,errors}">  
-                               <div class="field">
-                                <label for="price" class="form-label">Price in $</label>
-                                <input class="form-control mb-3" id="price" :class="classes" type="number" v-model="key.price" placeholder="Price" aria-label="key price in euro">
-                                <small id="price-help" class="p-invalid red-color">{{ errors[0] }}</small>
-                               </div>
-                             </ValidationProvider>
-                             <ValidationProvider rules="required" slim name="duration"  v-slot="{classes,errors}">  
-                                <div class="field">
-                                  <label for="duration" class="form-label">Duration</label>
-                                  <input class="form-control mb-3" id="duration" :class="classes" type="number" v-model="key.duration" placeholder="Duration" aria-label="key duration">
-                                  <small id="duration-help" class="p-invalid red-color">{{ errors[0] }}</small>
-                                </div>
-                             </ValidationProvider>
+                          <ValidationProvider rules="required" slim name="name"  v-slot="{classes,errors}">
+                            <div class="field">
+                              <label for="name" class="form-label">Name</label>
+                              <input class="form-control mb-3" id="name" :class="classes" type="text" v-model="key.name" placeholder="Key Name" aria-label="key name">
+                              <small id="name-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                            </div>
+                          </ValidationProvider>
+
+                          <ValidationProvider rules="" slim name="description"  v-slot="{classes,errors}">
+                            <div class="field">
+                              <label for="description" class="form-label">Description</label>
+                              <textarea class="form-control mb-3" id="description" :class="classes" rows="3" v-model="key.description" placeholder="Key Description" aria-label="key description"></textarea>
+                              <small id="description-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                            </div>
+                          </ValidationProvider>
+
+                          <div class="field">
+                            <label for="serialNumber" class="form-label">Serial Number</label>
+                            <input class="form-control mb-3" id="serialNumber" type="text" v-model="key.serialNumber" placeholder="Serial Number" aria-label="key serial number">
+                          </div>
+
+                          <ValidationProvider rules="" slim name="notes"  v-slot="{classes,errors}">
+                            <div class="field">
+                              <label for="notes" class="form-label">Notes</label>
+                              <textarea class="form-control mb-3" id="notes" :class="classes" rows="3" v-model="key.notes" placeholder="Additional Notes" aria-label="key notes"></textarea>
+                              <small id="notes-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                            </div>
+                          </ValidationProvider>
+
+                          <ValidationProvider rules="" slim name="pickupNote"  v-slot="{classes,errors}">
+                            <div class="field">
+                              <label for="pickupNote" class="form-label">Pickup Note</label>
+                              <textarea class="form-control mb-3" id="pickupNote" :class="classes" rows="3" v-model="key.pickupNote" placeholder="Instructions for Pickup" aria-label="key pickup note"></textarea>
+                              <small id="pickupNote-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                            </div>
+                          </ValidationProvider>
+
+                          <h3>Address</h3>
+                          <ValidationProvider rules="" slim name="street"  v-slot="{classes,errors}">
+                            <div class="field">
+                              <label for="street" class="form-label">Street</label>
+                              <input class="form-control mb-3" id="street" :class="classes" type="text" v-model="key.address.street" placeholder="Street Address" aria-label="key street address">
+                              <small id="street-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                            </div>
+                          </ValidationProvider>
+                          <ValidationProvider rules="" slim name="unit"  v-slot="{classes,errors}">
+                            <div class="field">
+                              <label for="unit" class="form-label">Unit</label>
+                              <input class="form-control mb-3" id="unit" type="text" v-model="key.address.unit" placeholder="Unit Number (optional)" aria-label="key unit number">
+                            </div>
+                        </ValidationProvider>
+
+                          <ValidationProvider rules="" slim name="city"  v-slot="{classes,errors}">
+                            <div class="field">
+                              <label for="city" class="form-label">City</label>
+                              <input class="form-control mb-3" id="city" :class="classes" type="text" v-model="key.address.city" placeholder="City" aria-label="key city">
+                              <small id="city-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                            </div>
+                          </ValidationProvider>
+
+                          <ValidationProvider rules="" slim name="stateProv"  v-slot="{classes,errors}">
+                            <div class="field">
+                              <label for="stateProv" class="form-label">StateProv</label>
+                              <input class="form-control mb-3" id="stateProv" :class="classes" type="text" v-model="key.address.stateProv" placeholder="StateProv" aria-label="key stateProv">
+                              <small id="stateProv-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                            </div>
+                          </ValidationProvider>
+
+                          <ValidationProvider rules="" slim name="country"  v-slot="{classes,errors}">
+                            <div class="field">
+                              <label for="country" class="form-label">Country</label>
+                              <input class="form-control mb-3" id="country" :class="classes" type="text" v-model="key.address.country" placeholder="Country" aria-label="key country">
+                              <small id="country-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                            </div>
+                          </ValidationProvider>
+
+                          <ValidationProvider rules="" slim name="postalCode"  v-slot="{classes,errors}">
+                            <div class="field">
+                              <label for="postalCode" class="form-label">PostalCode</label>
+                              <input class="form-control mb-3" id="postalCode" :class="classes" type="text" v-model="key.address.postalCode" placeholder="PostalCode" aria-label="key postalCode">
+                              <small id="postalCode-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                            </div>
+                          </ValidationProvider>
                              
+                          <ValidationProvider rules="" slim name="homeLocation"  v-slot="{classes,errors}">
+                            <div class="field">
+                              <label for="homeLocation" class="form-label">HomeLocation</label>
+                              <input class="form-control mb-3" id="homeLocation" :class="classes" type="text" v-model="key.homeLocation.id" placeholder="HomeLocation" aria-label="key homeLocation">
+                              <small id="homeLocation-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                            </div>
+                          </ValidationProvider>
+
+
+                          <ValidationProvider rules="" slim name="virtual"  v-slot="{classes,errors}">
+                            <div class="field">
+                              <input class="form-check-input"  id="virtual" :class="classes" v-model="key.virtual" placeholder="Virtual" aria-label="key virtual" type="checkbox" >
+									            <label class="form-check-label" for="virtual">Virtual</label>                              
+                              <small id="virtual-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                            </div>
+                          </ValidationProvider>
+
+                          <ValidationProvider rules="" slim name="code"  v-slot="{classes,errors}">
+                            <div class="field">
+                              <label for="code" class="form-label">Code</label>
+                              <input class="form-control mb-3" id="code" :class="classes" type="text" v-model="key.code" placeholder="Code" aria-label="key code">
+                              <small id="code-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                            </div>
+                          </ValidationProvider>
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -179,34 +259,7 @@
                       
                       <ValidationObserver slim v-slot="{ handleSubmit, reset }">
                         <div class="modal-body">
-                            <ValidationProvider rules="required" slim name="title"  v-slot="{classes,errors}">  
-                                <div class="field">
-                                  <label for="title" class="form-label">Title</label>
-                                  <input class="form-control mb-3" id="title" :class="classes" type="text" v-model="key.title" placeholder="Title" aria-label="key title">
-                                  <small id="title-help" class="p-invalid red-color">{{ errors[0] }}</small>
-                                </div>
-                             </ValidationProvider>
-                             <ValidationProvider rules="required" slim name="description"  v-slot="{classes,errors}"> 
-                                <div class="field">
-                                  <label for="description" class="form-label">Description</label> 
-                                  <input class="form-control mb-3" id="description" :class="classes" type="text" v-model="key.description" placeholder="Description" aria-label="key description">
-                                  <small id="description-help" class="p-invalid red-color">{{ errors[0] }}</small>
-                                </div>
-                             </ValidationProvider>
-                             <ValidationProvider rules="required" slim name="price"  v-slot="{classes,errors}">  
-                               <div class="field">
-                                <label for="price" class="form-label">Price in $</label>
-                                <input class="form-control mb-3" id="price" :class="classes" type="number" v-model="key.price" placeholder="Price" aria-label="key price in euro">
-                                <small id="price-help" class="p-invalid red-color">{{ errors[0] }}</small>
-                               </div>
-                             </ValidationProvider>
-                             <ValidationProvider rules="required" slim name="duration"  v-slot="{classes,errors}">  
-                                <div class="field">
-                                  <label for="duration" class="form-label">Duration</label>
-                                  <input class="form-control mb-3" id="duration" :class="classes" type="number" v-model="key.duration" placeholder="Duration" aria-label="key duration">
-                                  <small id="duration-help" class="p-invalid red-color">{{ errors[0] }}</small>
-                                </div>
-                             </ValidationProvider>	
+                            
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -216,6 +269,37 @@
                     </div>
                   </div>
                 </div>
+
+                
+                <div class="modal fade" id="exampleLargeModalDetails" tabindex="-1" aria-hidden="true">
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Key Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>                    
+                          <div class="modal-body">
+                          <p>ID: {{ keydetails?.id }}</p>
+                          <p>Code: {{ keydetails?.code }}</p>
+                          <p>Name: {{ keydetails?.name }}</p>
+                          <p>Owner: {{ keydetails?.owner?.firstName }} {{ keydetails?.owner?.lastName }}</p>
+                          <p>Organization: {{ keydetails?.owner?.organization }}</p>
+                          <p>Current Location: {{ keydetails?.currentLocation?.name }}</p>
+                          <p>Home Location: {{ keydetails?.homeLocation?.name }}</p>
+                          <p>Virtual: {{ keydetails?.virtual ? 'Yes' : 'No' }}</p>
+                          <p>Serial Number: {{ keydetails?.serialNumber }}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                           
+                        </div>
+                   
+                    </div>
+                  </div>
+                </div>
+
+                
+              
                 
       <Loading></Loading>
       <ErrorModal></ErrorModal>
@@ -227,6 +311,7 @@
   import { baseUrl } from "~/store/tools";
 	import store from "~/store/store";    
 	import {mapState,mapActions} from "vuex";
+  import {Key} from "~/store/models";
   import Loading from './Loading.vue';
   import ErrorModal from './ErrorModal.vue';
 	import { ValidationProvider,ValidationObserver } from 'vee-validate';
@@ -236,13 +321,24 @@
         components:{ValidationProvider,ValidationObserver,Loading,ErrorModal},
         data(){
             return {
-                key:{},
+                key:new Key(),
+                keydetails:{},
                 file:null,
-                display:false
+                display:false,
+                query:"",
             }
         },
         computed:{
             ...mapState(['keys','isLoading']),
+            fuse(){
+              return  new this.$fuse(this.keys, { keys: ['id','serialNumber','name','owner.firstName','owner.lastName'] })
+            },
+            searchResults(){
+              return this.fuse.search(this.query)
+            },
+            list(){
+              return this.query?this.searchResults.map(r=>r.item):this.keys
+            }
 
             
         },
@@ -253,19 +349,13 @@
             asset(uri){
               return `${baseUrl}/${uri}`;
             },
-            publish(key){
-              this.key=key;              
+            details(key){
+              this.keydetails=key;              
             },
             edit(key){
               this.key=key;              
             },
             async editKey(){              
-              this.key.duration=parseInt(this.key.duration)
-              this.key.price=parseInt(this.key.price)
-              let form =new FormData();
-              form.append('file',this.file);              
-              let response = await this.createPicture(form);
-              this.key.pictures=["/api/pictures/"+response.data.id];
               let payload={resource:'keys',module:'api',id:this.key.id,data:this.key};
               this.update(payload).then(u=>{
                 location.reload()
