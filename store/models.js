@@ -165,7 +165,7 @@ class Member {
       this.firstName = payload?.firstName ;
       this.lastName = payload?.lastName ;
       this.type = payload?.type;
-      this.email = payload?.email ;
+      this.email = payload?.email||payload?.contactEmail ;
   }
 }
 

@@ -556,7 +556,7 @@
                 <div class="text-center">
                   <img src="/assets/images/avatars/01.png" class="rounded-circle p-1 shadow mb-3" width="90" height="90"
                     alt="">
-                  <h5 class="user-name mb-0 fw-bold">Hello, Jhon</h5>
+                  <h5 class="user-name mb-0 fw-bold">{{user.firstname}}, {{user.lastname}}</h5>
                 </div>
               </a>
               <hr class="dropdown-divider">
@@ -587,14 +587,21 @@ export default {
 
     };
   },
+  computed:{
+    ...mapState(['user','auth'])
+  },
   methods: {
     ...mapActions(['fetchUser','fetchToken'])
   },
   async beforeMount(){
-    let response = await this.fetchUser();
-    if (response?.status===401){      
-      this.$router.push("/login")
+    if(this.auth){
+      await this.fetchToken()
+      let response = await this.fetchUser();
+      if (response?.status===401){      
+        this.$router.push("/login")
+      }
     }
+    
   },
   created() {
 

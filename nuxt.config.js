@@ -71,5 +71,10 @@ export default {
   build: {
     // https://github.com/primefaces/primevue/issues/844
     transpile: ['primevue'],
+  },
+  env: {
+    BASE_URL: process.env.NODE_ENV === 'development'
+      ? 'https://127.0.0.1:8000'
+      : process.env.BASE_URL, // Define a separate variable for production URL
   }
 }

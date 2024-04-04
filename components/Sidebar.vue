@@ -8,7 +8,7 @@
         <img src="/assets/images/logo-icon.png" class="logo-img" alt="">
       </div>
       <div class="logo-name flex-grow-1">
-        <h5 class="mb-0">Metoxi</h5>
+        <p class="m-0 py-2"><p class="mb-0">Key Yes</p><small>yes we key</small></p>
       </div>
       <div class="sidebar-close">
         <span class="material-icons-outlined">close</span>
@@ -25,8 +25,8 @@
               <div class="menu-title">Dashboard</div>
             </a>
             <ul>
-              <li><a href="/admin/products"><i class="material-icons-outlined">arrow_right</i>Plan Manager</a>
-              </li>
+              <!--li><a href="/admin/products"><i class="material-icons-outlined">arrow_right</i>Plan Manager</a>
+              </li -->
               <li><a href="/admin/users"><i class="material-icons-outlined">arrow_right</i>User Manager</a>
               </li>
             </ul>
@@ -40,7 +40,7 @@
             <ul>
               <li><a href="/user/keycafe"><i class="material-icons-outlined">arrow_right</i>Keys</a></li>
               <li><a href="/user/access"><i class="material-icons-outlined">arrow_right</i>Access</a></li>
-              <li><a href="/user/fob"><i class="material-icons-outlined">arrow_right</i>Fob</a></li>
+              <!--li><a href="/user/fob"><i class="material-icons-outlined">arrow_right</i>Fob</a></li!-->
               <li><a href="/user/organizations"><i class="material-icons-outlined">arrow_right</i>Organization</a></li>
               
             </ul>
@@ -54,10 +54,7 @@
             <ul>
               <li><a href="/user/subscriptions"><i class="material-icons-outlined">arrow_right</i>Subscriptions</a>
               </li>
-              <li><a href="component-cards-basic.html"><i class="material-icons-outlined">arrow_right</i>Products</a>
-              </li>       
-              <li><a href="component-cards-advance.html"><i class="material-icons-outlined">arrow_right</i>Pricing</a>
-              </li>              
+                          
             </ul>
           </li>
           

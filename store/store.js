@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from "axios";
-const apiUrl2 = process.env.API_BASE_URL;
 import  {apiUrl,baseUrl,stripebaseUrl,keybaseUrl}  from '~/store/tools';
 import {Cart, User, Coupon} from './models';
 Vue.use(Vuex);
@@ -10,6 +9,7 @@ axios.interceptors.request.use((config) => {
   const headers = config.headers || {};
 
   const token = localStorage.getItem('token');
+  
   
   if (token) {
     // Add the Bearer token header
@@ -47,8 +47,12 @@ axios.interceptors.response.use(
   error => {
     store.dispatch('setLoading', false);     // In case of an error, set loading back to false
     store.dispatch('setError', true);
-    console.log(error);
-    store.dispatch('setErrorMessage', error.response.data);
+    console.log(error.message);    
+    if(error?.response?.data?.code===401){
+      store.dispatch('setErrorMessage', error?.response?.data?.message);
+      store.dispatch('disconnect');
+    }
+    store.dispatch('setErrorMessage', error?.message);
     return Promise.reject(error);
   });
 
@@ -126,6 +130,11 @@ const store = new Vuex.Store({
     },
   
     actions: {      
+      disconnect({commit}){
+        commit('SET_AUTHENTICATED',false);
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+      },
       setLoading({ commit }, value) {
         commit('SET_LOADING', value);
       },
@@ -144,28 +153,25 @@ const store = new Vuex.Store({
             }
           });
           
-          commit('SET_TOKEN', response.data.token);
-          dispatch('fetchUser');
+          commit('SET_TOKEN', response.data.token);         
           commit('SET_AUTHENTICATED',true);
+          if(localStorage.getItem('token')!==null && localStorage.getItem('token')!==undefined){            
+            dispatch('fetchUser');
+          }
           return response
         } catch (error) {
           return error.response
         }
       },
       // Fetch user
-      async fetchUser({ commit }) {
+      async fetchUser({ dispatch,commit }) {
         try {
           const response = await axios.get(`${apiUrl}/me`);
           commit('SET_USER', response.data);
           commit('SET_AUTHENTICATED', true);
           return response
         } catch (error) { 
-          console.log(error);
-          if(error?.response?.status===401){
-            commit('SET_AUTHENTICATED',true);
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
-          }         
+          console.log(error);       
           return error.response
         }
       },
@@ -274,8 +280,10 @@ const store = new Vuex.Store({
               ContentType:"application/json"
             }
           });
-          dispatch('fetchToken',{username:form.email,password:form.password})
-          commit('SET_USER', response.data);
+          dispatch('fetchToken',{username:form.email,password:form.password}).then((e=>{
+            
+          //dispatch('fetchUser')
+          }))
           return response;
         } catch (error) {          
           return error

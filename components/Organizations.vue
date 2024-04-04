@@ -71,7 +71,6 @@
                     <th>Lastname</th>
                     <th>Type</th>
                     <th>Email</th>
-                    <th>Mobile</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -104,10 +103,7 @@
                       {{ membership?.user?.type }}
                     </td>
                     <td>
-                      {{ membership?.user?.email }}
-                    </td>
-                    <td>
-                      {{ membership?.user?.mobile }}
+                      {{ membership?.user?.email||membership?.user?.contactEmail }}
                     </td>
                     <td>
                       <div class="dropdown">
@@ -116,6 +112,7 @@
                           <i class="bi bi-three-dots"></i>
                         </button>
                         <ul class="dropdown-menu">
+                          <li><a class="dropdown-item " @click="details(membership)" data-bs-toggle="modal" data-bs-target="#exampleLargeModalDetails" href="#" >Details</a></li>
                           <li><a class="dropdown-item " @click="remove(membership)" href="#" >Delete</a></li>
                         </ul>
                       </div>
@@ -193,6 +190,33 @@
                   </div>
                 </div>
 
+                
+                <div class="modal fade" id="exampleLargeModalDetails" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Membership Details</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <p>ID: {{ membership?.id }}</p>
+                      <p>Code: {{ membership?.code }}</p>
+                      <p>Keychain: {{ membership?.badge?.keychain }}</p>
+                      <p>Owner: {{ membership?.user?.firstName }} {{ membership?.user?.lastName }}</p>
+                      <p>Email: {{membership?.user?.contactEmail||membership?.user?.email }} </p>
+                      <p>Organization: {{ membership?.user?.organization }}</p>
+                      <p>Current Location: {{ membership?.currentLocation?.name }}</p>
+                      <p>Home Location: {{ membership?.homeLocation?.name }}</p>
+                      <p>Virtual: {{ membership?.virtual ? 'Yes' : 'No' }}</p>
+                      <p>Serial Number: {{ membership?.serialNumber }}</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+  </div>
+
       <ErrorModal></ErrorModal>
   <!--end main wrapper-->
     </div>
@@ -218,7 +242,7 @@
             }
         },
         computed:{
-            ...mapState(['organizationMemberships','isLoading']),           
+            ...mapState(['organizationMemberships','isLoading','user']),           
             list(){              
               return  this.query?this.searchResults.map(r=>r.item):this.organizationMemberships
             }, 
@@ -244,9 +268,18 @@
               this.del({resource:'organizationMemberships',module:'keycafe',id:membership.id})
 
             },
+            details(membership){
+              this.membership=membership
+            },is_admin(){
+              return this.user?.roles?.includes('ROLE_ADMIN')
+            },
+            is_colab(){
+              return this.user?.roles?.includes('ROLE_COLAB')
+            },
 
         },
          beforeMount(){
+          console.log(process.env.NODE_ENV);
           this.getAll({resource:'organizationMemberships',module:'keycafe'})
           this.membership=new OrganizationMembership({})
         }

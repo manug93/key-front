@@ -49,7 +49,7 @@
         
         <div class="col-auto">
           <div class="d-flex align-items-center gap-2 justify-content-lg-end">
-            <button class="btn btn-primary px-4" data-bs-toggle="modal" data-bs-target="#exampleLargeModal"><i class="bi bi-plus-lg me-2"></i>Add Key</button>
+            <!--button class="btn btn-primary px-4" data-bs-toggle="modal" data-bs-target="#exampleLargeModal"><i class="bi bi-plus-lg me-2"></i>Add Key</button !-->
           </div>
         </div>
       </div><!--end row-->
@@ -103,7 +103,7 @@
                         </button>
                         <ul class="dropdown-menu">
                           <li><a class="dropdown-item " @click="details(key)" data-bs-toggle="modal" data-bs-target="#exampleLargeModalDetails" href="#">Details</a></li>
-                          <li><a class="dropdown-item " @click="edit(key)" data-bs-toggle="modal" data-bs-target="#exampleLargeModalEdit" href="#">Edit</a></li>
+                          <li><a class="dropdown-item " @click="edit(key)" data-bs-toggle="modal" data-bs-target="#exampleLargeModalEdit" href="#">Link to Fob</a></li>
                           <li><a class="dropdown-item " @click="del(key)" href="#" >Delete</a></li>
                         </ul>
                       </div>
@@ -120,7 +120,7 @@
 
     </div>
   </main>
-      <div class="modal fade" id="exampleLargeModal" tabindex="-1" aria-hidden="true">
+      <!--div class="modal fade" id="exampleLargeModal" tabindex="-1" aria-hidden="true">
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                       <div class="modal-header">
@@ -247,7 +247,7 @@
                      </ValidationObserver>
                     </div>
                   </div>
-                </div>
+                </div !-->
 
                 <div class="modal fade" id="exampleLargeModalEdit" tabindex="-1" aria-hidden="true">
                   <div class="modal-dialog modal-lg">
@@ -260,6 +260,13 @@
                       <ValidationObserver slim v-slot="{ handleSubmit, reset }">
                         <div class="modal-body">
                             
+                        <ValidationProvider rules="required" slim name="serialNumber" v-slot="{ classes, errors }">
+                            <div class="field">
+                                <label for="serialNumber" class="form-label">Serial Number</label>
+                                <input class="form-control mb-3" id="serialNumber" :class="classes" type="text" v-model="key.serialNumber" placeholder="Serial Number" aria-label="key serial number">
+                                <small id="serialNumber-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                            </div>
+                        </ValidationProvider>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -329,7 +336,7 @@
             }
         },
         computed:{
-            ...mapState(['keys','isLoading']),
+            ...mapState(['keys','isLoading','user']),
             fuse(){
               return  new this.$fuse(this.keys, { keys: ['id','serialNumber','name','owner.firstName','owner.lastName'] })
             },
@@ -338,7 +345,12 @@
             },
             list(){
               return this.query?this.searchResults.map(r=>r.item):this.keys
-            }
+            },is_admin(){
+              return this.user?.roles?.includes('ROLE_ADMIN')
+            },
+            is_colab(){
+              return this.user?.roles?.includes('ROLE_COLAB')
+            },
 
             
         },

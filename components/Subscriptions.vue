@@ -49,7 +49,7 @@
         
         <div class="col-auto">
           <div class="d-flex align-items-center gap-2 justify-content-lg-end">
-            <button class="btn btn-primary px-4" data-bs-toggle="modal" data-bs-target="#exampleLargeModal"><i class="bi bi-plus-lg me-2"></i>Add Subscription</button>
+            <a class="btn btn-primary px-4" href="/pricing"><i class="bi bi-plus-lg me-2"></i>Subscribe</a>
           </div>
         </div>
       </div><!--end row-->
@@ -253,16 +253,27 @@
             }
         },
         computed:{
-            ...mapState(['subscriptions','isLoading']),
-            list(){              
-              return  this.query?this.searchResults.map(r=>r.item):this.subscriptions?.products?.data
+            ...mapState(['subscriptions','isLoading','user']),
+            list(){   
+              if(this.is_admin ||this.is_colab){
+                return  this.query?this.searchResults.map(r=>r.item):this.subscriptions?.products?.data
+              } 
+              let res = this.query?this.searchResults.map(r=>r.item):this.subscriptions?.products?.data           
+              let data = res?.filter((e=>e?.customer?.email===this?.user?.email)) || []
+              return data
             }, 
             fuse(){
               return  new this.$fuse(this.subscriptions?.products?.data, { keys: ['id','customer.email','plan.product.name'] })
             },
             searchResults(){
               return this.fuse.search(this.query)
-            }
+            },
+            is_admin(){
+              return this.user?.roles?.includes('ROLE_ADMIN')
+            },
+            is_colab(){
+              return this.user?.roles?.includes('ROLE_COLAB')
+            },
 
 
             

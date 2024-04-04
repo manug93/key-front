@@ -249,7 +249,7 @@
             }
         },
         computed:{
-            ...mapState(['access','isLoading']),
+            ...mapState(['access','isLoading','user']),
 
             
         },
@@ -274,7 +274,12 @@
             },
             del(item){
 
-            }
+            },is_admin(){
+              return this.user?.roles?.includes('ROLE_ADMIN')
+            },
+            is_colab(){
+              return this.user?.roles?.includes('ROLE_COLAB')
+            },
 
         },
         beforeMount(){

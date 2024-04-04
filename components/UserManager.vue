@@ -298,13 +298,11 @@
             },
             updateUser(){
               let payload={resource:'users',module:'api',id:this.user.id,data:this.user};
-              
-              console.log(payload);
               this.update(payload);
             },
             del(user){
               this.deleteUser(user.id).then(e=>{
-                  location.reload()
+                  this.fetchUsers()
               })
             }            
 

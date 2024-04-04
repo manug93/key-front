@@ -90,7 +90,11 @@
 		},
 		computed:{},
 		components:{ValidationProvider,ValidationObserver,Loading,ErrorModal},
+		beforeMount(){
+			console.log('ENV ::'.process?.env?.NODE_ENV);
+		},
 		mounted(){
+			
 			$("#show_hide_password a").on('click', function (event) {
           event.preventDefault();
           if ($('#show_hide_password input').attr("type") == "text") {
