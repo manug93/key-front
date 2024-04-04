@@ -64,19 +64,19 @@
                     <th>
                       <input class="form-check-input" type="checkbox">
                     </th>
-                    <th>Organization ID</th>
-                    <th>Plan</th>
-                    <th>Customer</th>
-                    <th>Price</th>
-                    <th>duration</th>
-                    <th>count</th>
-                    <th>start</th>
-                    <th>end</th>
-                    <th>Action</th>
+                    <th> ID</th>
+                    <th>Code</th>
+                    <th>Organization</th>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Type</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="organization,id in list" :organization="id">
+                  <tr v-for="membership,id in list" :key="membership.id">
                     <td>
                       <input class="form-check-input" type="checkbox">
                     </td>
@@ -86,28 +86,28 @@
                          
                         </div>
                         <div class="product-info">
-                          <a href="javascript:;" class="product-title">{{organization?.items?.data[0]?.id }}</a>
+                          <a href="javascript:;" class="product-title">{{membership?.id }}</a>
                           
                         </div>
                       </div>
                     </td>
-                    <td>{{ organization?.plan?.product?.name }}</td>
-                    <td>{{ organization?.customer?.email }} {{ organization?.customer?.id }}</td>
+                    <td>{{ membership?.code }}</td>
+                    <td>{{ membership?.user.organization }}</td>
                     
                     <td>
-                        <p class="mb-0 product-category">{{ organization?.plan?.amount/100 }}</p>
+                      {{ membership?.user?.firstName }}
                     </td>
                     <td>
-                      {{ organization?.plan?.interval }}
+                      {{ membership?.user?.lastName }}
                     </td>
                     <td>
-                      {{ organization?.plan?.interval_count }}
+                      {{ membership?.user?.type }}
                     </td>
                     <td>
-                      <small>{{ from_date(organization?.current_period_start) }}</small>
+                      {{ membership?.user?.email }}
                     </td>
                     <td>
-                      <small>{{ from_date(organization?.current_period_end) }}</small>
+                      {{ membership?.user?.mobile }}
                     </td>
                     <td>
                       <div class="dropdown">
@@ -116,7 +116,7 @@
                           <i class="bi bi-three-dots"></i>
                         </button>
                         <ul class="dropdown-menu">
-                          <li><a class="dropdown-item " @click="del(organization)" href="#" >Cancel</a></li>
+                          <li><a class="dropdown-item " @click="remove(membership)" href="#" >Delete</a></li>
                         </ul>
                       </div>
                     </td>
@@ -136,45 +136,57 @@
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title">Add Organization</h5>
+                        <h5 class="modal-title">Add Membership</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       
                       <ValidationObserver slim v-slot="{ handleSubmit, reset }">
                         <div class="modal-body">
-                            <ValidationProvider rules="required" slim name="title"  v-slot="{classes,errors}">  
-                                <div class="field">
-                                  <label for="title" class="form-label">Title</label>
-                                  <input class="form-control mb-3" id="title" :class="classes" type="text" v-model="organization.title" placeholder="Title" aria-label="organization title">
-                                  <small id="title-help" class="p-invalid red-color">{{ errors[0] }}</small>
-                                </div>
-                             </ValidationProvider>
-                             <ValidationProvider rules="required" slim name="description"  v-slot="{classes,errors}"> 
-                                <div class="field">
-                                  <label for="description" class="form-label">Description</label> 
-                                  <input class="form-control mb-3" id="description" :class="classes" type="text" v-model="organization.description" placeholder="Description" aria-label="organization description">
-                                  <small id="description-help" class="p-invalid red-color">{{ errors[0] }}</small>
-                                </div>
-                             </ValidationProvider>
-                             <ValidationProvider rules="required" slim name="price"  v-slot="{classes,errors}">  
-                               <div class="field">
-                                <label for="price" class="form-label">Price in $</label>
-                                <input class="form-control mb-3" id="price" :class="classes" type="number" v-model="organization.price" placeholder="Price" aria-label="organization price in euro">
-                                <small id="price-help" class="p-invalid red-color">{{ errors[0] }}</small>
-                               </div>
-                             </ValidationProvider>
-                             <ValidationProvider rules="required" slim name="duration"  v-slot="{classes,errors}">  
-                                <div class="field">
-                                  <label for="duration" class="form-label">Duration</label>
-                                  <input class="form-control mb-3" id="duration" :class="classes" type="number" v-model="organization.duration" placeholder="Duration" aria-label="organization duration">
-                                  <small id="duration-help" class="p-invalid red-color">{{ errors[0] }}</small>
-                                </div>
-                             </ValidationProvider>
+                          <ValidationProvider rules="required" slim name="code" v-slot="{ classes, errors }">
+                            <div class="field">
+                                <label for="code" class="form-label">Code</label>
+                                <input class="form-control mb-3" id="code" :class="classes" type="text" v-model="membership.code" placeholder="Code" aria-label="organization code">
+                                <small id="code-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                            </div>
+                        </ValidationProvider>
+
+                        
+
+                        <ValidationProvider rules="required" slim name="firstName" v-slot="{ classes, errors }">
+                            <div class="field">
+                                <label for="firstName" class="form-label">First Name</label>
+                                <input class="form-control mb-3" id="firstName" :class="classes" type="text" v-model="membership.user.firstName" placeholder="First Name" aria-label="organization first name">
+                                <small id="firstName-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                            </div>
+                        </ValidationProvider>
+
+                        <ValidationProvider rules="required" slim name="lastName" v-slot="{ classes, errors }">
+                            <div class="field">
+                                <label for="lastName" class="form-label">Last Name</label>
+                                <input class="form-control mb-3" id="lastName" :class="classes" type="text" v-model="membership.user.lastName" placeholder="Last Name" aria-label="organization last name">
+                                <small id="lastName-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                            </div>
+                        </ValidationProvider>
+
+                        <ValidationProvider rules="required" slim name="contactEmail" v-slot="{ classes, errors }">
+                            <div class="field">
+                                <label for="contactEmail" class="form-label">Contact Email</label>
+                                <input class="form-control mb-3" id="contactEmail" :class="classes" type="email" v-model="membership.user.contactEmail" placeholder="Contact Email" aria-label="organization contact email">
+                                <small id="contactEmail-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                            </div>
+                        </ValidationProvider>
+                        <ValidationProvider rules="" slim name="sendWelcomeEmail"  v-slot="{classes,errors}">
+                            <div class="field">
+                              <input class="form-check-input"  id="sendWelcomeEmail" :class="classes" v-model="membership.sendWelcomeEmail"  aria-label="membership sendWelcomeEmail" type="checkbox" >
+									            <label class="form-check-label" for="sendWelcomeEmail">Send Welcome Email</label>                              
+                              <small id="sendWelcomeEmail-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                            </div>
+                          </ValidationProvider>
                              
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary" @click="handleSubmit(submit)">Create organization</button>
+                            <button type="button" class="btn btn-primary" @click="handleSubmit(submit)">Create membership</button>
                         </div>
                      </ValidationObserver>
                     </div>
@@ -189,6 +201,7 @@
 <script>
   import { baseUrl } from "~/store/tools";
 	import store from "~/store/store";    
+  import {OrganizationMembership} from "~/store/models"
 	import {mapState,mapActions} from "vuex";
   import ErrorModal from './ErrorModal.vue';
 	import { ValidationProvider,ValidationObserver } from 'vee-validate';
@@ -199,32 +212,43 @@
         data(){
             return {
                 organization:{},
+                membership:new OrganizationMembership({}),
                 file:null,
                 display:false
             }
         },
         computed:{
-            ...mapState(['organization','isLoading']),
+            ...mapState(['organizationMemberships','isLoading']),           
             list(){              
-              return this.organization?.products?.data
+              return  this.query?this.searchResults.map(r=>r.item):this.organizationMemberships
+            }, 
+            fuse(){
+              return  new this.$fuse(this.subscriptions?.products?.data, { keys: ['id','customer.email','plan.product.name'] })
+            },
+            searchResults(){
+              return this.fuse.search(this.query)
             }
+
 
             
         },
         methods:{
             ...mapActions(['create','getAll','del','update']),
             async submit(){
+              this.create({resource:'organizationMemberships',module:'keycafe',data:this.membership})
             },
             asset(uri){
               return `${baseUrl}/${uri}`;
             },
-            del(){
+            remove(membership){
+              this.del({resource:'organizationMemberships',module:'keycafe',id:membership.id})
 
             },
 
         },
          beforeMount(){
-          this.getAll({resource:'organizationMembership',module:'keycafe'})
+          this.getAll({resource:'organizationMemberships',module:'keycafe'})
+          this.membership=new OrganizationMembership({})
         }
     }
 </script>

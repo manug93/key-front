@@ -24,6 +24,7 @@
     "vue-template-compiler": "^2.7.10"
   },
   "devDependencies": {
+    "@nuxtjs/dotenv": "^1.4.2",
     "file-loader": "^6.2.0",
     "url-loader": "^4.1.1"
   }

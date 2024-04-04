@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from "axios";
+const apiUrl2 = process.env.API_BASE_URL;
 import  {apiUrl,baseUrl,stripebaseUrl,keybaseUrl}  from '~/store/tools';
 import {Cart, User, Coupon} from './models';
 Vue.use(Vuex);
@@ -11,7 +12,6 @@ axios.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   
   if (token) {
-    console.log("token");
     // Add the Bearer token header
     headers.Authorization = `Bearer ${token}`;
   }
@@ -56,13 +56,16 @@ const store = new Vuex.Store({
     state: {
         user:{},
         users:{},
+        organizationMemberships:{},
         keys:{},
         subscriptions:{},
         isLoading: false,
         error:false,
         errorMessage:{},
         plan:{},
+        fob:{},
         plans:[],
+        fobs:[],
         token:{},
         coupon:{},
         auth:false,
@@ -321,10 +324,11 @@ const store = new Vuex.Store({
           return error;
         }
       },
-      async  create({dispatch},payload) {
+      async create({dispatch},payload) {
+        console.log(payload);
         try {
           const response = await axios.post(`${baseUrl}/${payload.module}/${payload.resource}`, payload.data);                 
-          dispatch('getAll',payload.resource)
+          dispatch('getAll',payload)
           return response.data;
         } catch (error) {
           return error;
@@ -341,7 +345,7 @@ const store = new Vuex.Store({
       },
       async update({dispatch},payload) {
         try {          
-          const response = await axios.put(`${baseUrl}/${payload.module}/${payload.resource}/${payload.id}`,payload.data,{
+          const response = await axios.put(`${baseUrl}/${payload.module}/${payload.resource}/${payload.data.id}`,payload.data,{
             header:{
               ContentType:"application/ld+json"
             }

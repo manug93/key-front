@@ -137,6 +137,38 @@ class HomeLocation {
 }
 
 
+export class OrganizationMembership {
+  constructor(payload) {
+      this.id = payload?.id ?? null;
+      this.code = payload?.code ?? null;
+      this.sendWelcomeEmail = payload?.sendWelcomeEmail ?? null;
+      this.user = new Member(payload.user) ;
+      this.organization = new Organization(payload.organization) ;
+  }
+}
+
+class Badge {
+  constructor(payload) {
+      this.keychain = payload?.keychain ;
+  }
+}
+
+class Organization{
+  constructor(payload){
+    this.id=payload?.id ?? 573962771
+  }
+}
+
+class Member {
+  constructor(payload) {
+      this.id = payload?.id ;
+      this.firstName = payload?.firstName ;
+      this.lastName = payload?.lastName ;
+      this.type = payload?.type;
+      this.email = payload?.email ;
+  }
+}
+
 export class User extends UserBase {
   constructor(data) {
     super(data);

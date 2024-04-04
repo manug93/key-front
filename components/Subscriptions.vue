@@ -41,7 +41,7 @@
       <div class="row g-3">
         <div class="col-auto">
           <div class="position-relative">
-            <input class="form-control px-5" type="search" placeholder="Search Subscription">
+            <input class="form-control px-5" type="search" v-model="query" placeholder="Search Subscription">
             <span
               class="material-icons-outlined position-absolute ms-3 translate-middle-y start-0 top-50 fs-5">search</span>
           </div>
@@ -248,14 +248,22 @@
             return {
                 subscription:{},
                 file:null,
-                display:false
+                display:false,
+                query:""
             }
         },
         computed:{
             ...mapState(['subscriptions','isLoading']),
             list(){              
-              return this.subscriptions?.products?.data
+              return  this.query?this.searchResults.map(r=>r.item):this.subscriptions?.products?.data
+            }, 
+            fuse(){
+              return  new this.$fuse(this.subscriptions?.products?.data, { keys: ['id','customer.email','plan.product.name'] })
+            },
+            searchResults(){
+              return this.fuse.search(this.query)
             }
+
 
             
         },
@@ -274,12 +282,12 @@
             },
             async editSubscription(){              
               
-              this.update(payload).then(u=>{
+              this.update({resource:'subscriptions',module:'stripe',data:this.subscription}).then(u=>{
                 location.reload()
               })            
             },
             del(subscription){
-
+              this.del({resource:'subscriptions',module:'stripe'})
             },
             to_date(date){
               return this.$moment.unix(date).toNow();
