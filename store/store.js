@@ -60,6 +60,9 @@ const store = new Vuex.Store({
     state: {
         user:{},
         users:{},
+        smartboxes:{},
+        products:{},
+        empty_bins:{},
         organizationMemberships:{},
         keys:{},
         subscriptions:{},
@@ -165,13 +168,17 @@ const store = new Vuex.Store({
       },
       // Fetch user
       async fetchUser({ dispatch,commit }) {
+        if(localStorage.getItem("user")!==undefined && localStorage.getItem("user")!==null){
+          commit('SET_USER',JSON.parse(localStorage.getItem("user")))
+          commit('SET_AUTHENTICATED',true);
+          return
+        }
         try {
           const response = await axios.get(`${apiUrl}/me`);
-          commit('SET_USER', response.data);
+          commit('SET_USER', response.data);  
           commit('SET_AUTHENTICATED', true);
           return response
-        } catch (error) { 
-          console.log(error);       
+        } catch (error) {      
           return error.response
         }
       },
@@ -197,13 +204,15 @@ const store = new Vuex.Store({
       },
        // Fetch  users
       async fetchUsers({ commit }) {
-        try {
-          const response = await axios.get(`${apiUrl}/users`);
-          commit('SET_USERS', response.data['hydra:member']);
-          return response
-        } catch (error) {          
-          return error.response
-        }
+                
+          try {
+            const response = await axios.get(`${apiUrl}/users`);
+            commit('SET_USERS', response.data['hydra:member']);
+            return response
+          } catch (error) {          
+            return error.response
+          }
+        
       },
       // Create  user
       async createUser({ commit }, user) {
@@ -345,7 +354,7 @@ const store = new Vuex.Store({
       async  del({dispatch},payload) {
         try {
           const response = await axios.delete(`${baseUrl}/${payload.module}/${payload.resource}/${payload.id}`);                 
-          dispatch('getAll',payload.resource)
+          dispatch('getAll',{resource:payload.resource,module:payload.module})
           return response.data;
         } catch (error) {
           return error;

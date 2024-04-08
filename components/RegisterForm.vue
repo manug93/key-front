@@ -45,6 +45,7 @@
                                                 <small id="password-help" class="p-invalid red-color">{{ errors[0] }} </small>
                                                 </ValidationProvider>
 											</div>
+                                           
 											<div class="col-12">
 												<div class="form-check form-switch">
 													<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
@@ -63,7 +64,7 @@
 											</div>
 										</form>
                                     </ValidationObserver>
-									</div>
+								</div>
 
               </div>
             </div>
@@ -91,7 +92,7 @@
             }
         },
 		methods:{
-			...mapActions(['register']),
+			...mapActions(['register','getAll']),
 			async submit(){
 				let response = await this.register(this.form); 
                 if(response?.status===201 && !this.error)     {
@@ -101,9 +102,12 @@
 			}
 		},
 		computed:{
-            ...mapState(['isLoading','error'])
+            ...mapState(['isLoading','error']),
         },
 		components:{ValidationProvider,ValidationObserver,Loading,ErrorModal},
+        async beforeMount(){
+            
+        },
 		mounted(){
 			$("#show_hide_password a").on('click', function (event) {
           event.preventDefault();

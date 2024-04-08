@@ -49,7 +49,7 @@
         
         <div class="col-auto">
           <div class="d-flex align-items-center gap-2 justify-content-lg-end">
-            <!--button class="btn btn-primary px-4" data-bs-toggle="modal" data-bs-target="#exampleLargeModal"><i class="bi bi-plus-lg me-2"></i>Add Key</button !-->
+            <button class="btn btn-primary px-4" data-bs-toggle="modal" data-bs-target="#exampleLargeModalCreate" @click="createKeyForm"><i class="bi bi-plus-lg me-2"></i>Add Key</button >
           </div>
         </div>
       </div><!--end row-->
@@ -277,6 +277,69 @@
                   </div>
                 </div>
 
+                <div class="modal fade" id="exampleLargeModalCreate" tabindex="-1" aria-hidden="true">
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Add Key</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      
+                      <ValidationObserver slim v-slot="{ handleSubmit, reset }">
+                        <div class="modal-body">
+                            
+                        <ValidationProvider rules="required" slim name="name" v-slot="{ classes, errors }">
+                            <div class="field">
+                                <label for="name" class="form-label">Name</label>
+                                <input class="form-control mb-3" id="name" :class="classes" type="text" v-model="key.name" placeholder="Key Name" aria-label="key  name">
+                                <small id="name-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                            </div>
+                        </ValidationProvider>
+                        <ValidationProvider rules="" slim name="description" v-slot="{ classes, errors }">
+                            <div class="field">
+                                <label for="description" class="form-label">Description</label>
+                                <input class="form-control mb-3" id="description" :class="classes" type="text" v-model="key.description" placeholder="Description" aria-label="key  description">
+                                <small id="description-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                            </div>
+                        </ValidationProvider>
+                        <ValidationProvider rules="" slim name="notes" v-slot="{ classes, errors }">
+                            <div class="field">
+                                <label for="notes" class="form-label">Notes</label>
+                                <input class="form-control mb-3" id="notes" :class="classes" type="text" v-model="key.notes" placeholder="Notes" aria-label="key notes">
+                                <small id="notes-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                            </div>
+                        </ValidationProvider>
+                        
+                        <ValidationProvider rules="" slim name="pickupNote" v-slot="{ classes, errors }">
+                            <div class="field">
+                                <label for="pickupNote" class="form-label">Pickup Note</label>
+                                <input class="form-control mb-3" id="pickupNote" :class="classes" type="text" v-model="key.pickupNote" placeholder="Pickup Note" aria-label="key  pickupNote">
+                                <small id="pickupNote-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                            </div>
+                        </ValidationProvider>
+                        <ValidationProvider rules="required" slim name="smartbox" v-slot="{classes,errors}">  
+                        <div class="row">
+                          <div class="field col-8">
+                              <div class="mb-4">
+                                  <label for="subscription" class="form-label">Subscription</label>
+                                  <select class="form-select" id="subscription" data-placeholder="Choose one subscription"  v-model="key.subscription"  :class="classes" placeholder="Subscription" aria-label="user subscription">
+                                      <option v-for="value,id in subscriptions" :value="value.id" :key="value.id">{{value.stripeId}}  left bins : {{value?.leftBins}}</option>
+                                  </select>                                                                     
+                                  <small id="subscription-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                              </div>                                                    
+                          </div>
+                        </div>
+                      </ValidationProvider>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary" @click="handleSubmit(submit)">Create key</button>
+                        </div>
+                     </ValidationObserver>
+                    </div>
+                  </div>
+                </div>
+
                 
                 <div class="modal fade" id="exampleLargeModalDetails" tabindex="-1" aria-hidden="true">
                   <div class="modal-dialog modal-lg">
@@ -315,7 +378,6 @@
 
 </template>
 <script>
-  import { baseUrl } from "~/store/tools";
 	import store from "~/store/store";    
 	import {mapState,mapActions} from "vuex";
   import {Key} from "~/store/models";
@@ -328,10 +390,11 @@
         components:{ValidationProvider,ValidationObserver,Loading,ErrorModal},
         data(){
             return {
-                key:new Key(),
+                key:{},
                 keydetails:{},
                 file:null,
                 display:false,
+                subscriptions:[],
                 query:"",
             }
         },
@@ -340,12 +403,19 @@
             fuse(){
               return  new this.$fuse(this.keys, { keys: ['id','serialNumber','name','owner.firstName','owner.lastName'] })
             },
-            searchResults(){
+            searchResults(){          
               return this.fuse.search(this.query)
             },
             list(){
-              return this.query?this.searchResults.map(r=>r.item):this.keys
-            },is_admin(){
+              if(this.is_admin || this.is_colab){
+                return this.query?this.searchResults.map(r=>r.item):this.keys;
+              }
+              let res = this.query?this.searchResults.map(r=>r.item):this.keys;
+              let data = Object.values(res).filter((e)=>e?.owner?.email===this?.user?.email) || [];
+              //let data = res?.filter((e)=>e?.owner?.email===this?.user?.email) || []
+              return data;
+            },
+            is_admin(){
               return this.user?.roles?.includes('ROLE_ADMIN')
             },
             is_colab(){
@@ -355,9 +425,7 @@
             
         },
         methods:{
-            ...mapActions(['create','getAll','del','update']),
-            async submit(){
-            },
+            ...mapActions(['create','getAll','del','update','getById']),
             asset(uri){
               return `${baseUrl}/${uri}`;
             },
@@ -370,17 +438,30 @@
             async editKey(){              
               let payload={resource:'keys',module:'api',id:this.key.id,data:this.key};
               this.update(payload).then(u=>{
-                location.reload()
+                
               })            
             },
             del(key){
 
+            },
+            async submit(){
+                this.create({resource:'keys',module:'keycafe',data:this.key}).then((e)=>{
+                  
+                })
+            },
+            async createKeyForm(){
+             let user = JSON.parse(localStorage.getItem('user'))
+             
             }
 
         },
-        beforeMount(){
-          this.getAll({resource:'keys',module:'keycafe'})
-        }
+        async beforeMount(){
+          await this.getAll({resource:'keys',module:'keycafe'})
+          let res = await this.getAll({resource:'clients',module:'stripe/subscriptions'})
+          this.subscriptions=Object.values(res.subscriptions);
+          
+        },
+        
     }
 </script>
 <style scoped>

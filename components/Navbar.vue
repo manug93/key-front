@@ -594,8 +594,7 @@ export default {
     ...mapActions(['fetchUser','fetchToken'])
   },
   async beforeMount(){
-    if(this.auth){
-      await this.fetchToken()
+    if(!this.auth){
       let response = await this.fetchUser();
       if (response?.status===401){      
         this.$router.push("/login")
@@ -609,7 +608,6 @@ export default {
   // Optionally, you can call loadScripts in mounted() or a custom hook
   mounted() {
     //this.loadScripts(); // Uncomment to load scripts on component mount
-
     console.log("Loading");
     //this.$loadFiles.loadCSS('/path/to/style.css');
   },

@@ -73,7 +73,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="user in users" :key="user.id">
+                        <tr v-for="current_user in users" :key="current_user.id">
                           <td>
                             <input class="form-check-input" type="checkbox">
                           </td>
@@ -83,18 +83,18 @@
                                 
                               </div>
                               <div class="product-info">
-                                <a href="javascript:;" class="product-title">{{user.email}}</a>
+                                <a href="javascript:;" class="product-title">{{current_user.email}}</a>
                                 
                               </div>
                             </div>
                           </td>
-                          <td>{{ user.firstname }}</td>
+                          <td>{{ current_user.firstname }}</td>
                           
                           <td>
-                              {{ user.lastname }}
+                              {{ current_user.lastname }}
                           </td>
                           <td>
-                          {{user.createdAt}}
+                          {{current_user.createdAt}}
                           </td>
                           <td>
                             <div class="dropdown">
@@ -103,8 +103,8 @@
                                 <i class="bi bi-three-dots"></i>
                               </button>
                               <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" @click="edit(user)" data-bs-toggle="modal" data-bs-target="#exampleLargeEditModal" href="#">Edit</a></li>
-                                <li><a class="dropdown-item" href="#" @click="del(user)">Delete</a></li>
+                                <li><a class="dropdown-item" @click="edit(current_user)" data-bs-toggle="modal" data-bs-target="#exampleLargeEditModal" href="#">Edit</a></li>
+                                <li><a class="dropdown-item" href="#" @click="del(current_user)">Delete</a></li>
                               </ul>
                             </div>
                           </td>
@@ -133,28 +133,28 @@
                             <ValidationProvider rules="required|email" slim name="email"  v-slot="{classes,errors}">  
                                 <div class="field">
                                   <label for="email" class="form-label">Email</label>
-                                  <input class="form-control mb-3" id="email" :class="classes" type="text" v-model="user.email" placeholder="Email" aria-label="user email">
+                                  <input class="form-control mb-3" id="email" :class="classes" type="text" v-model="current_user.email" placeholder="Email" aria-label="user email">
                                   <small id="email-help" class="p-invalid red-color">{{ errors[0] }}</small>
                                 </div>
                              </ValidationProvider>
                              <ValidationProvider rules="required" slim name="firstname"  v-slot="{classes,errors}"> 
                                 <div class="field">
                                   <label for="firstname" class="form-label">Firstname</label> 
-                                  <input class="form-control mb-3" id="firstname" :class="classes" type="text" v-model="user.firstname" placeholder="Firstname" aria-label="user firstname">
+                                  <input class="form-control mb-3" id="firstname" :class="classes" type="text" v-model="current_user.firstname" placeholder="Firstname" aria-label="user firstname">
                                   <small id="firstname-help" class="p-invalid red-color">{{ errors[0] }}</small>
                                 </div>
                              </ValidationProvider>
                              <ValidationProvider rules="required" slim name="lastname"  v-slot="{classes,errors}">  
                                <div class="field">
                                 <label for="lastname" class="form-label">Lastname</label>
-                                <input class="form-control mb-3" id="lastname" :class="classes" type="text" v-model="user.lastname" placeholder="Lastname" aria-label="user lastname ">
+                                <input class="form-control mb-3" id="lastname" :class="classes" type="text" v-model="current_user.lastname" placeholder="Lastname" aria-label="user lastname ">
                                 <small id="lastname-help" class="p-invalid red-color">{{ errors[0] }}</small>
                                </div>
                              </ValidationProvider>
                              <ValidationProvider rules="required" slim name="password"  v-slot="{classes,errors}">  
                                <div class="field">
                                 <label for="password" class="form-label">Password</label>
-                                <input class="form-control mb-3" id="password" :class="classes" type="password" v-model="user.password" placeholder="Password" aria-label="user password ">
+                                <input class="form-control mb-3" id="password" :class="classes" type="password" v-model="current_user.password" placeholder="Password" aria-label="user password ">
                                 <small id="password-help" class="p-invalid red-color">{{ errors[0] }}</small>
                                </div>
                              </ValidationProvider>
@@ -162,7 +162,7 @@
                                 <div class="field">
                                   <div class="mb-4">
                                   <label for="role" class="form-label">Role</label>
-                                    <select class="form-select" id="role" data-placeholder="Choose one role"  v-model="user.roles"  :class="classes" placeholder="Roles" aria-label="user roles">
+                                    <select class="form-select" id="role" data-placeholder="Choose one role"  v-model="current_user.roles"  :class="classes" placeholder="Roles" aria-label="user roles">
                                       <option v-for="value,id in default_roles" :value="[value]" :key="id">{{value}} </option>
                                     </select>                                                                     
                                     <small id="duration-help" class="p-invalid red-color">{{ errors[0] }}</small>
@@ -193,28 +193,28 @@
                             <ValidationProvider rules="email" slim name="email"  v-slot="{classes,errors}">  
                                 <div class="field">
                                   <label for="email-edit" class="form-label">Email</label>
-                                  <input class="form-control mb-3" id="email-edit" :class="classes" type="text" v-model="user.email" placeholder="Email" aria-label="user email">
+                                  <input class="form-control mb-3" id="email-edit" :class="classes" type="text" v-model="current_user.email" placeholder="Email" aria-label="user email">
                                   <small id="email-help" class="p-invalid red-color">{{ errors[0] }}</small>
                                 </div>
                              </ValidationProvider>
                              <ValidationProvider rules="" slim name="firstname"  v-slot="{classes,errors}"> 
                                 <div class="field">
                                   <label for="firstname-edit" class="form-label">Firstname</label> 
-                                  <input class="form-control mb-3" id="firstname-edit" :class="classes" type="text" v-model="user.firstname" placeholder="Firstname" aria-label="user firstname">
+                                  <input class="form-control mb-3" id="firstname-edit" :class="classes" type="text" v-model="current_user.firstname" placeholder="Firstname" aria-label="user firstname">
                                   <small id="firstname-help" class="p-invalid red-color">{{ errors[0] }}</small>
                                 </div>
                              </ValidationProvider>
                              <ValidationProvider rules="" slim name="lastname"  v-slot="{classes,errors}">  
                                <div class="field">
                                 <label for="lastname-edit" class="form-label">Lastname</label>
-                                <input class="form-control mb-3" id="lastname-edit" :class="classes" type="text" v-model="user.lastname" placeholder="Lastname" aria-label="user lastname ">
+                                <input class="form-control mb-3" id="lastname-edit" :class="classes" type="text" v-model="current_user.lastname" placeholder="Lastname" aria-label="user lastname ">
                                 <small id="lastname-help" class="p-invalid red-color">{{ errors[0] }}</small>
                                </div>
                              </ValidationProvider>
                              <ValidationProvider rules="" slim name="password"  v-slot="{classes,errors}">  
                                <div class="field">
                                 <label for="password-edit" class="form-label">Password</label>
-                                <input class="form-control mb-3" id="password-edit" :class="classes" type="password" v-model="user.password" placeholder="Password" aria-label="user password ">
+                                <input class="form-control mb-3" id="password-edit" :class="classes" type="password" v-model="current_user.password" placeholder="Password" aria-label="user password ">
                                 <small id="password-help" class="p-invalid red-color">{{ errors[0] }}</small>
                                </div>
                              </ValidationProvider>
@@ -222,7 +222,7 @@
                                 <div class="field">
                                   <div class="mb-4">
                                   <label for="role-edit" class="form-label">Role</label>
-                                    <select class="form-select" id="role-edit" data-placeholder="Choose one role"  v-model="user.roles"  :class="classes" placeholder="Roles" aria-label="user roles">
+                                    <select class="form-select" id="role-edit" data-placeholder="Choose one role"  v-model="current_user.roles"  :class="classes" placeholder="Roles" aria-label="user roles">
                                       <option v-for="value,id in default_roles" :value="[value]" :key="id">{{value}} </option>
                                     </select>                                                                     
                                     <small id="duration-help" class="p-invalid red-color">{{ errors[0] }}</small>
@@ -258,7 +258,7 @@
         components:{ValidationProvider,ValidationObserver,ErrorModal},
         data(){
             return {
-                user:{
+                current_user:{
                   roles:[]
                 },
                 display:false,
@@ -286,22 +286,22 @@
             ...mapActions(['createUser','fetchUsers','deleteUser','update']),
             async submit(){
                 let form =new FormData();
-                this.createUser(this.user).then((e)=>{
+                this.createUser(this.current_user).then((e)=>{
                   location.reload()
                 })
             },
             asset(uri){
               return `${baseUrl}/${uri}`;
             },
-            edit(user){
-              this.user=user;              
+            edit(current_user){
+              this.current_user=current_user;              
             },
             updateUser(){
-              let payload={resource:'users',module:'api',id:this.user.id,data:this.user};
+              let payload={resource:'users',module:'api',id:this.current_user.id,data:this.current_user};
               this.update(payload);
             },
-            del(user){
-              this.deleteUser(user.id).then(e=>{
+            del(current_user){
+              this.deleteUser(current_user.id).then(e=>{
                   this.fetchUsers()
               })
             }            

@@ -76,7 +76,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="subscription,id in list" :subscription="id">
+                  <tr v-for="subscription,id in list" :subscription="id" :class="subscription.status==='active'?'green':'gray'">
                     <td>
                       <input class="form-check-input" type="checkbox">
                     </td>
@@ -116,6 +116,7 @@
                           <i class="bi bi-three-dots"></i>
                         </button>
                         <ul class="dropdown-menu">
+                          <li><a class="dropdown-item " @click="details(subscription)" href="#" data-bs-toggle="modal" data-bs-target="#subscriptionDetailsModal" >Details</a></li>
                           <li><a class="dropdown-item " @click="del(subscription)" href="#" >Cancel</a></li>
                         </ul>
                       </div>
@@ -228,6 +229,47 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="modal fade" id="subscriptionDetailsModal" tabindex="-1" aria-hidden="true">
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Subscription Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <p>ID: {{ subscription?.id }}</p>
+                        <p>Object: {{ subscription?.object }}</p>
+                        <p>Created: {{ subscription?.created ? new Date(subscription.created * 1000).toLocaleString() : 'N/A' }}</p>
+                        <p>Currency: {{ subscription?.currency }}</p>
+                        <p>Status: {{ subscription?.status }}</p>
+                        <p>Customer ID: {{ subscription?.customer?.id }}</p>
+                        <p>Customer Name: {{ subscription?.customer?.name }}</p>
+                        <p>Customer Email: {{ subscription?.customer?.email }}</p>
+                        <p>Customer Description: {{ subscription?.customer?.description }}</p>
+                        <p>Current Period Start: {{ subscription?.current_period_start ? new Date(subscription.current_period_start * 1000).toLocaleString() : 'N/A' }}</p>
+                        <p>Current Period End: {{ subscription?.current_period_end ? new Date(subscription.current_period_end * 1000).toLocaleString() : 'N/A' }}</p>
+                        <p>Amount: {{ subscription?.items?.data[0]?.price?.unit_amount ? (subscription.items.data[0].price.unit_amount / 100) + ' ' + subscription.currency : 'N/A' }}</p>
+                        <p>Description: {{ subscription?.description || 'N/A' }}</p>
+                        <p>Billing Cycle Anchor: {{ subscription?.billing_cycle_anchor || 'N/A' }}</p>
+                        <p>Default Payment Method: {{ subscription?.default_payment_method || 'N/A' }}</p>
+                        <p>Days Until Due: {{ subscription?.days_until_due || 'N/A' }}</p>
+                        <p>Ended At: {{ subscription?.ended_at ? new Date(subscription.ended_at * 1000).toLocaleString() : 'N/A' }}</p>
+                        <p>Livemode: {{ subscription?.livemode ? 'Yes' : 'No' }}</p>
+                        <p>Next Pending Invoice Item Invoice: {{ subscription?.next_pending_invoice_item_invoice || 'N/A' }}</p>
+                        <p>Quantity: {{ subscription?.quantity || 'N/A' }}</p>
+                        <p>Start Date: {{ subscription?.start_date ? new Date(subscription.start_date * 1000).toLocaleString() : 'N/A' }}</p>
+                        <p>Test Clock: {{ subscription?.test_clock || 'N/A' }}</p>
+                        <!-- Add more fields as needed -->
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- based o the previous modal code create a modal that shows the subscription details-->  
                 
       <ErrorModal></ErrorModal>
   <!--end main wrapper-->
@@ -274,6 +316,7 @@
             is_colab(){
               return this.user?.roles?.includes('ROLE_COLAB')
             },
+            
 
 
             
@@ -285,7 +328,7 @@
             asset(uri){
               return `${baseUrl}/${uri}`;
             },
-            publish(subscription){
+            details(subscription){
               this.subscription=subscription;              
             },
             edit(subscription){
@@ -298,7 +341,7 @@
               })            
             },
             del(subscription){
-              this.del({resource:'subscriptions',module:'stripe'})
+              this.del({resource:'subscriptions',module:'stripe',id:subscription.id})
             },
             to_date(date){
               return this.$moment.unix(date).toNow();
@@ -319,6 +362,14 @@
     }
     .dropdown-menu{
         z-index: 12222;
+    }
+    .gray{
+      color:gray;
+      font-weight: bold;
+    }
+    .green *{
+      color:#90FF90 !important;
+      font-weight: bold;
     }
     
 </style>

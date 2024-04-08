@@ -1,14 +1,29 @@
 <template>
     <div>
       <Navbar/>
-      <div class="grid">
+      <div class="row">
         <div class="col-2"><Sidebar/></div>
         <div class="col-10">
-          <main class="main-wrapper " >
+          <main class="main-wrapper ms-3" >
             <div class="main-content">
-                  <stripe-pricing-table pricing-table-id="prctbl_1OzbugE3BwvFeWIRMHQu23av"
+              <!--div class="col-12">
+                            <ValidationProvider rules="required" slim name="smartbox" v-slot="{classes,errors}">  
+                                   <div class="field">
+                                                        <div class="mb-4">
+                                                            <label for="smartbox" class="form-label">Smartbox</label>
+                                                            <select class="form-select" id="smartbox" data-placeholder="Choose one smartbox"  v-model="form.smartbox"  :class="classes" placeholder="Smartbox" aria-label="user smartbox">
+                                                                <option v-for="value,id in smartboxes" :value="value.id" :key="value.id">{{value.name}} -  {{value?.location?.name}}</option>
+                                                            </select>                                                                     
+                                                            <small id="smartbox-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                                                        </div>  
+                                                        <div>{{ box_bins.length }} Empty bins</div>                                                  
+                                                    </div>
+                                                </ValidationProvider>
+											</div -->
+                  <!--stripe-pricing-table pricing-table-id="prctbl_1OzbugE3BwvFeWIRMHQu23av"
                 publishable-key="pk_test_51L5tGLE3BwvFeWIRBsH4zJL5L3ouuy2Nc3kAvgARg2hxjfiElOct56cPrep8UTejGsLR3H5EZQGq7gXgA61km6hs00ivz07PR9">
-                </stripe-pricing-table>  
+                </stripe-pricing-table-->  
+                <PricingTable></PricingTable>
             </div>
         </main>
         </div>

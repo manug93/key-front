@@ -11,7 +11,7 @@
     '/assets/plugins/metismenu/mm-vertical.css'
   ];
     export default{
-        name:"LoginPage",
+        name:"RegisterPage",
         async mounted(){
             await Promise.all([
                 ...scripts.map(url => this.$loadFiles.loadScript(url)),

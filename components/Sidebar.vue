@@ -25,8 +25,8 @@
               <div class="menu-title">Dashboard</div>
             </a>
             <ul>
-              <!--li><a href="/admin/products"><i class="material-icons-outlined">arrow_right</i>Plan Manager</a>
-              </li -->
+              <li><a href="/admin/products"><i class="material-icons-outlined">arrow_right</i>Plan Manager</a>
+              </li >
               <li><a href="/admin/users"><i class="material-icons-outlined">arrow_right</i>User Manager</a>
               </li>
             </ul>
@@ -39,9 +39,9 @@
             </a>
             <ul>
               <li><a href="/user/keycafe"><i class="material-icons-outlined">arrow_right</i>Keys</a></li>
-              <li><a href="/user/access"><i class="material-icons-outlined">arrow_right</i>Access</a></li>
+              <li v-if="is_admin"><a href="/user/access"><i class="material-icons-outlined">arrow_right</i>Access</a></li>
               <!--li><a href="/user/fob"><i class="material-icons-outlined">arrow_right</i>Fob</a></li!-->
-              <li><a href="/user/organizations"><i class="material-icons-outlined">arrow_right</i>Organization</a></li>
+              <li v-if="is_admin"><a href="/user/organizations"><i class="material-icons-outlined">arrow_right</i>Organization</a></li>
               
             </ul>
           </li>
@@ -143,6 +143,10 @@ export default {
         return this.user?.roles?.includes('ROLE_COLAB')
       },
 
+
+    },
+    methods:{
+      ...mapActions(['fetchUser'])
     }
 }
 </script>

@@ -49,8 +49,7 @@
         
         <div class="col-auto">
           <div class="d-flex align-items-center gap-2 justify-content-lg-end">
-            <button class="btn btn-primary px-4" data-bs-toggle="modal" data-bs-target="#exampleLargeModal"><i class="bi bi-plus-lg me-2"></i>Add Plan</button>
-          </div>
+           
         </div>
       </div><!--end row-->
 
@@ -66,7 +65,7 @@
                     </th>
                     <th>Plan Name</th>
                     <th>Price</th>
-                    <th>Description</th>
+                    <th>Bins</th>
                     <th>Creation Date</th>
                     <th>Action</th>
                   </tr>
@@ -76,24 +75,15 @@
                     <td>
                       <input class="form-check-input" type="checkbox">
                     </td>
-                    <td>
-                      <div class="d-flex align-items-center gap-3">
-                        <div class="product-box">
-                          <img :src="asset(plan?.image)" width="70" class="rounded-3" alt="">
-                        </div>
-                        <div class="product-info">
-                          <a href="javascript:;" class="product-title">{{plan.title}}</a>
-                          
-                        </div>
-                      </div>
-                    </td>
-                    <td>{{ plan.price }}</td>
+                    
+                    <td>{{ plan?.title }}</td>
+                    <td>{{ plan?.price }}</td>
                     
                     <td>
-                        <p class="mb-0 product-category">{{ plan.description }}</p>
+                        <p class="mb-0 product-category">{{ plan?.bins }}</p>
                     </td>
                     <td>
-                     {{plan.createdAt}}
+                     {{plan?.createdAt}}
                     </td>
                     <td>
                       <div class="dropdown">
@@ -102,9 +92,8 @@
                           <i class="bi bi-three-dots"></i>
                         </button>
                         <ul class="dropdown-menu">
-                          <li><a class="dropdown-item " @click="publish(plan)"  href="#">Publish</a></li>
                           <li><a class="dropdown-item " @click="edit(plan)" data-bs-toggle="modal" data-bs-target="#exampleLargeModalEdit" href="#">Edit</a></li>
-                          <li><a class="dropdown-item " @click="del(plan)" href="#" >Delete</a></li>
+                          <li><a class="dropdown-item " @click="remove(plan)" href="#" >Delete</a></li>
                         </ul>
                       </div>
                     </td>
@@ -119,63 +108,9 @@
 
 
     </div>
+    </div>
   </main>
-      <div class="modal fade" id="exampleLargeModal" tabindex="-1" aria-hidden="true">
-                  <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title">Add Plan</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
                       
-                      <ValidationObserver slim v-slot="{ handleSubmit, reset }">
-                        <div class="modal-body">
-                            <ValidationProvider rules="required" slim name="title"  v-slot="{classes,errors}">  
-                                <div class="field">
-                                  <label for="title" class="form-label">Title</label>
-                                  <input class="form-control mb-3" id="title" :class="classes" type="text" v-model="plan.title" placeholder="Title" aria-label="plan title">
-                                  <small id="title-help" class="p-invalid red-color">{{ errors[0] }}</small>
-                                </div>
-                             </ValidationProvider>
-                             <ValidationProvider rules="required" slim name="description"  v-slot="{classes,errors}"> 
-                                <div class="field">
-                                  <label for="description" class="form-label">Description</label> 
-                                  <input class="form-control mb-3" id="description" :class="classes" type="text" v-model="plan.description" placeholder="Description" aria-label="plan description">
-                                  <small id="description-help" class="p-invalid red-color">{{ errors[0] }}</small>
-                                </div>
-                             </ValidationProvider>
-                             <ValidationProvider rules="required" slim name="price"  v-slot="{classes,errors}">  
-                               <div class="field">
-                                <label for="price" class="form-label">Price in $</label>
-                                <input class="form-control mb-3" id="price" :class="classes" type="number" v-model="plan.price" placeholder="Price" aria-label="plan price in euro">
-                                <small id="price-help" class="p-invalid red-color">{{ errors[0] }}</small>
-                               </div>
-                             </ValidationProvider>
-                             <ValidationProvider rules="required" slim name="duration"  v-slot="{classes,errors}">  
-                                <div class="field">
-                                  <label for="duration" class="form-label">Duration</label>
-                                  <input class="form-control mb-3" id="duration" :class="classes" type="number" v-model="plan.duration" placeholder="Duration" aria-label="plan duration">
-                                  <small id="duration-help" class="p-invalid red-color">{{ errors[0] }}</small>
-                                </div>
-                             </ValidationProvider>
-                             
-                             <ValidationProvider rules="required" slim name="picture"  v-slot="{classes,errors}">  
-                                <div class="field">
-                                  <label for="picture" class="form-label">Picture</label>
-                                  <input class="form-control mb-3" id="pictureFile" :class="classes" type="file" v-on:change="selectPicture" placeholder="Picture" aria-label="plan picture">
-                                  <input class="form-control mb-3" id="picture" v-model="file"  type="hidden" >
-                                  <small id="picture-help" class="p-invalid red-color">{{ errors[0] }}</small>
-                                </div>
-                             </ValidationProvider>	
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary" @click="handleSubmit(submit)">Create plan</button>
-                        </div>
-                     </ValidationObserver>
-                    </div>
-                  </div>
-                </div>
 
                 <div class="modal fade" id="exampleLargeModalEdit" tabindex="-1" aria-hidden="true">
                   <div class="modal-dialog modal-lg">
@@ -186,42 +121,13 @@
                       </div>
                       
                       <ValidationObserver slim v-slot="{ handleSubmit, reset }">
-                        <div class="modal-body">
-                            <ValidationProvider rules="required" slim name="title"  v-slot="{classes,errors}">  
-                                <div class="field">
-                                  <label for="title" class="form-label">Title</label>
-                                  <input class="form-control mb-3" id="title" :class="classes" type="text" v-model="plan.title" placeholder="Title" aria-label="plan title">
-                                  <small id="title-help" class="p-invalid red-color">{{ errors[0] }}</small>
-                                </div>
-                             </ValidationProvider>
-                             <ValidationProvider rules="required" slim name="description"  v-slot="{classes,errors}"> 
-                                <div class="field">
-                                  <label for="description" class="form-label">Description</label> 
-                                  <input class="form-control mb-3" id="description" :class="classes" type="text" v-model="plan.description" placeholder="Description" aria-label="plan description">
-                                  <small id="description-help" class="p-invalid red-color">{{ errors[0] }}</small>
-                                </div>
-                             </ValidationProvider>
-                             <ValidationProvider rules="required" slim name="price"  v-slot="{classes,errors}">  
-                               <div class="field">
-                                <label for="price" class="form-label">Price in $</label>
-                                <input class="form-control mb-3" id="price" :class="classes" type="number" v-model="plan.price" placeholder="Price" aria-label="plan price in euro">
-                                <small id="price-help" class="p-invalid red-color">{{ errors[0] }}</small>
-                               </div>
-                             </ValidationProvider>
-                             <ValidationProvider rules="required" slim name="duration"  v-slot="{classes,errors}">  
-                                <div class="field">
-                                  <label for="duration" class="form-label">Duration</label>
-                                  <input class="form-control mb-3" id="duration" :class="classes" type="number" v-model="plan.duration" placeholder="Duration" aria-label="plan duration">
-                                  <small id="duration-help" class="p-invalid red-color">{{ errors[0] }}</small>
-                                </div>
-                             </ValidationProvider>
+                        <div class="modal-body">                        
                              
-                             <ValidationProvider rules="required" slim name="picture"  v-slot="{classes,errors}">  
+                             <ValidationProvider rules="required" slim name="number"  v-slot="{classes,errors}">  
                                 <div class="field">
-                                  <label for="picture" class="form-label">Picture</label>
-                                  <input class="form-control mb-3" id="pictureFile" :class="classes" type="file" v-on:change="selectPicture" placeholder="Picture" aria-label="plan picture">
-                                  <input class="form-control mb-3" id="picture" v-model="file"  type="hidden" >
-                                  <small id="picture-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                                  <label for="number" class="form-label">Bin number</label>
+                                  <input class="form-control mb-3" id="number" v-model="plan.bins"  type="number" >
+                                  <small id="number-help" class="p-invalid red-color">{{ errors[0] }}</small>
                                 </div>
                              </ValidationProvider>	
                         </div>
@@ -269,15 +175,15 @@
             
         },
         methods:{
-            ...mapActions(['createPlan','fetchPlans','createPicture','update']),
+            ...mapActions(['createPlan','del','fetchPlans','createPicture','update']),
             async submit(){
-                this.plan.duration=parseInt(this.plan.duration)
+                /*this.plan.duration=parseInt(this.plan.duration)
                 this.plan.price=parseInt(this.plan.price)
                 let form =new FormData();
                 form.append('file',this.file);              
                 let response = await this.createPicture(form);
                 this.plan.pictures=["/api/pictures/"+response.data.id]
-                this.createPlan(this.plan)
+                this.createPlan(this.plan)*/
             },
             selectPicture(event){
               this.file=event.target.files[0];
@@ -292,19 +198,24 @@
               this.plan=plan;              
             },
             async editPlan(){              
-              this.plan.duration=parseInt(this.plan.duration)
-              this.plan.price=parseInt(this.plan.price)
-              let form =new FormData();
-              form.append('file',this.file);              
-              let response = await this.createPicture(form);
-              this.plan.pictures=["/api/pictures/"+response.data.id];
-              let payload={resource:'plans',module:'api',id:this.plan.id,data:this.plan};
+              this.plan.price=parseInt(this.plan.price)   
+              let payload={
+                resource:'plans',
+                module:'api',
+                id:this.plan.id,
+                data:{
+                  id:this.plan.id,
+                  bins:parseInt(this.plan.bins),
+                  title:this.plan.title,
+                  price:this.plan.price
+                }
+              };
               this.update(payload).then(u=>{
-                location.reload()
+                this.fetchPlans()
               })            
             },
-            del(plan){
-
+            async remove(plan){
+                await this.del({module:'api',resource:'plans',id:plan.id})
             }
 
         },
