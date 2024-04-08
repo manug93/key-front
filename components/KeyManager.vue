@@ -322,9 +322,9 @@
                           <div class="field col-8">
                               <div class="mb-4">
                                   <label for="subscription" class="form-label">Subscription</label>
-                                  <select class="form-select" id="subscription" data-placeholder="Choose one subscription"  v-model="key.subscription"  :class="classes" placeholder="Subscription" aria-label="user subscription">
-                                      <option v-for="value,id in subscriptions" :value="value.id" :key="value.id">{{value.stripeId}}  left bins : {{value?.leftBins}}</option>
-                                  </select>                                                                     
+                                  <select class="form-select" id="subscription" @change="setSubscription" data-placeholder="Choose one subscription"  v-model="key.subscription"  :class="classes" placeholder="Subscription" aria-label="user subscription">
+                                      <option v-for="value,id in subscriptions" :value="value" :key="value.id">{{value.stripeId}}  left bins : {{value?.leftBins}}</option>
+                                  </select>                                                                   
                                   <small id="subscription-help" class="p-invalid red-color">{{ errors[0] }}</small>
                               </div>                                                    
                           </div>
@@ -395,6 +395,7 @@
                 file:null,
                 display:false,
                 subscriptions:[],
+                subscription:{},
                 query:"",
             }
         },
@@ -445,13 +446,17 @@
 
             },
             async submit(){
-                this.create({resource:'keys',module:'keycafe',data:this.key}).then((e)=>{
+               let data={...this.key,bin:{box:this.key.subscription.smartbox,subscription:this.key.subscription.id}}
+                this.create({resource:'keys',module:'keycafe',data:data}).then((e)=>{
                   
                 })
             },
             async createKeyForm(){
              let user = JSON.parse(localStorage.getItem('user'))
              
+            },
+            setSubscription(event){
+              console.log(this.key.subscription);
             }
 
         },
