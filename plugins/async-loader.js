@@ -7,7 +7,6 @@ export default function ({ app }, inject) {
         isProcessingQueue = true;
         const url = queue.shift(); // Get the first URL from the queue
         try {
-            console.log(url);
             await loadResource(url); // Load the resource
         } catch (error) {
             console.error(`Error loading resource: ${url}`, error);

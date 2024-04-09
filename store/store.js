@@ -60,6 +60,7 @@ const store = new Vuex.Store({
     state: {
         user:{},
         users:{},
+        mybins:{},
         smartboxes:{},
         products:{},
         empty_bins:{},

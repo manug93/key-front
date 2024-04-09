@@ -400,7 +400,7 @@
             }
         },
         computed:{
-            ...mapState(['keys','isLoading','user']),
+            ...mapState(['keys','isLoading','user','mybins']),
             fuse(){
               return  new this.$fuse(this.keys, { keys: ['id','serialNumber','name','owner.firstName','owner.lastName'] })
             },
@@ -412,7 +412,8 @@
                 return this.query?this.searchResults.map(r=>r.item):this.keys;
               }
               let res = this.query?this.searchResults.map(r=>r.item):this.keys;
-              let data = Object.values(res).filter((e)=>e?.owner?.email===this?.user?.email) || [];
+              let data = Object.values(res).filter(key => this.mybins?.some(bin => bin.keyId === key.id));
+              //let data = Object.values(res).filter((e)=>e?.owner?.email===this?.user?.email) || [];
               //let data = res?.filter((e)=>e?.owner?.email===this?.user?.email) || []
               return data;
             },
@@ -422,6 +423,10 @@
             is_colab(){
               return this.user?.roles?.includes('ROLE_COLAB')
             },
+            mykeys(){
+              
+              return  this.list?.filter(key => this.mybins?.some(bin => bin.keyId === key.id));
+            }
 
             
         },
@@ -461,8 +466,9 @@
 
         },
         async beforeMount(){
-          await this.getAll({resource:'keys',module:'keycafe'})
-          let res = await this.getAll({resource:'clients',module:'stripe/subscriptions'})
+          await this.getAll({resource:'keys',module:'keycafe'});
+          await this.getAll({resource:'mybins',module:'api'});
+          let res = await this.getAll({resource:'clients',module:'stripe/subscriptions'});
           this.subscriptions=Object.values(res.subscriptions);
           
         },
