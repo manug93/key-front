@@ -6,22 +6,22 @@
             <div class="card rounded-4">
               <div class="card-body p-5">
                   <img src="assets/images/logo1.png" class="mb-4" width="145" alt="">
-                  <h4 class="fw-bold">Get Started Now</h4>
-                  <p class="mb-0">Enter your credentials to login your account</p>
+                  <h4 class="fw-bold">{{$t('get_started_now')}}</h4>
+                  <p class="mb-0">{{$t('enter_your_credentials_login')}}</p>
 
                   <div class="form-body my-4">
 						<ValidationObserver slim v-slot="{ handleSubmit, reset }">
 										<form class="row g-3">
 											<div class="col-12">
 												<ValidationProvider rules="required|email" tag="div" name="email" v-slot="{classes,errors}"> 
-													<label for="inputEmailAddress" class="form-label">Email</label>
+													<label for="inputEmailAddress" class="form-label">{{$t('email_address')}}</label>
 													<input type="email" v-model="form.username" :class="classes" class="form-control" id="inputEmailAddress" placeholder="jhon@example.com">
 													<small id="login-help" class="p-invalid red-color">{{ errors[0] }}</small>
 												</ValidationProvider>
 											</div>
 											<div class="col-12">
 												<ValidationProvider rules="required" slim name="password"  v-slot="{classes,errors}">   
-													<label for="inputChoosePassword" class="form-label">Password</label>
+													<label for="inputChoosePassword" class="form-label">{{$t('password')}}</label>
 													<div class="input-group" id="show_hide_password">
 														<input type="password" v-model="form.password" :class="classes" class="form-control border-end-0" id="inputChoosePassword" value="12345678" placeholder="Enter Password"> 
 															<a href="javascript:;" class="input-group-text bg-transparent"><i class="bi bi-eye-slash-fill"></i></a>
@@ -30,26 +30,33 @@
 												</ValidationProvider>
 											</div>
 											<div class="col-md-6">
-												<div class="form-check form-switch">
+												<!--div class="form-check form-switch">
 													<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
 													<label class="form-check-label" for="flexSwitchCheckChecked">Remember Me</label>
-												</div>
+												</div-->
 											</div>
-											<div class="col-md-6 text-end">	<a href="auth-basic-forgot-password.html">Forgot Password ?</a>
+											<div class="col-md-6 text-end">	<a href="auth-basic-forgot-password.html">{{$t('forgot_password')}}</a>
 											</div>
 											<div class="col-12">
 												<div class="d-grid">
-													<button type="submit" class="btn btn-primary" @click.prevent="handleSubmit(submit)">Login</button>
+													<button type="submit" class="btn btn-primary" @click.prevent="handleSubmit(submit)">{{$t('sign_in')}}</button>
 												</div>
 											</div>
 											<div class="col-12">
 												<div class="text-start">
-													<p class="mb-0">Don't have an account yet? <a href="/register">Sign up here</a>
+													<p class="mb-0">{{$t('dont_have_account')}} <a href="/register">{{$t('sign_up')}}</a>
 													</p>
 												</div>
 											</div>
 										</form>
 									</ValidationObserver>
+									
+									</div>
+									<div class="ml-3">
+										<select v-model="currentLocale">
+											<option value="fr">{{ $t('french') }}</option>
+											<option value="en">{{ $t('english') }}</option>
+										</select>
 									</div>
 
              
@@ -76,7 +83,8 @@
 		store,
         data(){
             return{
-                form:{}
+                form:{},
+				currentLocale:"en"
             }
         },
 		methods:{
@@ -87,6 +95,11 @@
                     this.$router.push("/");
                 }          
 			}
+		},
+		watch: {
+		  currentLocale(newLocale) {
+			this.$i18n.setLocale(newLocale);
+		  }
 		},
 		computed:{},
 		components:{ValidationProvider,ValidationObserver,Loading,ErrorModal},

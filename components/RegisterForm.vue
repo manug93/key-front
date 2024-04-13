@@ -10,6 +10,7 @@
                   <p class="mb-0">{{ $t('enter_your_credentials') }}</p>
 
                   <div class="form-body my-4">
+                    
                     <ValidationObserver slim v-slot="{ handleSubmit, reset }">
 										<form class="row g-3">
 											<div class="col-12">
@@ -45,6 +46,24 @@
                                                 <small id="password-help" class="p-invalid red-color">{{ errors[0] }} </small>
                                                 </ValidationProvider>
 											</div>
+											<div class="col-12">
+                                                <ValidationProvider rules="required" slim name="avatar" v-slot="{classes,errors}">  
+                                                    <div class="row">
+                                                        <div class="field col-8">
+                                                            <div class="mb-4">
+                                                                <label for="avatar" class="form-label">{{$t('avatar')}}</label>
+                                                                <select class="form-select" id="avatar" @change="setAvatar" data-placeholder="Choose your avatar"  v-model="form.avatar"  :class="classes" placeholder="Avatar" aria-label="user avatar">
+                                                                    <option v-for="value,id in avatars" :value="value" :key="id">{{value}}  </option>
+                                                                </select>                                                                   
+                                                                <small id="avatar-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                                                            </div>                                                    
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <ImagePreview :imageUrl="form.avatar"></ImagePreview>
+                                                        </div>
+                                                    </div>
+                                                </ValidationProvider>
+											</div>
                                            
 											<div class="col-12">
 												<div class="form-check form-switch">
@@ -65,6 +84,12 @@
 										</form>
                                     </ValidationObserver>
 								</div>
+                                <div class="ml-3">
+										<select v-model="currentLocale">
+											<option value="fr">{{ $t('french') }}</option>
+											<option value="en">{{ $t('english') }}</option>
+										</select>
+									</div>
 
               </div>
             </div>
@@ -82,13 +107,16 @@
 	import {mapState,mapActions} from "vuex";
     import Loading from './Loading.vue';
     import ErrorModal from './ErrorModal.vue';
+    import ImagePreview from './ImagePreview.vue';
+    import {avatars} from "~/store/tools";
 	import { ValidationProvider,ValidationObserver } from 'vee-validate';
     export default {
         name:"RegisterForm.vue",
         store,
         data(){
             return{
-                form:{}
+                form:{},
+                currentLocale:"en"
             }
         },
 		methods:{
@@ -100,12 +128,23 @@
                     this.$router.push("/pricing");
                 }          
                 console.log(response);
-			}
+			},
+            setAvatar(avatar){
+                console.log(avatar)
+            }
+		},
+		watch: {
+		  currentLocale(newLocale) {
+			this.$i18n.setLocale(newLocale);
+		  }
 		},
 		computed:{
             ...mapState(['isLoading','error','user']),
+            avatars(){
+                return avatars;
+            }
         },
-		components:{ValidationProvider,ValidationObserver,Loading,ErrorModal},
+		components:{ValidationProvider,ValidationObserver,Loading,ErrorModal,ImagePreview},
         async beforeMount(){
             
         },

@@ -176,6 +176,7 @@ export class User extends UserBase {
     this.username = data?.username;
     this.firstname = data?.firstname;
     this.lastname = data?.lastname;
+    this.avatar = data?.avatar;
     this.email = data?.email;
     this.phone = data?.phone;
     this.country = data?.country;

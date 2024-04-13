@@ -40,6 +40,7 @@
     "french": "French",
     "get_started_now": "Get started now",
     "enter_your_credentials": "Enter your credentials to create your account",
+    "enter_your_credentials_login": "Enter your credentials to login your account",
     "firstname": "First Name",
     "lastname": "Last Name",
     "email_address": "Email Address",
@@ -48,6 +49,7 @@
     "read_and_agree_terms": "I read and agree to terms and conditions",
     "register": "Register",
     "already_have_account": "Already have an account?",
+    "dont_have_account": "Don't have an account yet?",
     "forgot_password": "Forgot password?",
     "sign_in": "Sign In",
     "sign_out": "Sign Out",
@@ -102,5 +104,18 @@
     "plan_configuration": "Plan Configuration",
     "plan_name": "Plan Name",
     "edit_plan": "Edit Plan",
-    "bin_number": "Bin Number"
+    "bin_number": "Bin Number",
+    "avatar":"Avatar",
+    "subscription_details": "Subscription Details",
+    "plan": "Plan",
+    "suspended": "Suspended",
+    "active": "Active",
+    "incomplete": "Incomplete",
+    "created": "Created",
+    "livemode": "Live Mode",
+    "available_bins": "Available Bins",
+    "unsufficient_bins": "Insufficient Bins",
+    "purchase": "Purchase",
+    "for": "for"
+    
   }

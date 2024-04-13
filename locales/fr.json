@@ -40,6 +40,7 @@
     "french": "Français",
     "get_started_now": "Commencer maintenant",
     "enter_your_credentials": "Entrez vos identifiants pour créer votre compte",
+    "enter_your_credentials_login": "Entrez vos identifiants pour vous connecter à votre compte",
     "firstname": "Prénom",
     "lastname": "Nom",
     "email_address": "Adresse e-mail",
@@ -48,6 +49,7 @@
     "read_and_agree_terms": "J'ai lu et j'accepte les termes et conditions",
     "register": "S'inscrire",
     "already_have_account": "Vous avez déjà un compte ?",
+    "dont_have_account": "Vous n'avez pas encore de compte ?",
     "forgot_password": "Mot de passe oublié ?",
     "sign_in": "Se connecter",
     "sign_out": "Se déconnecter",
@@ -102,6 +104,18 @@
     "plan_configuration": "Configuration du plan",
     "plan_name": "Nom du plan",
     "edit_plan": "Modifier le plan",
-    "bin_number": "Numéro de bac"
+    "bin_number": "Numéro de bac",
+    "avatar":"Avatar",
+    "subscription_details": "Détails de l'abonnement",
+    "plan": "Plan",
+    "suspended": "Suspendu",
+    "active": "Actif",
+    "incomplete": "Incomplet",
+    "created": "Créé",
+    "livemode": "Mode Production",  
+    "available_bins": "Bacs disponibles",
+    "unsufficient_bins": "Nombre de bacs insuffisant",
+    "purchase": "Acheter",
+    "for": "pour"
 
   }

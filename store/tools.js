@@ -6,6 +6,20 @@ export const apiUrl=process.env.BASE_URL+'/api';
 export const keybaseUrl=process.env.BASE_URL+'/keycafe';
 export const stripebaseUrl=process.env.BASE_URL+'/stripe';
 
+export const avatars = [
+    "/assets/images/avatars/1.png",
+    "/assets/images/avatars/2.png",
+    "/assets/images/avatars/3.png",
+    "/assets/images/avatars/4.png",
+    "/assets/images/avatars/5.png",
+    "/assets/images/avatars/6.png",
+    "/assets/images/avatars/7.png",
+    "/assets/images/avatars/8.png",
+    "/assets/images/avatars/9.png",
+    "/assets/images/avatars/10.png",
+    "/assets/images/avatars/11.png",
+    "/assets/images/avatars/12.png",
+  ];
 
 
 export function formatMoney(amount){    

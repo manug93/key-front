@@ -9,13 +9,13 @@
                   <div class="row">
                     <div class="field col-8">
                         <div class="mb-4">
-                            <label for="smartbox" class="form-label">Smartbox</label>
+                            <label for="smartbox" class="form-label">{{$t('smartbox')}}</label>
                             <select class="form-select" id="smartbox" data-placeholder="Choose one smartbox"  v-model="form.smartbox"  :class="classes" placeholder="Smartbox" aria-label="user smartbox">
                                 <option v-for="value,id in smartboxes" :value="value.id" :key="value.id">{{value.name}} -  {{value?.location?.name}}</option>
                             </select>                                                                     
                             <small id="smartbox-help" class="p-invalid red-color">{{ errors[0] }}</small>
                         </div>  
-                        <div class="col-4 mb-3" >{{ box_bins.length }}  Available bins</div>                                                  
+                        <div class="col-4 mb-3" >{{ box_bins.length }}  {{$t('available_bins')}}</div>                                                  
                     </div>
                   </div>
                 </ValidationProvider>
@@ -34,20 +34,20 @@
                  <div class="pricing-content d-flex flex-column gap-3">
                   
                     <div class="d-flex align-items-center justify-content-between">
-                      <p class="mb-0 fs-6">Bins</p>
+                      <p class="mb-0 fs-6">{{$t('bins')}}</p>
                       <p class="mb-0 fw-medium fs-6">{{product?.product?.metadata?.bins}}</p>
                     </div>
                  </div>
                  <div class="price-tag d-flex align-items-center justify-content-center gap-2 my-5">
                    <h5 class="mb-0 align-self-end " :class="color('text',product)">€</h5>
                    <h1 class="mb-0 lh-1 price-amount " :class="color('text',product)">{{product?.unit_amount/100}}</h1>
-                   <h5 class="mb-0 align-self-end " :class="color('text',product)">for {{ product?.recurring?.interval_count }} {{product?.recurring?.interval}}{{ product?.recurring?.interval_count>1?'s':'' }}</h5>
+                   <h5 class="mb-0 align-self-end " :class="color('text',product)">{{$t('for')}} {{ product?.recurring?.interval_count }} {{product?.recurring?.interval}}{{ product?.recurring?.interval_count>1?'s':'' }}</h5>
                  </div>
                  <div v-if="box_bins.length>parseInt(product.product.metadata.bins)" class="d-grid">
-                   <button :class="color('btn',product)" class="btn btn-lg" @click.prevent="purchase(product)">Purchase</button>
+                   <button :class="color('btn',product)" class="btn btn-lg" @click.prevent="purchase(product)">{{$t('purchase')}}</button>
                  </div>
                  <div v-else class="d-grid">
-                   <button :class="color('btn',product)" disabled class="btn btn-lg">Unsufficient bins</button>
+                   <button :class="color('btn',product)" disabled class="btn btn-lg">{{$t('unsufficient_bins')}}</button>
                  </div>
                </div>
              </div>

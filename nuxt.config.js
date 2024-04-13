@@ -84,6 +84,7 @@ export default {
       { code: 'fr', iso: 'fr-FR', name: 'French', file: 'fr.json' },
       // Add more languages as needed
     ],
+    strategy: 'no_prefix',
     defaultLocale: 'en',
     langDir: 'locales/', // Directory containing translation files
     lazyLoading: true, // Load translations only for the current locale
