@@ -7,7 +7,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'key-front',
+    title: 'KeyYes',
     htmlAttrs: {
       lang: 'en'
     },
@@ -58,7 +58,8 @@ export default {
     // Doc: https://www.primefaces.org/primevue/showcase-v2/#/setup
     'primevue/nuxt',
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios'
+    '@nuxtjs/axios', 
+    '@nuxtjs/i18n'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -76,5 +77,15 @@ export default {
     BASE_URL: process.env.NODE_ENV === 'development'
       ? 'https://127.0.0.1:8000'
       : process.env.BASE_URL, // Define a separate variable for production URL
-  }
+  },
+  i18n: {
+    locales: [
+      { code: 'en', iso: 'en-US', name: 'English', file: 'en.json' },
+      { code: 'fr', iso: 'fr-FR', name: 'French', file: 'fr.json' },
+      // Add more languages as needed
+    ],
+    defaultLocale: 'en',
+    langDir: 'locales/', // Directory containing translation files
+    lazyLoading: true, // Load translations only for the current locale
+  },
 }

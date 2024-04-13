@@ -4,9 +4,6 @@ $(function () {
   "use strict";
 
 
-  /* scrollar */
-
-  new PerfectScrollbar(".notify-list")
 
   new PerfectScrollbar(".search-content")
 

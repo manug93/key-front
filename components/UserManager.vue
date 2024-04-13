@@ -5,19 +5,19 @@
           <div class="main-content">
             <!--breadcrumb-->
             <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-              <div class="breadcrumb-title pe-3">User configuration</div>
+              <div class="breadcrumb-title pe-3">{{$t('user_configuration')}}</div>
               <div class="ps-3">
                 <nav aria-label="breadcrumb">
                   <ol class="breadcrumb mb-0 p-0">
                     <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Users</li>
+                    <li class="breadcrumb-item active" aria-current="page">{{$t('users')}}</li>
                   </ol>
                 </nav>
               </div>
               <div class="ms-auto">
                 <div class="btn-group">
-                  <button type="button" class="btn btn-primary">Settings</button>
+                  <button type="button" class="btn btn-primary">{{$t('settings')}}</button>
                   <button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split"
                     data-bs-toggle="dropdown"> <span class="visually-hidden">Toggle Dropdown</span>
                   </button>
@@ -33,10 +33,10 @@
             <!--end breadcrumb-->
 
             <div class="product-count d-flex align-items-center gap-3 gap-lg-4 mb-4 fw-medium flex-wrap font-text1">
-              <a href="javascript:;"><span class="me-1">All</span><span class="text-secondary">({{users.length}})</span></a>
-              <a href="javascript:;"><span class="me-1">Admins</span><span class="text-secondary">({{ admins }})</span></a>
-              <a href="javascript:;"><span class="me-1">Collabs</span><span class="text-secondary">({{ collabs }})</span></a>
-              <a href="javascript:;"><span class="me-1">Clients</span><span class="text-secondary">({{ clients }})</span></a>
+              <a href="javascript:;"><span class="me-1">{{$t('all')}}</span><span class="text-secondary">({{users.length}})</span></a>
+              <a href="javascript:;"><span class="me-1">{{$t('admins')}}</span><span class="text-secondary">({{ admins }})</span></a>
+              <a href="javascript:;"><span class="me-1">{{$t('colabs')}}</span><span class="text-secondary">({{ collabs }})</span></a>
+              <a href="javascript:;"><span class="me-1">{{$t('clients')}}</span><span class="text-secondary">({{ clients }})</span></a>
             </div>
 
             <div class="row g-3">
@@ -50,7 +50,7 @@
               
               <div class="col-auto">
                 <div class="d-flex align-items-center gap-2 justify-content-lg-end">
-                  <button class="btn btn-primary px-4" data-bs-toggle="modal" data-bs-target="#exampleLargeModal"><i class="bi bi-plus-lg me-2"></i>Add User</button>
+                  <button class="btn btn-primary px-4" data-bs-toggle="modal" data-bs-target="#exampleLargeModal"><i class="bi bi-plus-lg me-2"></i>{{$t('add_user')}}</button>
                 </div>
               </div>
             </div><!--end row-->
@@ -65,10 +65,10 @@
                           <th>
                             <input class="form-check-input" type="checkbox">
                           </th>
-                          <th>Email</th>
-                          <th>Firstname</th>
-                          <th>Lastname</th>
-                          <th>Creation Date</th>
+                          <th>{{$t('email')}}</th>
+                          <th>{{$t('firstname')}}</th>
+                          <th>{{$t('lastname')}}</th>
+                          <th>{{$t('creation_date')}}</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -103,8 +103,8 @@
                                 <i class="bi bi-three-dots"></i>
                               </button>
                               <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" @click="edit(current_user)" data-bs-toggle="modal" data-bs-target="#exampleLargeEditModal" href="#">Edit</a></li>
-                                <li><a class="dropdown-item" href="#" @click="del(current_user)">Delete</a></li>
+                                <li><a class="dropdown-item" @click="edit(current_user)" data-bs-toggle="modal" data-bs-target="#exampleLargeEditModal" href="#">{{$t('edit')}}</a></li>
+                                <li><a class="dropdown-item" href="#" @click="del(current_user)">{{$t('delete')}}</a></li>
                               </ul>
                             </div>
                           </td>
@@ -124,7 +124,7 @@
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title">Add User</h5>
+                        <h5 class="modal-title">{{$t('add_user')}}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       
@@ -132,28 +132,28 @@
                         <div class="modal-body">
                             <ValidationProvider rules="required|email" slim name="email"  v-slot="{classes,errors}">  
                                 <div class="field">
-                                  <label for="email" class="form-label">Email</label>
+                                  <label for="email" class="form-label">{{$t('email')}}</label>
                                   <input class="form-control mb-3" id="email" :class="classes" type="text" v-model="current_user.email" placeholder="Email" aria-label="user email">
                                   <small id="email-help" class="p-invalid red-color">{{ errors[0] }}</small>
                                 </div>
                              </ValidationProvider>
                              <ValidationProvider rules="required" slim name="firstname"  v-slot="{classes,errors}"> 
                                 <div class="field">
-                                  <label for="firstname" class="form-label">Firstname</label> 
+                                  <label for="firstname" class="form-label">{{$t('firstname')}}</label> 
                                   <input class="form-control mb-3" id="firstname" :class="classes" type="text" v-model="current_user.firstname" placeholder="Firstname" aria-label="user firstname">
                                   <small id="firstname-help" class="p-invalid red-color">{{ errors[0] }}</small>
                                 </div>
                              </ValidationProvider>
                              <ValidationProvider rules="required" slim name="lastname"  v-slot="{classes,errors}">  
                                <div class="field">
-                                <label for="lastname" class="form-label">Lastname</label>
+                                <label for="lastname" class="form-label">{{$t('lastname')}}</label>
                                 <input class="form-control mb-3" id="lastname" :class="classes" type="text" v-model="current_user.lastname" placeholder="Lastname" aria-label="user lastname ">
                                 <small id="lastname-help" class="p-invalid red-color">{{ errors[0] }}</small>
                                </div>
                              </ValidationProvider>
                              <ValidationProvider rules="required" slim name="password"  v-slot="{classes,errors}">  
                                <div class="field">
-                                <label for="password" class="form-label">Password</label>
+                                <label for="password" class="form-label">{{$t('password')}}</label>
                                 <input class="form-control mb-3" id="password" :class="classes" type="password" v-model="current_user.password" placeholder="Password" aria-label="user password ">
                                 <small id="password-help" class="p-invalid red-color">{{ errors[0] }}</small>
                                </div>
@@ -161,7 +161,7 @@
                              <ValidationProvider rules="required" slim name="role"  v-slot="{classes,errors}">  
                                 <div class="field">
                                   <div class="mb-4">
-                                  <label for="role" class="form-label">Role</label>
+                                  <label for="role" class="form-label">{{$t('role')}}</label>
                                     <select class="form-select" id="role" data-placeholder="Choose one role"  v-model="current_user.roles"  :class="classes" placeholder="Roles" aria-label="user roles">
                                       <option v-for="value,id in default_roles" :value="[value]" :key="id">{{value}} </option>
                                     </select>                                                                     
@@ -172,8 +172,8 @@
                              </ValidationProvider>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary" @click="handleSubmit(submit)">Create user</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{$t('cancel')}}</button>
+                            <button type="button" class="btn btn-primary" @click="handleSubmit(submit)">{{$t('add_user')}}</button>
                         </div>
                      </ValidationObserver>
                     </div>
@@ -184,7 +184,7 @@
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title">Edit User</h5>
+                        <h5 class="modal-title">{{$t('edit_user')}}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       
@@ -192,28 +192,28 @@
                         <div class="modal-body">
                             <ValidationProvider rules="email" slim name="email"  v-slot="{classes,errors}">  
                                 <div class="field">
-                                  <label for="email-edit" class="form-label">Email</label>
+                                  <label for="email-edit" class="form-label">{{$t('email')}}</label>
                                   <input class="form-control mb-3" id="email-edit" :class="classes" type="text" v-model="current_user.email" placeholder="Email" aria-label="user email">
                                   <small id="email-help" class="p-invalid red-color">{{ errors[0] }}</small>
                                 </div>
                              </ValidationProvider>
                              <ValidationProvider rules="" slim name="firstname"  v-slot="{classes,errors}"> 
                                 <div class="field">
-                                  <label for="firstname-edit" class="form-label">Firstname</label> 
+                                  <label for="firstname-edit" class="form-label">{{$t('fristname')}}</label> 
                                   <input class="form-control mb-3" id="firstname-edit" :class="classes" type="text" v-model="current_user.firstname" placeholder="Firstname" aria-label="user firstname">
                                   <small id="firstname-help" class="p-invalid red-color">{{ errors[0] }}</small>
                                 </div>
                              </ValidationProvider>
                              <ValidationProvider rules="" slim name="lastname"  v-slot="{classes,errors}">  
                                <div class="field">
-                                <label for="lastname-edit" class="form-label">Lastname</label>
+                                <label for="lastname-edit" class="form-label">{{$t('lastname')}}</label>
                                 <input class="form-control mb-3" id="lastname-edit" :class="classes" type="text" v-model="current_user.lastname" placeholder="Lastname" aria-label="user lastname ">
                                 <small id="lastname-help" class="p-invalid red-color">{{ errors[0] }}</small>
                                </div>
                              </ValidationProvider>
                              <ValidationProvider rules="" slim name="password"  v-slot="{classes,errors}">  
                                <div class="field">
-                                <label for="password-edit" class="form-label">Password</label>
+                                <label for="password-edit" class="form-label">{{$t('password')}}</label>
                                 <input class="form-control mb-3" id="password-edit" :class="classes" type="password" v-model="current_user.password" placeholder="Password" aria-label="user password ">
                                 <small id="password-help" class="p-invalid red-color">{{ errors[0] }}</small>
                                </div>
@@ -221,7 +221,7 @@
                              <ValidationProvider rules="" slim name="role"  v-slot="{classes,errors}">  
                                 <div class="field">
                                   <div class="mb-4">
-                                  <label for="role-edit" class="form-label">Role</label>
+                                  <label for="role-edit" class="form-label">{{$t('role')}}</label>
                                     <select class="form-select" id="role-edit" data-placeholder="Choose one role"  v-model="current_user.roles"  :class="classes" placeholder="Roles" aria-label="user roles">
                                       <option v-for="value,id in default_roles" :value="[value]" :key="id">{{value}} </option>
                                     </select>                                                                     
@@ -232,8 +232,8 @@
                              </ValidationProvider>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary" @click="handleSubmit(updateUser)">Edit user</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{$t('cancel')}}</button>
+                            <button type="button" class="btn btn-primary" @click="handleSubmit(updateUser)">{{$t('edit_user')}}</button>
                         </div>
                      </ValidationObserver>
                     </div>

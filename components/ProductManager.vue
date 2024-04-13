@@ -5,43 +5,29 @@
     <div class="main-content">
       <!--breadcrumb-->
       <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-        <div class="breadcrumb-title pe-3">Plan configuration</div>
+        <div class="breadcrumb-title pe-3">{{$t('plan_configuration')}}</div>
         <div class="ps-3">
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0 p-0">
               <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
               </li>
-              <li class="breadcrumb-item active" aria-current="page">Plans</li>
+              <li class="breadcrumb-item active" aria-current="page">{{$t('plans')}}</li>
             </ol>
           </nav>
-        </div>
-        <div class="ms-auto">
-          <div class="btn-group">
-            <button type="button" class="btn btn-primary">Settings</button>
-            <button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split"
-              data-bs-toggle="dropdown"> <span class="visually-hidden">Toggle Dropdown</span>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end"> <a class="dropdown-item"
-                href="javascript:;">Action</a>
-              <a class="dropdown-item" href="javascript:;">Another action</a>
-              <a class="dropdown-item" href="javascript:;">Something else here</a>
-              <div class="dropdown-divider"></div> <a class="dropdown-item" href="javascript:;">Separated link</a>
-            </div>
-          </div>
         </div>
       </div>
       <!--end breadcrumb-->
 
       <div class="product-count d-flex align-items-center gap-3 gap-lg-4 mb-4 fw-medium flex-wrap font-text1">
-        <a href="javascript:;"><span class="me-1">All</span><span class="text-secondary">({{plans.length}})</span></a>
-        <a href="javascript:;"><span class="me-1">Published</span><span class="text-secondary">({{ published }})</span></a>
-        <a href="javascript:;"><span class="me-1">Drafts</span><span class="text-secondary">({{drafts}})</span></a>
+        <a href="javascript:;"><span class="me-1">{{$t('all')}}</span><span class="text-secondary">({{plans.length}})</span></a>
+        <a href="javascript:;"><span class="me-1">{{$t('active')}}</span><span class="text-secondary">({{ published }})</span></a>
+        <a href="javascript:;"><span class="me-1">{{$t('inactive')}}</span><span class="text-secondary">({{drafts}})</span></a>
       </div>
 
       <div class="row g-3">
         <div class="col-auto">
           <div class="position-relative">
-            <input class="form-control px-5" type="search" placeholder="Search Plan">
+            <input class="form-control px-5" type="search" :placeholder="$t('search_plan')">
             <span
               class="material-icons-outlined position-absolute ms-3 translate-middle-y start-0 top-50 fs-5">search</span>
           </div>
@@ -63,10 +49,10 @@
                     <th>
                       <input class="form-check-input" type="checkbox">
                     </th>
-                    <th>Plan Name</th>
-                    <th>Price</th>
-                    <th>Bins</th>
-                    <th>Creation Date</th>
+                    <th>{{$t('plan_name')}}</th>
+                    <th>{{$t('price')}}</th>
+                    <th>{{$t('bins')}}</th>
+                    <th>{{$t('creation_date')}}</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -92,8 +78,8 @@
                           <i class="bi bi-three-dots"></i>
                         </button>
                         <ul class="dropdown-menu">
-                          <li><a class="dropdown-item " @click="edit(plan)" data-bs-toggle="modal" data-bs-target="#exampleLargeModalEdit" href="#">Edit</a></li>
-                          <li><a class="dropdown-item " @click="remove(plan)" href="#" >Delete</a></li>
+                          <li><a class="dropdown-item " @click="edit(plan)" data-bs-toggle="modal" data-bs-target="#exampleLargeModalEdit" href="#">{{$t('edit')}}</a></li>
+                          <li><a class="dropdown-item " @click="remove(plan)" href="#" >{{$t('delete')}}</a></li>
                         </ul>
                       </div>
                     </td>
@@ -116,7 +102,7 @@
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title">Edit Plan</h5>
+                        <h5 class="modal-title">{{$t('edit_plan')}}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       
@@ -125,15 +111,15 @@
                              
                              <ValidationProvider rules="required" slim name="number"  v-slot="{classes,errors}">  
                                 <div class="field">
-                                  <label for="number" class="form-label">Bin number</label>
+                                  <label for="number" class="form-label">{{$t('bin_number')}}</label>
                                   <input class="form-control mb-3" id="number" v-model="plan.bins"  type="number" >
                                   <small id="number-help" class="p-invalid red-color">{{ errors[0] }}</small>
                                 </div>
                              </ValidationProvider>	
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary" @click="handleSubmit(editPlan)">Edit plan</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{$t('cancel')}}</button>
+                            <button type="button" class="btn btn-primary" @click="handleSubmit(editPlan)">{{$t('edit_plan')}}</button>
                         </div>
                      </ValidationObserver>
                     </div>

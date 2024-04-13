@@ -60,7 +60,7 @@ const store = new Vuex.Store({
     state: {
         user:{},
         users:{},
-        mybins:{},
+        mybins:[],
         smartboxes:{},
         products:{},
         empty_bins:{},
@@ -76,6 +76,17 @@ const store = new Vuex.Store({
         fobs:[],
         token:{},
         coupon:{},
+        lang:{},
+        langs:{
+          en:{
+            icon:"/assets/images/county/01.png",
+            name:"English"
+          },
+          fr:{
+            icon:"/assets/images/county/02.png",
+            name:"French"
+          },
+        },
         auth:false,
         uploadProgress: 0,
         executionProgress:0
@@ -84,6 +95,9 @@ const store = new Vuex.Store({
       //Update cart
       SET_CART: (state,cart) =>{
         state.cart = cart;
+      },
+      SET_LANG: (state,lang) =>{
+        state.lang = state.langs[lang];
       },
       SET_AUTHENTICATED: (state,auth) =>{
         state.auth = auth;
@@ -138,6 +152,9 @@ const store = new Vuex.Store({
         commit('SET_AUTHENTICATED',false);
         localStorage.removeItem('token');
         localStorage.removeItem('user');
+      },
+      setLang({ commit }, value) {
+        commit('SET_LANG', value);
       },
       setLoading({ commit }, value) {
         commit('SET_LOADING', value);

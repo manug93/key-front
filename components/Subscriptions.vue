@@ -5,19 +5,19 @@
     <div class="main-content">
       <!--breadcrumb-->
       <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-        <div class="breadcrumb-title pe-3">Subscriptions configuration</div>
+        <div class="breadcrumb-title pe-3">{{$t('subscription_configuration')}}</div>
         <div class="ps-3">
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0 p-0">
               <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
               </li>
-              <li class="breadcrumb-item active" aria-current="page">Subscriptions</li>
+              <li class="breadcrumb-item active" aria-current="page">{{$t('subscriptions')}}</li>
             </ol>
           </nav>
         </div>
         <div class="ms-auto">
           <div class="btn-group">
-            <button type="button" class="btn btn-primary">Settings</button>
+            <button type="button" class="btn btn-primary">{{$t('settings')}}</button>
             <button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split"
               data-bs-toggle="dropdown"> <span class="visually-hidden">Toggle Dropdown</span>
             </button>
@@ -33,15 +33,16 @@
       <!--end breadcrumb-->
 
       <div class="product-count d-flex align-items-center gap-3 gap-lg-4 mb-4 fw-medium flex-wrap font-text1">
-        <a href="javascript:;"><span class="me-1">All</span><span class="text-secondary">()</span></a>
-        <a href="javascript:;"><span class="me-1">Published</span><span class="text-secondary">()</span></a>
-        <a href="javascript:;"><span class="me-1">Drafts</span><span class="text-secondary">()</span></a>
+        <a href="javascript:;"><span class="me-1">{{$t('all')}}</span><span class="text-secondary">()</span></a>
+        <a href="javascript:;"><span class="me-1">{{$t('active')}}</span><span class="text-secondary">()</span></a>
+        <a href="javascript:;"><span class="me-1">{{$t('incomplete')}}</span><span class="text-secondary">()</span></a>
+        <a href="javascript:;"><span class="me-1">{{$t('suspended')}}</span><span class="text-secondary">()</span></a>
       </div>
 
       <div class="row g-3">
         <div class="col-auto">
           <div class="position-relative">
-            <input class="form-control px-5" type="search" v-model="query" placeholder="Search Subscription">
+            <input class="form-control px-5" type="search" v-model="query" :placeholder="$t('search_subscription')">
             <span
               class="material-icons-outlined position-absolute ms-3 translate-middle-y start-0 top-50 fs-5">search</span>
           </div>
@@ -49,7 +50,7 @@
         
         <div class="col-auto">
           <div class="d-flex align-items-center gap-2 justify-content-lg-end">
-            <a class="btn btn-primary px-4" href="/pricing"><i class="bi bi-plus-lg me-2"></i>Subscribe</a>
+            <a class="btn btn-primary px-4" href="/pricing"><i class="bi bi-plus-lg me-2"></i>{{$t('subscribe')}}</a>
           </div>
         </div>
       </div><!--end row-->
@@ -64,14 +65,14 @@
                     <th>
                       <input class="form-check-input" type="checkbox">
                     </th>
-                    <th>Subscription ID</th>
-                    <th>Plan</th>
-                    <th>Customer</th>
-                    <th>Price</th>
-                    <th>duration</th>
-                    <th>count</th>
-                    <th>start</th>
-                    <th>end</th>
+                    <th>{{$t('subscription_id')}} </th>
+                    <th>{{$t('plan')}}</th>
+                    <th>{{$t('customer')}}</th>
+                    <th>{{$t('price')}}</th>
+                    <th>{{$t('duration')}}</th>
+                    <th>{{$t('count')}}</th>
+                    <th>{{$t('start_date')}}</th>
+                    <th>{{$t('end_date')}}</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -116,8 +117,8 @@
                           <i class="bi bi-three-dots"></i>
                         </button>
                         <ul class="dropdown-menu">
-                          <li><a class="dropdown-item " @click="details(subscription)" href="#" data-bs-toggle="modal" data-bs-target="#subscriptionDetailsModal" >Details</a></li>
-                          <li><a class="dropdown-item " @click="del(subscription)" href="#" >Cancel</a></li>
+                          <li><a class="dropdown-item " @click="details(subscription)" href="#" data-bs-toggle="modal" data-bs-target="#subscriptionDetailsModal" >{{$t('details')}}</a></li>
+                          <li><a class="dropdown-item " @click="del(subscription)" href="#" >{{$t('cancel')}}</a></li>
                         </ul>
                       </div>
                     </td>
@@ -137,7 +138,7 @@
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title">Add Subscription</h5>
+                        <h5 class="modal-title">{{$t('add_subscription')}}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       
@@ -145,28 +146,28 @@
                         <div class="modal-body">
                             <ValidationProvider rules="required" slim name="title"  v-slot="{classes,errors}">  
                                 <div class="field">
-                                  <label for="title" class="form-label">Title</label>
+                                  <label for="title" class="form-label">{{$t('title')}}</label>
                                   <input class="form-control mb-3" id="title" :class="classes" type="text" v-model="subscription.title" placeholder="Title" aria-label="subscription title">
                                   <small id="title-help" class="p-invalid red-color">{{ errors[0] }}</small>
                                 </div>
                              </ValidationProvider>
                              <ValidationProvider rules="required" slim name="description"  v-slot="{classes,errors}"> 
                                 <div class="field">
-                                  <label for="description" class="form-label">Description</label> 
+                                  <label for="description" class="form-label">{{$t('description')}}</label> 
                                   <input class="form-control mb-3" id="description" :class="classes" type="text" v-model="subscription.description" placeholder="Description" aria-label="subscription description">
                                   <small id="description-help" class="p-invalid red-color">{{ errors[0] }}</small>
                                 </div>
                              </ValidationProvider>
                              <ValidationProvider rules="required" slim name="price"  v-slot="{classes,errors}">  
                                <div class="field">
-                                <label for="price" class="form-label">Price in $</label>
+                                <label for="price" class="form-label">{{$t('price')}} $</label>
                                 <input class="form-control mb-3" id="price" :class="classes" type="number" v-model="subscription.price" placeholder="Price" aria-label="subscription price in euro">
                                 <small id="price-help" class="p-invalid red-color">{{ errors[0] }}</small>
                                </div>
                              </ValidationProvider>
                              <ValidationProvider rules="required" slim name="duration"  v-slot="{classes,errors}">  
                                 <div class="field">
-                                  <label for="duration" class="form-label">Duration</label>
+                                  <label for="duration" class="form-label">{{$t('duration')}}</label>
                                   <input class="form-control mb-3" id="duration" :class="classes" type="number" v-model="subscription.duration" placeholder="Duration" aria-label="subscription duration">
                                   <small id="duration-help" class="p-invalid red-color">{{ errors[0] }}</small>
                                 </div>
@@ -174,7 +175,7 @@
                              
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{$t('cancel')}}</button>
                             <button type="button" class="btn btn-primary" @click="handleSubmit(submit)">Create subscription</button>
                         </div>
                      </ValidationObserver>
@@ -234,36 +235,36 @@
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title">Subscription Details</h5>
+                        <h5 class="modal-title">{{ $t("subscription_details") }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
                         <p>ID: {{ subscription?.id }}</p>
                         <p>Object: {{ subscription?.object }}</p>
-                        <p>Created: {{ subscription?.created ? new Date(subscription.created * 1000).toLocaleString() : 'N/A' }}</p>
-                        <p>Currency: {{ subscription?.currency }}</p>
-                        <p>Status: {{ subscription?.status }}</p>
-                        <p>Customer ID: {{ subscription?.customer?.id }}</p>
-                        <p>Customer Name: {{ subscription?.customer?.name }}</p>
-                        <p>Customer Email: {{ subscription?.customer?.email }}</p>
-                        <p>Customer Description: {{ subscription?.customer?.description }}</p>
-                        <p>Current Period Start: {{ subscription?.current_period_start ? new Date(subscription.current_period_start * 1000).toLocaleString() : 'N/A' }}</p>
-                        <p>Current Period End: {{ subscription?.current_period_end ? new Date(subscription.current_period_end * 1000).toLocaleString() : 'N/A' }}</p>
-                        <p>Amount: {{ subscription?.items?.data[0]?.price?.unit_amount ? (subscription.items.data[0].price.unit_amount / 100) + ' ' + subscription.currency : 'N/A' }}</p>
-                        <p>Description: {{ subscription?.description || 'N/A' }}</p>
-                        <p>Billing Cycle Anchor: {{ subscription?.billing_cycle_anchor || 'N/A' }}</p>
-                        <p>Default Payment Method: {{ subscription?.default_payment_method || 'N/A' }}</p>
-                        <p>Days Until Due: {{ subscription?.days_until_due || 'N/A' }}</p>
-                        <p>Ended At: {{ subscription?.ended_at ? new Date(subscription.ended_at * 1000).toLocaleString() : 'N/A' }}</p>
-                        <p>Livemode: {{ subscription?.livemode ? 'Yes' : 'No' }}</p>
-                        <p>Next Pending Invoice Item Invoice: {{ subscription?.next_pending_invoice_item_invoice || 'N/A' }}</p>
-                        <p>Quantity: {{ subscription?.quantity || 'N/A' }}</p>
-                        <p>Start Date: {{ subscription?.start_date ? new Date(subscription.start_date * 1000).toLocaleString() : 'N/A' }}</p>
-                        <p>Test Clock: {{ subscription?.test_clock || 'N/A' }}</p>
+                        <p>{{ $t("created") }}: {{ subscription?.created ? new Date(subscription.created * 1000).toLocaleString() : 'N/A' }}</p>
+                        <p>{{ $t("currency") }}: {{ subscription?.currency }}</p>
+                        <p>{{ $t("status") }}: {{ subscription?.status }}</p>
+                        <p>{{ $t("customer_id") }}: {{ subscription?.customer?.id }}</p>
+                        <p>{{ $t("customer_name") }}: {{ subscription?.customer?.name }}</p>
+                        <p>{{ $t("customer_email") }}: {{ subscription?.customer?.email }}</p>
+                        <p> {{ $t("customer_description") }}: {{ subscription?.customer?.description }}</p>
+                        <p>{{ $t("current_period_start") }}: {{ subscription?.current_period_start ? new Date(subscription.current_period_start * 1000).toLocaleString() : 'N/A' }}</p>
+                        <p>{{ $t("current_period_end") }}: {{ subscription?.current_period_end ? new Date(subscription.current_period_end * 1000).toLocaleString() : 'N/A' }}</p>
+                        <p>{{ $t("amount") }}: {{ subscription?.items?.data[0]?.price?.unit_amount ? (subscription.items.data[0].price.unit_amount / 100) + ' ' + subscription.currency : 'N/A' }}</p>
+                        <p>{{ $t("description") }}: {{ subscription?.description || 'N/A' }}</p>
+                        <p>{{ $t("billing_cycle_anchor") }}: {{ subscription?.billing_cycle_anchor || 'N/A' }}</p>
+                        <p>{{ $t("default_payment_method") }}: {{ subscription?.default_payment_method || 'N/A' }}</p>
+                        <p>{{ $t("days_until_due") }}: {{ subscription?.days_until_due || 'N/A' }}</p>
+                        <p>{{ $t("ended_at") }}: {{ subscription?.ended_at ? new Date(subscription.ended_at * 1000).toLocaleString() : 'N/A' }}</p>
+                        <p>{{ $t("livemode") }}: {{ subscription?.livemode ? 'Yes' : 'No' }}</p>
+                        <p>{{ $t("next_pending_invoice_item") }}: {{ subscription?.next_pending_invoice_item_invoice || 'N/A' }}</p>
+                        <p>{{ $t("quantity") }}: {{ subscription?.quantity || 'N/A' }}</p>
+                        <p>{{ $t("start_date") }} : {{ subscription?.start_date ? new Date(subscription.start_date * 1000).toLocaleString() : 'N/A' }}</p>
+                        <p>{{ $t("test_clock") }}: {{ subscription?.test_clock || 'N/A' }}</p>
                         <!-- Add more fields as needed -->
                       </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ $t("close") }}</button>
                       </div>
                     </div>
                   </div>
