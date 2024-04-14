@@ -103,8 +103,9 @@
                           <i class="bi bi-three-dots"></i>
                         </button>
                         <ul class="dropdown-menu">
+                          <li><a class="dropdown-item " v-if="subscription.status==='incomplete'" @click="pay(subscription)" href="#"  >{{$t('pay')}}</a></li>
                           <li><a class="dropdown-item " @click="details(subscription)" href="#" data-bs-toggle="modal" data-bs-target="#subscriptionDetailsModal" >{{$t('details')}}</a></li>
-                          <li><a class="dropdown-item " @click="del(subscription)" href="#" >{{$t('cancel')}}</a></li>
+                          <li><a class="dropdown-item " @click="remove(subscription)" href="#" >{{$t('cancel')}}</a></li>
                         </ul>
                       </div>
                     </td>
@@ -309,7 +310,7 @@
             
         },
         methods:{
-            ...mapActions(['create','getAll','del','update']),
+            ...mapActions(['create','getAll','del','update','getById']),
             async submit(){
             },
             asset(uri){
@@ -327,7 +328,7 @@
                 location.reload()
               })            
             },
-            del(subscription){
+            remove(subscription){
               this.del({resource:'subscriptions',module:'stripe',id:subscription.id})
             },
             to_date(date){
@@ -335,6 +336,15 @@
             },
             from_date(date){
               return this.$moment.unix(date).fromNow();
+            },
+            async pay(sub){
+              try{
+                let res=await this.getById({id:sub.latest_invoice,module:"stripe",resource:"invoice"});
+                window.open(res?.invoice?.hosted_invoice_url, '_blank');
+              }catch(e){
+                console.log(e)
+              }
+              
             }
 
         },

@@ -116,6 +116,10 @@
     "available_bins": "Available Bins",
     "unsufficient_bins": "Insufficient Bins",
     "purchase": "Purchase",
-    "for": "for"
+    "for": "for",
+    "my_subscriptions":"My Subscriptions",
+    "enter_your_new_password":"Enter your new password",
+    "change_password":"Change password",
+    "pay":"Pay"
     
   }

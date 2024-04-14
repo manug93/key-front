@@ -116,6 +116,10 @@
     "available_bins": "Bacs disponibles",
     "unsufficient_bins": "Nombre de bacs insuffisant",
     "purchase": "Acheter",
-    "for": "pour"
+    "for": "pour",
+    "my_subscriptions":"Mes abonnements",
+    "enter_your_new_password":"Entrez votre nouveau mot de passe",
+    "change_password":"Modifier le mot de passe",
+    "pay":"Payer"
 
   }

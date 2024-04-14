@@ -6,19 +6,11 @@
             <div class="card rounded-4">
               <div class="card-body p-5">
                   <img src="/assets/images/logo1.png" class="mb-4" width="145" alt="">
-                  <h4 class="fw-bold">{{$t('get_started_now')}}</h4>
-                  <p class="mb-0">{{$t('enter_your_credentials_login')}}</p>
+                  <p class="mb-0">{{$t('enter_your_new_password')}}</p>
 
                   <div class="form-body my-4">
 						<ValidationObserver slim v-slot="{ handleSubmit, reset }">
 										<form class="row g-3">
-											<div class="col-12">
-												<ValidationProvider rules="required|email" tag="div" name="email" v-slot="{classes,errors}"> 
-													<label for="inputEmailAddress" class="form-label">{{$t('email_address')}}</label>
-													<input type="email" v-model="form.username" :class="classes" class="form-control" id="inputEmailAddress" placeholder="jhon@example.com">
-													<small id="login-help" class="p-invalid red-color">{{ errors[0] }}</small>
-												</ValidationProvider>
-											</div>
 											<div class="col-12">
 												<ValidationProvider rules="required" slim name="password"  v-slot="{classes,errors}">   
 													<label for="inputChoosePassword" class="form-label">{{$t('password')}}</label>
@@ -29,23 +21,9 @@
 													<small id="password-help" class="p-invalid red-color">{{ errors[0] }} </small>
 												</ValidationProvider>
 											</div>
-											<div class="col-md-6">
-												<!--div class="form-check form-switch">
-													<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
-													<label class="form-check-label" for="flexSwitchCheckChecked">Remember Me</label>
-												</div-->
-											</div>
-											<div class="col-md-6 text-end">	<a href="auth-basic-forgot-password.html">{{$t('forgot_password')}}</a>
-											</div>
 											<div class="col-12">
 												<div class="d-grid">
-													<button type="submit" class="btn btn-primary" @click.prevent="handleSubmit(submit)">{{$t('sign_in')}}</button>
-												</div>
-											</div>
-											<div class="col-12">
-												<div class="text-start">
-													<p class="mb-0">{{$t('dont_have_account')}} <a href="/register">{{$t('sign_up')}}</a>
-													</p>
+													<button type="submit" class="btn btn-primary" @click.prevent="handleSubmit(submit)">{{$t('change_password')}}</button>
 												</div>
 											</div>
 										</form>

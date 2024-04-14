@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!isLoading">
+  <div v-if="!isLoading">
          <!--start main wrapper-->
   <main class="main-wrapper ">
     <div class="main-content">
@@ -90,7 +90,7 @@
                         <ul class="dropdown-menu">
                           <li><a class="dropdown-item " @click="details(key)" data-bs-toggle="modal" data-bs-target="#exampleLargeModalDetails" href="#">{{$t('details')}}</a></li>
                           <li><a class="dropdown-item " @click="edit(key)" data-bs-toggle="modal" data-bs-target="#exampleLargeModalEdit" href="#">{{$t('link_to_fob')}}</a></li>
-                          <li><a class="dropdown-item " @click="del(key)" href="#" >{{$t('delete')}}</a></li>
+                          <li><a class="dropdown-item " @click="remove(key)" href="#" >{{$t('delete')}}</a></li>
                         </ul>
                       </div>
                     </td>
@@ -192,7 +192,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{$t('cancel')}}</button>
-                            <button type="button" class="btn btn-primary" @click="handleSubmit(submit)">{{$t('create_key')}}</button>
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="handleSubmit(submit)">{{$t('create_key')}}</button>
                         </div>
                      </ValidationObserver>
                     </div>
@@ -307,14 +307,14 @@
                 
               })            
             },
-            del(key){
-
+            remove(key){
+              this.del({resource:'keys',module:'keycafe',id:key.id})
             },
             async submit(){
                let data={...this.key,bin:{box:this.key.subscription.smartbox,subscription:this.key.subscription.id}}
                data.name=this.key.name +" /"+this.user.email
                this.create({resource:'keys',module:'keycafe',data:data}).then((e)=>{
-
+                  
                 })
             },
             async createKeyForm(){
@@ -323,6 +323,10 @@
             },
             setSubscription(event){
               //console.log(this.key.subscription);
+            },
+            pageLoaded() {
+              // Code to execute when the page is fully loaded
+              //window.alert('Page completely loaded!');
             }
 
         },
@@ -333,6 +337,13 @@
           this.subscriptions=Object.values(res.subscriptions);
           
         },
+        beforeDestroy() {
+          // Make sure to remove the event listener to prevent memory leaks
+          window.removeEventListener('load', this.pageLoaded);
+        }, mounted() {
+          // Code to execute after the component is mounted
+          window.addEventListener('load', this.pageLoaded);
+        }
         
     }
 </script>

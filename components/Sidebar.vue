@@ -1,5 +1,5 @@
 <template>
-    <div>
+  <div>
         
   <!--start sidebar-->
   <aside class="sidebar-wrapper">
@@ -17,7 +17,7 @@
     <div class="sidebar-nav" data-simplebar="true">
       
         <!--navigation-->
-        <ul class="metismenu" id="sidenav">
+        <ul v-show="!isLoading" class="metismenu" id="sidenav">
           <li v-if="is_admin">
             <a href="javascript:;" class="has-arrow">
               <div class="parent-icon"><i class="material-icons-outlined">home</i>
@@ -38,7 +38,7 @@
               <div class="menu-title">Keycafe</div>
             </a>
             <ul>
-              <li><a href="/user/keycafe"><i class="material-icons-outlined">arrow_right</i>{{$t('keys')}}</a></li>
+              <li><a href="/user/keys"><i class="material-icons-outlined">arrow_right</i>{{$t('keys')}}</a></li>
               <li v-if="is_admin"><a href="/user/access"><i class="material-icons-outlined">arrow_right</i>{{$t('access')}}</a></li>
               <!--li><a href="/user/fob"><i class="material-icons-outlined">arrow_right</i>Fob</a></li!-->
               <li v-if="is_admin"><a href="/user/organizations"><i class="material-icons-outlined">arrow_right</i>{{$t('organization')}}</a></li>
@@ -47,12 +47,12 @@
           </li>
           <li>
             <a href="javascript:;" class="has-arrow">
-              <div class="parent-icon"><i class="material-icons-outlined">inventory_2</i>
+              <div  class="parent-icon"><i class="material-icons-outlined">inventory_2</i>
               </div>
-              <div class="menu-title">Stripe</div>
+              <div class="menu-title">{{$t('subscriptions')}}</div>
             </a>
             <ul>
-              <li><a href="/user/subscriptions"><i class="material-icons-outlined">arrow_right</i>{{$t('subscriptions')}}</a>
+              <li><a href="/user/subscriptions"><i class="material-icons-outlined">arrow_right</i>{{$t('my_subscriptions')}}</a>
               </li>
                           
             </ul>
@@ -67,7 +67,7 @@
         <!--end navigation-->
     </div>
     <div class="sidebar-bottom gap-4">
-        <div class="dark-mode">
+        <div v-show="!isLoading" class="dark-mode">
           <a href="javascript:;" class="footer-icon dark-mode-icon">
             <i class="material-icons-outlined">dark_mode</i>  
           </a>
@@ -107,7 +107,7 @@ export default {
       }
     },
     computed:{
-      ...mapState(['user','langs','lang']),
+      ...mapState(['user','langs','lang','isLoading']),
       is_admin(){
         return this.user?.roles?.includes('ROLE_ADMIN')
       },

@@ -121,7 +121,7 @@
               let data={...product,...this.form};
               let response = await this.create({resource:'purchases',module:'stripe',data:data});
               window.open(response.invoice.hosted_invoice_url, '_blank');
-              this.$router.push({name:'user.subscriptions'});
+              this.$router.push('/user/subscriptions');
 
             }
 

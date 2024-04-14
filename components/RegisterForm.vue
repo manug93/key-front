@@ -5,7 +5,7 @@
            <div class="col-12 col-md-8 col-lg-6 col-xl-5 col-xxl-5 mx-auto">
             <div class="card rounded-4">
               <div class="card-body p-5">
-                  <img src="assets/images/logo1.png" class="mb-4" width="145" alt="">
+                  <img src="/assets/images/logo1.png" class="mb-4" width="145" alt="">
                   <h4 class="fw-bold">{{$t('get_started_now')}}</h4>
                   <p class="mb-0">{{ $t('enter_your_credentials') }}</p>
 
@@ -46,24 +46,7 @@
                                                 <small id="password-help" class="p-invalid red-color">{{ errors[0] }} </small>
                                                 </ValidationProvider>
 											</div>
-											<div class="col-12">
-                                                <ValidationProvider rules="required" slim name="avatar" v-slot="{classes,errors}">  
-                                                    <div class="row">
-                                                        <div class="field col-8">
-                                                            <div class="mb-4">
-                                                                <label for="avatar" class="form-label">{{$t('avatar')}}</label>
-                                                                <select class="form-select" id="avatar" @change="setAvatar" data-placeholder="Choose your avatar"  v-model="form.avatar"  :class="classes" placeholder="Avatar" aria-label="user avatar">
-                                                                    <option v-for="value,id in avatars" :value="value" :key="id">{{value}}  </option>
-                                                                </select>                                                                   
-                                                                <small id="avatar-help" class="p-invalid red-color">{{ errors[0] }}</small>
-                                                            </div>                                                    
-                                                        </div>
-                                                        <div class="col-3">
-                                                            <ImagePreview :imageUrl="form.avatar"></ImagePreview>
-                                                        </div>
-                                                    </div>
-                                                </ValidationProvider>
-											</div>
+											
                                            
 											<div class="col-12">
 												<div class="form-check form-switch">
@@ -116,7 +99,7 @@
         data(){
             return{
                 form:{},
-                currentLocale:"en"
+                currentLocale:""
             }
         },
 		methods:{
@@ -146,7 +129,7 @@
         },
 		components:{ValidationProvider,ValidationObserver,Loading,ErrorModal,ImagePreview},
         async beforeMount(){
-            
+            this.currentLocale=this.$i18n.locale
         },
 		mounted(){
 			$("#show_hide_password a").on('click', function (event) {

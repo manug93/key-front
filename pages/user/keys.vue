@@ -13,11 +13,11 @@
   <script>
   const scripts = [
       '/assets/js/jquery.min.js',
+      '/assets/js/bootstrap.bundle.min.js',
       '/assets/plugins/metismenu/metisMenu.min.js',
       '/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js',
-      '/assets/js/main.js',
       '/assets/plugins/simplebar/js/simplebar.min.js',
-      '/assets/js/bootstrap.bundle.min.js'
+      '/assets/js/main.js'
     ];
    //'primeflex/primeflex.css',
    const styles = [    
