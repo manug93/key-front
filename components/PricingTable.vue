@@ -112,7 +112,7 @@
                 let box= this?.smartboxes.filter(e=>parseInt(e?.keycafeId)===parseInt(this.form?.smartbox))[0];
                 console.log(box);
                 console.log(this?.smartboxes);
-                return box?.binNumber-usedBins?.length
+                return box?.binNumber-usedBins?.length??0
 
             }
 

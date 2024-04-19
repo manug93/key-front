@@ -35,7 +35,7 @@
 													<label class="form-check-label" for="flexSwitchCheckChecked">Remember Me</label>
 												</div-->
 											</div>
-											<div class="col-md-6 text-end">	<a href="auth-basic-forgot-password.html">{{$t('forgot_password')}}</a>
+											<div class="col-md-6 text-end">	<a href="/reset_request">{{$t('forgot_password')}}</a>
 											</div>
 											<div class="col-12">
 												<div class="d-grid">

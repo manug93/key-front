@@ -25,6 +25,7 @@
 												<div class="d-grid">
 													<button type="submit" class="btn btn-primary" @click.prevent="handleSubmit(submit)">{{$t('send_request')}}</button>
 												</div>
+												<div>{{success}}</div>
 											</div>
 										</form>
 									</ValidationObserver>
@@ -62,15 +63,17 @@
         data(){
             return{
                 form:{},
+				success:"",
 				currentLocale:""
             }
         },
 		methods:{
 			...mapActions(['resetRequest','setLang']),
 			async submit(){
-				let response = await this.fetchToken(this.form); 
+				this.success=""
+				let response = await this.resetRequest(this.form); 
                 if(response?.status===200)     {
-                    this.$router.push("/");
+                    this.success = "Un email a été envoyé à votre adresse"
                 }          
 			}
 		},

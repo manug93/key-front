@@ -45,6 +45,7 @@
     "firstname": "First Name",
     "lastname": "Last Name",
     "email_address": "Email Address",
+    "email": "Email",
     "password": "Password",
     "smartbox": "Smartbox", 
     "read_and_agree_terms": "I read and agree to terms and conditions",
@@ -130,6 +131,7 @@
     "number_of_bins": "Number of Bins",
     "smartbox_manager":"Smartbox Manager",
     "smartbox_id":"Smartbox ID",
-    "add_smartbox":"Add smartbox"
+    "add_smartbox":"Add smartbox",
+    "send_request":"Send request"
     
   }

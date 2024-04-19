@@ -45,6 +45,7 @@
     "firstname": "Prénom",
     "lastname": "Nom",
     "email_address": "Adresse e-mail",
+    "email": "Email",
     "password": "Mot de passe",
     "smartbox": "Smartbox", 
     "read_and_agree_terms": "J'ai lu et j'accepte les termes et conditions",
@@ -130,6 +131,7 @@
     "number_of_bins": "Nombre de bacs",
     "smartbox_manager":"Gestionnaire de smartbox",
     "smartbox_id":"ID de la smartbox",
-    "add_smartbox":"Ajouter une smartbox"
+    "add_smartbox":"Ajouter une smartbox",
+    "send_request":"Envoyer la requete"
 
   }

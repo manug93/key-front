@@ -1,6 +1,6 @@
 export default function ({ store,route, redirect }) {
    
-   if (!checkLocalStorageItem('token') && !['pricing','login','register'].includes(route.name)){
+   if (!checkLocalStorageItem('token') && !['reset_request','reset','login','register'].includes(route.name)){
     redirect("/login")
    } 
    if (store.state.auth===false ){
