@@ -10,7 +10,7 @@
                   <p class="mb-0">{{$t('enter_your_credentials_login')}}</p>
 
                   <div class="form-body my-4">
-						<ValidationObserver slim v-slot="{ handleSubmit, reset }">
+						<ValidationObserver slim v-slot="{ handleSubmit }">
 										<form class="row g-3">
 											<div class="col-12">
 												<ValidationProvider rules="required|email" tag="div" name="email" v-slot="{classes,errors}"> 
@@ -92,7 +92,7 @@
 			async submit(){
 				let response = await this.fetchToken(this.form); 
                 if(response?.status===200)     {
-                    this.$router.push("/");
+                    this.$router.push("/pricing/");
                 }          
 			}
 		},

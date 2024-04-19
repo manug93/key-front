@@ -59,14 +59,15 @@ axios.interceptors.response.use(
 const store = new Vuex.Store({
     state: {
         user:{},
-        users:{},
+        users:[],
         mybins:[],
-        smartboxes:{},
-        products:{},
-        empty_bins:{},
-        organizationMemberships:{},
-        keys:{},
-        subscriptions:{},
+        bins:[],
+        smartboxes:[],
+        products:[],
+        empty_bins:[],
+        organizationMemberships:[],
+        keys:[],
+        subscriptions:[],
         isLoading: false,
         error:false,
         errorMessage:{},
@@ -237,6 +238,25 @@ const store = new Vuex.Store({
         try {
           const response = await axios.post(`${apiUrl}/users`,user);
           commit('SET_USER', response.data['hydra:member']);
+          return response
+        } catch (error) {          
+          return error.response
+        }
+      },
+      // Reset request
+      async resetRequest({ commit }, form) {
+        try {
+          const response = await axios.post(`${baseUrl}/reset_request`,form);
+          
+          return response
+        } catch (error) {          
+          return error.response
+        }
+      },
+      // Reset 
+      async resetPassword({ commit }, form) {
+        try {
+          const response = await axios.post(`${baseUrl}/reset`,form);          
           return response
         } catch (error) {          
           return error.response

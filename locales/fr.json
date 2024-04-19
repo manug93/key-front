@@ -8,6 +8,7 @@
     "organization": "Organisation",   
     "subscription": "Abonnement",     
     "add_key": "Ajouter une clé",    
+    "add_keys": "Créer des clés",    
     "all": "Tous",                  
     "published": "Publié",            
     "drafts": "Brouillons",          
@@ -110,6 +111,7 @@
     "plan": "Plan",
     "suspended": "Suspendu",
     "active": "Actif",
+    "inactive": "Inactif",
     "incomplete": "Incomplet",
     "created": "Créé",
     "livemode": "Mode Production",  
@@ -120,6 +122,14 @@
     "my_subscriptions":"Mes abonnements",
     "enter_your_new_password":"Entrez votre nouveau mot de passe",
     "change_password":"Modifier le mot de passe",
-    "pay":"Payer"
+    "pay":"Payer",
+    "smartboxes": "Smartboxes", 
+    "smartbox_configuration": "Configuration Smartbox",
+    "search_smartbox": "Rechercher Smartbox",
+    "edit_smartbox": "Modifier Smartbox",
+    "number_of_bins": "Nombre de bacs",
+    "smartbox_manager":"Gestionnaire de smartbox",
+    "smartbox_id":"ID de la smartbox",
+    "add_smartbox":"Ajouter une smartbox"
 
   }

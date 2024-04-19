@@ -8,6 +8,7 @@
     "organization": "Organization",
     "subscription": "Subscription",
     "add_key": "Add key",
+    "add_keys": "Add and manage keys",
     "all": "All",
     "published": "Published",
     "drafts": "Drafts",
@@ -110,6 +111,7 @@
     "plan": "Plan",
     "suspended": "Suspended",
     "active": "Active",
+    "inactive": "Inactive",
     "incomplete": "Incomplete",
     "created": "Created",
     "livemode": "Live Mode",
@@ -120,6 +122,14 @@
     "my_subscriptions":"My Subscriptions",
     "enter_your_new_password":"Enter your new password",
     "change_password":"Change password",
-    "pay":"Pay"
+    "pay":"Pay",
+    "smartboxes": "Smartboxes", 
+    "smartbox_configuration": "Smartbox Configuration",
+    "search_smartbox": "Search Smartbox",
+    "edit_smartbox": "Edit Smartbox",
+    "number_of_bins": "Number of Bins",
+    "smartbox_manager":"Smartbox Manager",
+    "smartbox_id":"Smartbox ID",
+    "add_smartbox":"Add smartbox"
     
   }

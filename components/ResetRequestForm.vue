@@ -6,24 +6,24 @@
             <div class="card rounded-4">
               <div class="card-body p-5">
                   <img src="/assets/images/logo1.png" class="mb-4" width="145" alt="">
-                  <p class="mb-0">{{$t('enter_your_new_password')}}</p>
+                  <p class="mb-0">{{$t('email_address')}}</p>
 
                   <div class="form-body my-4">
 						<ValidationObserver slim v-slot="{ handleSubmit }">
 										<form class="row g-3">
 											<div class="col-12">
-												<ValidationProvider rules="required" slim name="password"  v-slot="{classes,errors}">   
-													<label for="inputChoosePassword" class="form-label">{{$t('password')}}</label>
-													<div class="input-group" id="show_hide_password">
-														<input type="password" v-model="form.password" :class="classes" class="form-control border-end-0" id="inputChoosePassword" value="12345678" placeholder="Enter Password"> 
+												<ValidationProvider rules="required" slim name="email"  v-slot="{classes,errors}">   
+													<label for="email" class="form-label">{{$t('email')}}</label>
+													<div class="input-group" id="email">
+														<input type="email" v-model="form.email" :class="classes" class="form-control border-end-0" id="email" value="12345678" placeholder="Enter email"> 
 															<a href="javascript:;" class="input-group-text bg-transparent"><i class="bi bi-eye-slash-fill"></i></a>
 													</div>
-													<small id="password-help" class="p-invalid red-color">{{ errors[0] }} </small>
+													<small id="email-help" class="p-invalid red-color">{{ errors[0] }} </small>
 												</ValidationProvider>
 											</div>
 											<div class="col-12">
 												<div class="d-grid">
-													<button type="submit" class="btn btn-primary" @click.prevent="handleSubmit(submit)">{{$t('change_password')}}</button>
+													<button type="submit" class="btn btn-primary" @click.prevent="handleSubmit(submit)">{{$t('send_request')}}</button>
 												</div>
 											</div>
 										</form>
@@ -57,7 +57,7 @@
     import ErrorModal from './ErrorModal.vue';
 	import { ValidationProvider,ValidationObserver } from 'vee-validate';
     export default {
-        name:"ResetForm.vue",
+        name:"LoginForm.vue",
 		store,
         data(){
             return{
@@ -66,12 +66,11 @@
             }
         },
 		methods:{
-			...mapActions(['resetPassword','setLang']),
+			...mapActions(['resetRequest','setLang']),
 			async submit(){
-
-				let response = await this.resetPassword(this.form); 
+				let response = await this.fetchToken(this.form); 
                 if(response?.status===200)     {
-                    this.$router.push("/login");
+                    this.$router.push("/");
                 }          
 			}
 		},
@@ -84,7 +83,6 @@
 		components:{ValidationProvider,ValidationObserver,Loading,ErrorModal},
 		beforeMount(){
 			this.currentLocale=this.$i18n.locale;
-			this.form.resetCode=this.$route.query.code;
 		},
 		mounted(){
 			

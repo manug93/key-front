@@ -8,7 +8,10 @@
         <img src="/assets/images/logo-icon.png" class="logo-img" alt="">
       </div>
       <div class="logo-name flex-grow-1">
-        <p class="m-0 py-2"><p class="mb-0">Key Yes</p><small>yes we key</small></p>
+        <div class="m-0 py-2">
+          <p class="mb-0">Key Yes</p>
+          <small>yes we key</small>
+        </div>
       </div>
       <div class="sidebar-close">
         <span class="material-icons-outlined">close</span>
@@ -29,16 +32,18 @@
               </li >
               <li><a href="/admin/users"><i class="material-icons-outlined">arrow_right</i>{{$t('user_manager')}}</a>
               </li>
+              <li><a href="/admin/smartbox"><i class="material-icons-outlined">arrow_right</i>{{$t('smartbox_manager')}}</a>
+              </li>
             </ul>
           </li>
-          <li>
+          <li >
             <a href="javascript:;" class="has-arrow">
               <div class="parent-icon"><i class="material-icons-outlined">key</i>
               </div>
-              <div class="menu-title">Keycafe</div>
+              <div class="menu-title"><span v-if="is_admin">{{$t('add_keys')}}</span> <NuxtLink v-else to="/user/keys">{{$t('add_keys')}}</NuxtLink> </div>
             </a>
-            <ul>
-              <li><a href="/user/keys"><i class="material-icons-outlined">arrow_right</i>{{$t('keys')}}</a></li>
+            <ul v-if="is_admin">
+              <li><a href="/user/keys"><i class="material-icons-outlined">arrow_right</i>{{$t('add_keys')}}</a></li>
               <li v-if="is_admin"><a href="/user/access"><i class="material-icons-outlined">arrow_right</i>{{$t('access')}}</a></li>
               <!--li><a href="/user/fob"><i class="material-icons-outlined">arrow_right</i>Fob</a></li!-->
               <li v-if="is_admin"><a href="/user/organizations"><i class="material-icons-outlined">arrow_right</i>{{$t('organization')}}</a></li>
@@ -49,9 +54,9 @@
             <a href="javascript:;" class="has-arrow">
               <div  class="parent-icon"><i class="material-icons-outlined">inventory_2</i>
               </div>
-              <div class="menu-title">{{$t('subscriptions')}}</div>
+              <div class="menu-title"><span v-if="is_admin">{{$t('subscriptions')}} </span><NuxtLink v-else to="/user/subscriptions">{{$t('my_subscriptions')}}</NuxtLink></div>
             </a>
-            <ul>
+            <ul v-if="is_admin">
               <li><a href="/user/subscriptions"><i class="material-icons-outlined">arrow_right</i>{{$t('my_subscriptions')}}</a>
               </li>
                           

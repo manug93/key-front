@@ -116,7 +116,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       
-                      <ValidationObserver slim v-slot="{ handleSubmit, reset }">
+                      <ValidationObserver slim v-slot="{ handleSubmit }">
                         <div class="modal-body">
                             
                         <ValidationProvider rules="required" slim name="serialNumber" v-slot="{ classes, errors }">
@@ -144,7 +144,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       
-                      <ValidationObserver slim v-slot="{ handleSubmit, reset }">
+                      <ValidationObserver slim v-slot="{ handleSubmit }">
                         <div class="modal-body">
                             
                         <ValidationProvider rules="required" slim name="name" v-slot="{ classes, errors }">
@@ -178,11 +178,11 @@
                         </ValidationProvider>
                         <ValidationProvider rules="required" slim name="smartbox" v-slot="{classes,errors}">  
                         <div class="row">
-                          <div class="field col-8">
+                          <div class="field">
                               <div class="mb-4">
                                   <label for="subscription" class="form-label">{{$t('subscription')}}</label>
                                   <select class="form-select" id="subscription" @change="setSubscription" data-placeholder="Choose one subscription"  v-model="key.subscription"  :class="classes" placeholder="Subscription" aria-label="user subscription">
-                                      <option v-for="value,id in subscriptions" :value="value" :key="value.id">{{value.stripeId}}  left bins : {{value?.leftBins}}</option>
+                                      <option v-for="value in subscriptions" :value="value" :key="value.id">{{value.stripeId}}  left bins : {{value?.leftBins}}</option>
                                   </select>                                                                   
                                   <small id="subscription-help" class="p-invalid red-color">{{ errors[0] }}</small>
                               </div>                                                    
@@ -314,7 +314,7 @@
                let data={...this.key,bin:{box:this.key.subscription.smartbox,subscription:this.key.subscription.id}}
                data.name=this.key.name +" /"+this.user.email
                this.create({resource:'keys',module:'keycafe',data:data}).then((e)=>{
-                  
+
                 })
             },
             async createKeyForm(){

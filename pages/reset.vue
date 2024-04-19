@@ -1,5 +1,5 @@
 <template>
-    <div><LoginForm /></div>
+    <div><ResetForm /></div>
 </template>
 <script>
   const scripts = [

@@ -63,7 +63,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="subscription,id in list" :subscription="id" :class="subscription.status==='active'?'green':'gray'">
+                  <tr v-for="subscription,id in list" :key="id"  :class="subscription.status==='active'?'green':'gray'">
                     <td>
                       <input class="form-check-input" type="checkbox">
                     </td>
@@ -129,7 +129,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       
-                      <ValidationObserver slim v-slot="{ handleSubmit, reset }">
+                      <ValidationObserver slim v-slot="{ handleSubmit }">
                         <div class="modal-body">
                             <ValidationProvider rules="required" slim name="title"  v-slot="{classes,errors}">  
                                 <div class="field">
@@ -178,7 +178,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       
-                      <ValidationObserver slim v-slot="{ handleSubmit, reset }">
+                      <ValidationObserver slim v-slot="{ handleSubmit }">
                         <div class="modal-body">
                             <ValidationProvider rules="required" slim name="title"  v-slot="{classes,errors}">  
                                 <div class="field">

@@ -11,7 +11,7 @@
 
                   <div class="form-body my-4">
                     
-                    <ValidationObserver slim v-slot="{ handleSubmit, reset }">
+                    <ValidationObserver slim v-slot="{ handleSubmit }">
 										<form class="row g-3">
 											<div class="col-12">
                                                 <ValidationProvider rules="required" slim name="firstname"  v-slot="{classes,errors}"> 

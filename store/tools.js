@@ -1,7 +1,8 @@
 //export const baseUrl="https://avatar-erp.com/backend/";
 
 
-export const baseUrl=process.env.NODE_ENV==='development'?'https://127.0.0.1:8000':process.env.BASE_URL;
+//export const baseUrl=process.env.NODE_ENV==='development'?'https://127.0.0.1:8000':process.env.BASE_URL;
+export const baseUrl=process.env.NODE_ENV==='development'?process.env.BASE_URL:process.env.BASE_URL;
 export const apiUrl=process.env.BASE_URL+'/api';
 export const keybaseUrl=process.env.BASE_URL+'/keycafe';
 export const stripebaseUrl=process.env.BASE_URL+'/stripe';

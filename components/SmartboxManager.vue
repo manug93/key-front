@@ -5,13 +5,13 @@
     <div class="main-content">
       <!--breadcrumb-->
       <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-        <div class="breadcrumb-title pe-3">{{$t('plan_configuration')}}</div>
+        <div class="breadcrumb-title pe-3">{{$t('smartbox_configuration')}}</div>
         <div class="ps-3">
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0 p-0">
               <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
               </li>
-              <li class="breadcrumb-item active" aria-current="page">{{$t('plans')}}</li>
+              <li class="breadcrumb-item active" aria-current="page">{{$t('smartboxes')}}</li>
             </ol>
           </nav>
         </div>
@@ -19,7 +19,7 @@
       <!--end breadcrumb-->
 
       <div class="product-count d-flex align-items-center gap-3 gap-lg-4 mb-4 fw-medium flex-wrap font-text1">
-        <a href="javascript:;"><span class="me-1">{{$t('all')}}</span><span class="text-secondary">({{plans.length}})</span></a>
+        <a href="javascript:;"><span class="me-1">{{$t('all')}}</span><span class="text-secondary">({{smartbox.length}})</span></a>
         <a href="javascript:;"><span class="me-1">{{$t('active')}}</span><span class="text-secondary">({{ published }})</span></a>
         <a href="javascript:;"><span class="me-1">{{$t('inactive')}}</span><span class="text-secondary">({{drafts}})</span></a>
       </div>
@@ -27,15 +27,16 @@
       <div class="row g-3">
         <div class="col-auto">
           <div class="position-relative">
-            <input class="form-control px-5" type="search" :placeholder="$t('search_plan')">
+            <input class="form-control px-5" type="search" :placeholder="$t('search_smartbox')">
             <span
               class="material-icons-outlined position-absolute ms-3 translate-middle-y start-0 top-50 fs-5">search</span>
           </div>
         </div>
         
-        <div class="col-auto">
+         <div class="col-auto">
           <div class="d-flex align-items-center gap-2 justify-content-lg-end">
-           
+            <button class="btn btn-primary px-4"  data-bs-toggle="modal" data-bs-target="#exampleLargeModal"><i class="bi bi-plus-lg me-2"></i>{{$t('add_smartbox')}}</button>
+          </div>
         </div>
       </div><!--end row-->
 
@@ -49,32 +50,22 @@
                     <th>
                       <input class="form-check-input" type="checkbox">
                     </th>
-                    <th>{{$t('plan_name')}}</th>
-                    <th>{{$t('price')}}</th>
-                    <th>{{$t('description')}}</th>
-                    <th>{{$t('bins')}}</th>
-                    <th>{{$t('duration')}}</th>
+                    <th>{{$t('smartbox_id')}}</th>
+                    <th>{{$t('number_of_bins')}}</th>
                     <th>{{$t('creation_date')}}</th>
                     <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="plan in plans" :key="plan.id">
+                  <tr v-for="smartbox in smartboxes" :key="smartbox.id">
                     <td>
                       <input class="form-check-input" type="checkbox">
                     </td>
                     
-                    <td>{{ plan?.title }}</td>
-                    <td>{{ plan?.price }}</td>
-                    <td>{{ plan?.description }}</td>
-                    
+                    <td>{{ smartbox?.keycafeId }}</td>
+                    <td>{{ smartbox?.binNumber }}</td>
                     <td>
-                        <p class="mb-0 product-category">{{ plan?.bins }}</p>
-                    </td>
-                    
-                    <td>{{ plan?.duration }}</td>
-                    <td>
-                     {{plan?.createdAt}}
+                     {{smartbox?.createdAt}}
                     </td>
                     <td>
                       <div class="dropdown">
@@ -83,8 +74,8 @@
                           <i class="bi bi-three-dots"></i>
                         </button>
                         <ul class="dropdown-menu">
-                          <li><a class="dropdown-item " @click="edit(plan)" data-bs-toggle="modal" data-bs-target="#exampleLargeModalEdit" href="#">{{$t('edit')}}</a></li>
-                          <li><a class="dropdown-item " @click="remove(plan)" href="#" >{{$t('delete')}}</a></li>
+                          <li><a class="dropdown-item " @click="edit(smartbox)" data-bs-toggle="modal" data-bs-target="#exampleLargeModalEdit" href="#">{{$t('edit')}}</a></li>
+                          <li><a class="dropdown-item " @click="remove(smartbox)" href="#" >{{$t('delete')}}</a></li>
                         </ul>
                       </div>
                     </td>
@@ -99,15 +90,15 @@
 
 
     </div>
-    </div>
   </main>
                       
 
-                <div class="modal fade" id="exampleLargeModalEdit" tabindex="-1" aria-hidden="true">
+
+                <div class="modal fade" id="exampleLargeModal" tabindex="-1" aria-hidden="true">
                   <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title">{{$t('edit_plan')}}</h5>
+                        <h5 class="modal-title">{{$t('edit_smartbox')}}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       
@@ -116,23 +107,59 @@
                              
                              <ValidationProvider rules="required" slim name="number"  v-slot="{errors}">  
                                 <div class="field">
-                                  <label for="number" class="form-label">{{$t('bin_number')}}</label>
-                                  <input class="form-control mb-3" id="number" v-model="plan.bins"  type="number" >
+                                  <label for="number" class="form-label">{{$t('smartbox_id')}}</label>
+                                  <input class="form-control mb-3" id="number" v-model="smartbox.keycafeId"  type="number" >
                                   <small id="number-help" class="p-invalid red-color">{{ errors[0] }}</small>
                                 </div>
                              </ValidationProvider>	
 
                               <ValidationProvider rules="required" slim name="duration"  v-slot="{errors}">  
                                 <div class="field">
-                                  <label for="duration" class="form-label">{{$t('duration')}}</label>
-                                  <input class="form-control mb-3" id="duration" v-model="plan.duration"  type="number" >
+                                  <label for="duration" class="form-label">{{$t('number_of_bins')}}</label>
+                                  <input class="form-control mb-3" id="duration" v-model="smartbox.binNumber"  type="number" >
                                   <small id="duration-help" class="p-invalid red-color">{{ errors[0] }}</small>
                                 </div>
                              </ValidationProvider>	
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{$t('cancel')}}</button>
-                            <button type="button" class="btn btn-primary" @click="handleSubmit(editPlan)">{{$t('edit_plan')}}</button>
+                            <button type="button" class="btn btn-primary" @click="handleSubmit(submit)">{{$t('add_smartbox')}}</button>
+                        </div>
+                     </ValidationObserver>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="modal fade" id="exampleLargeModalEdit" tabindex="-1" aria-hidden="true">
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">{{$t('edit_smartbox')}}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      
+                      <ValidationObserver slim v-slot="{ handleSubmit }">
+                        <div class="modal-body">                        
+                             
+                             <ValidationProvider rules="required" slim name="number"  v-slot="{errors}">  
+                                <div class="field">
+                                  <label for="number" class="form-label">{{$t('smartbox_id')}}</label>
+                                  <input class="form-control mb-3" id="number" v-model="smartbox.keycafeId"  type="number" >
+                                  <small id="number-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                                </div>
+                             </ValidationProvider>	
+
+                              <ValidationProvider rules="required" slim name="duration"  v-slot="{errors}">  
+                                <div class="field">
+                                  <label for="duration" class="form-label">{{$t('number_of_bins')}}</label>
+                                  <input class="form-control mb-3" id="duration" v-model="smartbox.binNumber"  type="number" >
+                                  <small id="duration-help" class="p-invalid red-color">{{ errors[0] }}</small>
+                                </div>
+                             </ValidationProvider>	
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{$t('cancel')}}</button>
+                            <button type="button" class="btn btn-primary" @click="handleSubmit(editSmartbox)">{{$t('edit_smartbox')}}</button>
                         </div>
                      </ValidationObserver>
                     </div>
@@ -151,38 +178,33 @@
   import ErrorModal from './ErrorModal.vue';
 	import { ValidationProvider,ValidationObserver } from 'vee-validate';
     export default {
-        name:"ProductManager.vue",
+        name:"SmartboxManager.vue",
         store,
         components:{ValidationProvider,ValidationObserver,ErrorModal},
         data(){
             return {
-                plan:{},
+                smartbox:{},
                 file:null,
             }
         },
         computed:{
-            ...mapState(['plans']),
+            ...mapState(['smartboxes']),
             drafts(){
-              let drafts=this.plans.filter(e=>e.status===undefined);
+              let drafts=this.smartboxes.filter(e=>e.status===undefined);
               return drafts.length;
             },
             published(){
-              let published=this.plans.filter(e=>e.status==='PUBLISHED');
+              let published=this.smartboxes.filter(e=>e.status==='PUBLISHED');
               return published.length;
             }
 
             
         },
         methods:{
-            ...mapActions(['createPlan','del','fetchPlans','createPicture','update']),
+            ...mapActions(['create','del','getAll','update']),
             async submit(){
-                /*this.plan.duration=parseInt(this.plan.duration)
-                this.plan.price=parseInt(this.plan.price)
-                let form =new FormData();
-                form.append('file',this.file);              
-                let response = await this.createPicture(form);
-                this.plan.pictures=["/api/pictures/"+response.data.id]
-                this.createPlan(this.plan)*/
+                this.smartbox.binNumber=parseInt(this.smartbox.binNumber);
+                await this.create({module:"api",resource:"smartboxes",data:this.smartbox});
             },
             selectPicture(event){
               this.file=event.target.files[0];
@@ -190,39 +212,37 @@
             asset(uri){
               return `${baseUrl}/${uri}`;
             },
-            publish(plan){
-              this.plan=plan;              
+            publish(smartbox){
+              this.smartbox=smartbox;              
             },
-            edit(plan){
-              this.plan=plan;              
+            edit(smartbox){
+              this.smartbox=smartbox;              
             },
-            async editPlan(){              
-              this.plan.price=parseInt(this.plan.price)   
+            async editSmartbox(){              
+              this.smartbox.binNumber=parseInt(this.smartbox.binNumber);   
+              this.smartbox.id=parseInt(this.smartbox.id);   
               let payload={
-                resource:'plans',
+                resource:'smartboxes',
                 module:'api',
-                id:this.plan.id,
+                id:this.smartbox.id,
                 data:{
-                  id:this.plan.id,
-                  bins:parseInt(this.plan.bins),
-                  duration:parseInt(this.plan.duration),
-                  bins:parseInt(this.plan.bins),
-                  title:this.plan.title,
-                  stripeId:this.plan.stripeId,
-                  price:this.plan.price
+                  id:this.smartbox.id,
+                  binNumber:parseInt(this.smartbox.binNumber),
+                  keycafeId:this.smartbox.keycafeId
                 }
               };
-              this.update(payload).then(u=>{
-                this.fetchPlans()
+              await this.update(payload).then(u=>{
+                this.getAll({module:'api',resource:'smartboxes'})
               })            
             },
-            async remove(plan){
-                await this.del({module:'api',resource:'plans',id:plan.id})
+            async remove(smartbox){
+                await this.del({module:'api',resource:'smartboxes',id:smartbox.id})
             }
 
         },
-        beforeMount(){
-          this.fetchPlans()
+        async beforeMount(){
+          await this.getAll({module:'api',resource:'smartboxes'})
+          console.log(this.smartboxes);
         }
     }
 </script>
