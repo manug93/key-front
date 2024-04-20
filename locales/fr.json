@@ -132,6 +132,8 @@
     "smartbox_manager":"Gestionnaire de smartbox",
     "smartbox_id":"ID de la smartbox",
     "add_smartbox":"Ajouter une smartbox",
-    "send_request":"Envoyer la requete"
+    "send_request":"Envoyer la requete",
+    "left_keys":"Clés restantes",
+    "faq":"Comment ca marche ?"
 
   }

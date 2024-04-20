@@ -32,11 +32,6 @@
       </div>
       <!--end breadcrumb-->
 
-      <div class="product-count d-flex align-items-center gap-3 gap-lg-4 mb-4 fw-medium flex-wrap font-text1">
-        <a href="javascript:;"><span class="me-1">All</span><span class="text-secondary">()</span></a>
-        <a href="javascript:;"><span class="me-1">Published</span><span class="text-secondary">()</span></a>
-        <a href="javascript:;"><span class="me-1">Drafts</span><span class="text-secondary">()</span></a>
-      </div>
 
       <div class="row g-3">
         <div class="col-auto">
@@ -75,7 +70,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="membership,id in list" :key="membership.id">
+                  <tr v-for="membership in list" :key="membership.id">
                     <td>
                       <input class="form-check-input" type="checkbox">
                     </td>
@@ -137,7 +132,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       
-                      <ValidationObserver slim v-slot="{ handleSubmit, reset }">
+                      <ValidationObserver slim v-slot="{ handleSubmit }">
                         <div class="modal-body">
                           <ValidationProvider rules="required" slim name="code" v-slot="{ classes, errors }">
                             <div class="field">

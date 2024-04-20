@@ -36,6 +36,20 @@
               </li>
             </ul>
           </li>
+          
+          <li>
+            <a href="javascript:;" class="has-arrow">
+              <div  class="parent-icon"><i class="material-icons-outlined">inventory_2</i>
+              </div>
+              <div class="menu-title"><span v-if="is_admin">{{$t('subscriptions')}} </span><NuxtLink v-else to="/user/subscriptions">{{$t('my_subscriptions')}}</NuxtLink></div>
+            </a>
+            <ul v-if="is_admin">
+              <li><a href="/user/subscriptions"><i class="material-icons-outlined">arrow_right</i>{{$t('my_subscriptions')}}</a>
+              </li>
+                          
+            </ul>
+          </li>
+
           <li >
             <a href="javascript:;" class="has-arrow">
               <div class="parent-icon"><i class="material-icons-outlined">key</i>
@@ -50,17 +64,13 @@
               
             </ul>
           </li>
-          <li>
+          
+          <li >
             <a href="javascript:;" class="has-arrow">
-              <div  class="parent-icon"><i class="material-icons-outlined">inventory_2</i>
+              <div class="parent-icon"><i class="material-icons-outlined">question_mark</i>
               </div>
-              <div class="menu-title"><span v-if="is_admin">{{$t('subscriptions')}} </span><NuxtLink v-else to="/user/subscriptions">{{$t('my_subscriptions')}}</NuxtLink></div>
+              <div class="menu-title"><NuxtLink  to="/user/faq">{{$t('faq')}}</NuxtLink> </div>
             </a>
-            <ul v-if="is_admin">
-              <li><a href="/user/subscriptions"><i class="material-icons-outlined">arrow_right</i>{{$t('my_subscriptions')}}</a>
-              </li>
-                          
-            </ul>
           </li>
           
          

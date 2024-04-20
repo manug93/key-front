@@ -132,6 +132,8 @@
     "smartbox_manager":"Smartbox Manager",
     "smartbox_id":"Smartbox ID",
     "add_smartbox":"Add smartbox",
-    "send_request":"Send request"
+    "send_request":"Send request",
+    "left_keys":"Remaining keys",
+    "faq":"How it works ?"
     
   }

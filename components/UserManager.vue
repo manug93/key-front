@@ -18,13 +18,6 @@
             </div>
             <!--end breadcrumb-->
 
-            <div class="product-count d-flex align-items-center gap-3 gap-lg-4 mb-4 fw-medium flex-wrap font-text1">
-              <a href="javascript:;"><span class="me-1">{{$t('all')}}</span><span class="text-secondary">({{users.length}})</span></a>
-              <a href="javascript:;"><span class="me-1">{{$t('admins')}}</span><span class="text-secondary">({{ admins }})</span></a>
-              <a href="javascript:;"><span class="me-1">{{$t('colabs')}}</span><span class="text-secondary">({{ collabs }})</span></a>
-              <a href="javascript:;"><span class="me-1">{{$t('clients')}}</span><span class="text-secondary">({{ clients }})</span></a>
-            </div>
-
             <div class="row g-3">
               <div class="col-auto">
                 <div class="position-relative">
@@ -114,7 +107,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       
-                      <ValidationObserver slim v-slot="{ handleSubmit, reset }">
+                      <ValidationObserver slim v-slot="{ handleSubmit }">
                         <div class="modal-body">
                             <ValidationProvider rules="required|email" slim name="email"  v-slot="{classes,errors}">  
                                 <div class="field">
@@ -174,7 +167,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       
-                      <ValidationObserver slim v-slot="{ handleSubmit, reset }">
+                      <ValidationObserver slim v-slot="{ handleSubmit }">
                         <div class="modal-body">
                             <ValidationProvider rules="email" slim name="email"  v-slot="{classes,errors}">  
                                 <div class="field">

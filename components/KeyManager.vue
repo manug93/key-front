@@ -18,11 +18,7 @@
       </div>
       <!--end breadcrumb-->
 
-      <div class="product-count d-flex align-items-center gap-3 gap-lg-4 mb-4 fw-medium flex-wrap font-text1">
-        <a href="javascript:;"><span class="me-1">{{$t('all')}}</span><span class="text-secondary">()</span></a>
-        <a href="javascript:;"><span class="me-1">{{$t('published')}}</span><span class="text-secondary">()</span></a>
-        <a href="javascript:;"><span class="me-1">{{$t('drafts')}}</span><span class="text-secondary">()</span></a>
-      </div>
+      
 
       <div class="row g-3">
         <div class="col-auto">
@@ -182,7 +178,7 @@
                               <div class="mb-4">
                                   <label for="subscription" class="form-label">{{$t('subscription')}}</label>
                                   <select class="form-select" id="subscription" @change="setSubscription" data-placeholder="Choose one subscription"  v-model="key.subscription"  :class="classes" placeholder="Subscription" aria-label="user subscription">
-                                      <option v-for="value in subscriptions" :value="value" :key="value.id">{{value.stripeId}}  left bins : {{value?.leftBins}}</option>
+                                      <option v-for="value in subscriptions" :value="value" :key="value.id">{{value?.boxData?.name}} - {{value?.boxData?.location?.name}} {{$t('left_keys')}} : {{value?.leftBins}}</option>
                                   </select>                                                                   
                                   <small id="subscription-help" class="p-invalid red-color">{{ errors[0] }}</small>
                               </div>                                                    

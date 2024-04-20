@@ -18,12 +18,6 @@
       </div>
       <!--end breadcrumb-->
 
-      <div class="product-count d-flex align-items-center gap-3 gap-lg-4 mb-4 fw-medium flex-wrap font-text1">
-        <a href="javascript:;"><span class="me-1">{{$t('all')}}</span><span class="text-secondary">()</span></a>
-        <a href="javascript:;"><span class="me-1">{{$t('active')}}</span><span class="text-secondary">()</span></a>
-        <a href="javascript:;"><span class="me-1">{{$t('incomplete')}}</span><span class="text-secondary">()</span></a>
-        <a href="javascript:;"><span class="me-1">{{$t('suspended')}}</span><span class="text-secondary">()</span></a>
-      </div>
 
       <div class="row g-3">
         <div class="col-auto">
@@ -365,7 +359,7 @@
       font-weight: bold;
     }
     .green *{
-      color:#90FF90 !important;
+      color:#4a944a !important;
       font-weight: bold;
     }
     
